@@ -1,0 +1,111 @@
+@import "tailwindcss";
+@source "../views";
+@source "../../app/Livewire";
+@source "../../app/Enums";
+@source "../js";
+
+/* @font-face declarations: resources/views/partials/fonts.blade.php (fonts live in public/fonts). */
+
+@theme {
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink-900: #0B1F3A;
+  --color-ink-700: #24324A;
+  --color-ink-500: #5B6B82;
+  --color-ink-300: #A9B4C4;
+  --color-line: #E3E8EF;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F5F7FA;
+
+  --color-brand-700: #0A5E4E;
+  --color-brand-600: #0E7C66;
+  --color-brand-500: #12A383;
+  --color-brand-100: #E6F5F1;
+
+  --color-accent-500: #F5B300;
+
+  /* Call-to-action orange: cta-600 keeps 4.5:1 with white text. */
+  --color-cta-500: #F26B1D;
+  --color-cta-600: #D04A0A;
+  --color-cta-700: #B23F08;
+  --color-cta-100: #FFF1E8;
+
+  /* Hero mint + review star tiles */
+  --color-mint-100: #E3FAF0;
+  --color-mint-200: #C6F3DF;
+  --color-star-500: #10B981;
+  --color-field: #F1F3F6;
+  --color-teal-500: #13BF92;
+  --color-danger-600: #C8322B;
+  --color-danger-100: #FDECEA;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-card: 0 1px 2px rgb(11 31 58 / .06), 0 8px 24px rgb(11 31 58 / .06);
+  --shadow-pop: 0 12px 40px rgb(11 31 58 / .14);
+
+  --ease-out-soft: cubic-bezier(.22, 1, .36, 1);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
+  body { @apply bg-surface font-sans text-base leading-[1.6] text-ink-700 antialiased md:text-[1.0625rem]; }
+  h1, h2, h3 { @apply font-display text-ink-900; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-brand-600; }
+  [x-cloak] { display: none !important; }
+  summary::-webkit-details-marker { display: none; }
+}
+
+@layer components {
+  .container-pf { @apply mx-auto w-full max-w-[1200px] px-5 md:px-6 lg:px-8; }
+  .section { @apply py-16 md:py-24; }
+  .h1 { @apply font-display text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.1] font-extrabold tracking-tight text-ink-900; }
+  .h2 { @apply font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.2] font-bold tracking-tight text-ink-900; }
+  .h3 { @apply font-display text-xl leading-[1.3] font-bold text-ink-900; }
+  .text-small { @apply text-[0.8125rem] leading-[1.5] text-ink-500; }
+  .prose-pf { @apply max-w-[65ch]; }
+  .prose-pf h2 { @apply mt-10 mb-3 font-display text-2xl leading-[1.25] font-bold text-ink-900; }
+  .prose-pf h3 { @apply mt-6 mb-2 font-display text-lg font-bold text-ink-900; }
+  .prose-pf p, .prose-pf ul, .prose-pf ol { @apply mb-4; }
+  .prose-pf ul { @apply list-disc pl-6; }
+  .prose-pf ol { @apply list-decimal pl-6; }
+  .prose-pf li { @apply mb-1; }
+  .prose-pf a { @apply font-medium text-brand-700 underline underline-offset-2 hover:text-brand-600; }
+  .prose-pf table { @apply mb-6 w-full border-collapse text-sm; }
+  .prose-pf th { @apply border-b border-line bg-surface-2 p-3 text-left font-semibold text-ink-900; }
+  .prose-pf td { @apply border-b border-line p-3 align-top; }
+
+  /* Reveal on scroll (x-intersect.once). Reduced motion: opacity only. */
+  .reveal { @apply translate-y-3 opacity-0 transition duration-[400ms] ease-(--ease-out-soft); }
+  .reveal.is-visible { @apply translate-y-0 opacity-100; }
+
+  /* Range slider (home calculator) */
+  .pf-range { @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-line; background-image: linear-gradient(var(--color-cta-500), var(--color-cta-500)); background-repeat: no-repeat; background-size: var(--fill, 50%) 100%; }
+  .pf-range::-webkit-slider-thumb { @apply size-6 appearance-none rounded-full border-4 border-white bg-cta-500 shadow-md; }
+  .pf-range::-moz-range-thumb { @apply size-5 rounded-full border-4 border-white bg-cta-500 shadow-md; }
+  .pf-range:focus-visible { @apply outline-2 outline-offset-4 outline-cta-600; }
+
+  .step-enter { animation: pf-step-in 250ms var(--ease-out-soft) both; }
+}
+
+@keyframes pf-step-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pf-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transform: none !important; transition-property: opacity; }
+  /* Range slider (home calculator) */
+  .pf-range { @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-line; background-image: linear-gradient(var(--color-cta-500), var(--color-cta-500)); background-repeat: no-repeat; background-size: var(--fill, 50%) 100%; }
+  .pf-range::-webkit-slider-thumb { @apply size-6 appearance-none rounded-full border-4 border-white bg-cta-500 shadow-md; }
+  .pf-range::-moz-range-thumb { @apply size-5 rounded-full border-4 border-white bg-cta-500 shadow-md; }
+  .pf-range:focus-visible { @apply outline-2 outline-offset-4 outline-cta-600; }
+
+  .step-enter { animation-name: pf-fade-in; }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+  .motion-safe-translate { transform: none !important; }
+}

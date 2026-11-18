@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="35%" stop-color="#12131c"/>
+      <stop offset="70%" stop-color="#241b2b"/>
+      <stop offset="90%" stop-color="#4a2528"/>
+      <stop offset="100%" stop-color="#6e3725"/>
+    </linearGradient>
+    <linearGradient id="warmGlow" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ff9d5c" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky gradient -->
+  <rect width="800" height="400" fill="url(#skyGrad)"/>
+  <rect width="800" height="400" fill="url(#warmGlow)"/>
+
+  <!-- Left building (Haussmannian facade) -->
+  <g fill="#0b0c10" opacity="0.95">
+    <path d="M0,0 L260,0 L240,400 L0,400 Z"/>
+    <!-- Windows and cornices -->
+    <rect x="25" y="45" width="35" height="55" rx="3" fill="#050608"/>
+    <rect x="85" y="45" width="35" height="55" rx="3" fill="#050608"/>
+    <rect x="145" y="45" width="35" height="55" rx="3" fill="#050608"/>
+    <!-- Balcony line -->
+    <rect x="15" y="105" width="180" height="6" fill="#1b1c24"/>
+    <rect x="25" y="125" width="35" height="60" rx="3" fill="#050608"/>
+    <rect x="85" y="125" width="35" height="60" rx="3" fill="#050608"/>
+    <rect x="145" y="125" width="35" height="60" rx="3" fill="#050608"/>
+    <rect x="15" y="190" width="180" height="6" fill="#1b1c24"/>
+    <rect x="25" y="210" width="35" height="65" rx="3" fill="#050608"/>
+    <rect x="85" y="210" width="35" height="65" rx="3" fill="#050608"/>
+    <rect x="145" y="210" width="35" height="65" rx="3" fill="#050608"/>
+    <!-- Amber window reflections -->
+    <rect x="88" y="135" width="12" height="20" fill="#f59e0b" opacity="0.25"/>
+    <rect x="148" y="225" width="14" height="25" fill="#f59e0b" opacity="0.3"/>
+  </g>
+
+  <!-- Trees silhouetted -->
+  <g fill="#08090d" opacity="0.8">
+    <path d="M260,400 Q280,240 310,210 Q340,190 350,230 Q370,180 400,220 Q440,250 430,400 Z"/>
+  </g>
+
+  <!-- Eiffel Tower Silhouette (Right side, majestic against dusk sky) -->
+  <g fill="#0d0e14" opacity="0.92">
+    <!-- Base arch -->
+    <path d="M570,400 L610,300 Q660,320 710,300 L750,400 L715,400 L685,315 Q660,325 635,315 L605,400 Z"/>
+    <!-- Lower platform -->
+    <rect x="600" y="295" width="120" height="8" rx="2" fill="#14161f"/>
+    <!-- Second tier -->
+    <path d="M615,295 L638,200 L682,200 L705,295 Z"/>
+    <!-- Second platform -->
+    <rect x="632" y="195" width="56" height="6" rx="2" fill="#14161f"/>
+    <!-- Spire and top lantern -->
+    <path d="M642,195 L657,70 L663,70 L678,195 Z"/>
+    <rect x="656" y="50" width="8" height="20" fill="#181a24"/>
+    <line x1="660" y1="50" x2="660" y2="25" stroke="#181a24" stroke-width="2"/>
+    <!-- Top beacon amber light -->
+    <circle cx="660" cy="25" r="3" fill="#fbbf24" opacity="0.9"/>
+    <circle cx="660" cy="25" r="8" fill="#f59e0b" opacity="0.3"/>
+  </g>
+
+  <!-- Dark gradient overlay at the top and bottom for perfect legibility -->
+  <linearGradient id="textShadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#000000" stop-opacity="0.85"/>
+    <stop offset="50%" stop-color="#000000" stop-opacity="0.4"/>
+    <stop offset="100%" stop-color="#000000" stop-opacity="0.8"/>
+  </linearGradient>
+  <rect width="800" height="400" fill="url(#textShadowGrad)"/>
+</svg>
