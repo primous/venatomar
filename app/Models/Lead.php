@@ -112,6 +112,6 @@ class Lead extends Model
 
     public function adminChannelLabel(): string
     {
-        return $this->admin_email === 'contact@venatomar.com' ? 'Contact (contact@venatomar.com)' : 'Principal (info@venatomar.com)';
+        return $this->admin_email === 'contact@venatomar.com' ? 'Contact' : 'Principal';
     }
 }

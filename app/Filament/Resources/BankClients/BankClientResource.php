@@ -14,6 +14,7 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -62,14 +63,8 @@ class BankClientResource extends Resource
 
         return $schema->components([
             Section::make('Identité & Accès Espace Client')->columns(2)->columnSpanFull()->schema([
-                Select::make('admin_email')->label('Canal / Admin responsable')
-                    ->options([
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->required()
-                    ->columnSpanFull(),
+                Hidden::make('admin_email')
+                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
                 TextInput::make('first_name')->label('Prénom')->required()->maxLength(80),
                 TextInput::make('last_name')->label('Nom de famille')->required()->maxLength(120),
                 TextInput::make('email')->label('Adresse Email (Identifiant de connexion)')
@@ -221,18 +216,9 @@ class BankClientResource extends Resource
                 IconColumn::make('can_receive_otp_email')->label('Email OTP')
                     ->boolean()
                     ->tooltip(fn (BankClient $record) => $record->can_receive_otp_email ? 'Le client reçoit ses codes par email' : 'L\'admin retient le code (sécurité 1ère tentative)'),
-                TextColumn::make('admin_email')->label('Canal Admin')->badge()
-                    ->formatStateUsing(fn (?string $state) => $state === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->color(fn (?string $state) => $state === 'contact@venatomar.com' ? 'info' : 'success'),
                 TextColumn::make('created_at')->label('Créé le')->date('d/m/Y')->sortable(),
             ])
             ->filters([
-                SelectFilter::make('admin_email')->label('Canal Admin')
-                    ->options([
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : null),
                 SelectFilter::make('status')->label('Statut')->options([
                     'active' => 'Actif',
                     'frozen' => 'Gelé',

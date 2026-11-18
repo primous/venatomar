@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -59,14 +60,9 @@ class LoanApprovalDocumentResource extends Resource
         $i = fn (string $key) => A::t('loan_approval.'.$key);
 
         return $schema->components([
-            Section::make($i('section_doc'))->columns(3)->columnSpanFull()->schema([
-                Select::make('admin_email')->label('Canal / Admin')
-                    ->options([
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->required(),
+            Section::make($i('section_doc'))->columns(2)->columnSpanFull()->schema([
+                Hidden::make('admin_email')
+                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
                 Select::make('locale')->label($i('doc_language'))->required()->default('es')
                     ->options(InsurancePdf::LOCALES)->in(array_keys(InsurancePdf::LOCALES)),
                 Select::make('lead_id')->label($i('lead'))->helperText($i('lead_help'))
@@ -133,19 +129,10 @@ class LoanApprovalDocumentResource extends Resource
                     ->description(fn (LoanApprovalDocument $record) => A::t('loan_approval.months', ['count' => $record->term_months])),
                 TextColumn::make('monthly_payment')->label($i('monthly_payment'))
                     ->formatStateUsing(fn (LoanApprovalDocument $record) => $record->monthlyPaymentFormatted()),
-                TextColumn::make('admin_email')->label('Canal Admin')->badge()
-                    ->formatStateUsing(fn (?string $state) => $state === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->color(fn (?string $state) => $state === 'contact@venatomar.com' ? 'info' : 'success'),
                 TextColumn::make('created_at')->label($i('date'))->dateTime('d/m/Y H:i')->sortable(),
                 TextColumn::make('user.name')->label($i('by'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('admin_email')->label('Canal Admin')
-                    ->options([
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : null),
                 SelectFilter::make('locale')->label($i('doc_language'))->options(InsurancePdf::LOCALES),
             ])
             ->recordActions([

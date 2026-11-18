@@ -8,6 +8,7 @@ use App\Support\AdminText as A;
 use App\Support\BankDirectory;
 use App\Support\InsurancePdf;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -22,17 +23,11 @@ class LeadForm
         return $schema->components([
             Section::make('1. Dossier, Pays & Langue des Documents')
                 ->description('Paramètres généraux du dossier client et choix de la langue pour les documents officiels.')
-                ->columns(5)
+                ->columns(4)
                 ->columnSpanFull()
                 ->schema([
-                    Select::make('admin_email')
-                        ->label('Canal / Admin')
-                        ->options([
-                            'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                            'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                        ])
-                        ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                        ->required(),
+                    Hidden::make('admin_email')
+                        ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
                     Select::make('country')
                         ->label('Pays de résidence')
                         ->options(BankDirectory::countryOptions())

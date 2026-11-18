@@ -15,6 +15,7 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -70,14 +71,9 @@ class InsuranceDocumentResource extends Resource
         $i = fn (string $key) => A::t('insurance.'.$key);
 
         return $schema->components([
-            Section::make($i('section_doc'))->columns(4)->columnSpanFull()->schema([
-                Select::make('admin_email')->label('Canal / Admin')
-                    ->options([
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->required(),
+            Section::make($i('section_doc'))->columns(3)->columnSpanFull()->schema([
+                Hidden::make('admin_email')
+                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
                 Select::make('document_type')->label($i('doc_type'))->required()->default('certificate')
                     ->options([
                         'certificate' => $i('doc_types.certificate'),
@@ -160,19 +156,10 @@ class InsuranceDocumentResource extends Resource
                 TextColumn::make('document_fee')->label('Coût document')
                     ->formatStateUsing(fn (InsuranceDocument $record) => $record->formattedDocumentFee())
                     ->placeholder('—'),
-                TextColumn::make('admin_email')->label('Canal Admin')->badge()
-                    ->formatStateUsing(fn (?string $state) => $state === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->color(fn (?string $state) => $state === 'contact@venatomar.com' ? 'info' : 'success'),
                 TextColumn::make('created_at')->label($i('date'))->dateTime('d/m/Y H:i')->sortable(),
                 TextColumn::make('user.name')->label($i('by'))->placeholder('—')->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('admin_email')->label('Canal Admin')
-                    ->options([
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : null),
                 SelectFilter::make('locale')->label($i('doc_language'))->options(InsurancePdf::LOCALES),
                 SelectFilter::make('document_type')->label($i('doc_type'))->options([
                     'certificate' => 'Certificat',

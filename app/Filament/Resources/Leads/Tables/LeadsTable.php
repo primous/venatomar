@@ -46,21 +46,12 @@ class LeadsTable
                 TextColumn::make('status')->label(A::t('lead.status'))->badge()
                     ->formatStateUsing(fn (LeadStatus $state) => LeadResource::statusLabel($state))
                     ->color(fn (LeadStatus $state) => LeadResource::statusColor($state)),
-                TextColumn::make('admin_email')->label('Canal / Admin')->badge()
-                    ->formatStateUsing(fn (?string $state) => $state === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com')
-                    ->color(fn (?string $state) => $state === 'contact@venatomar.com' ? 'info' : 'success'),
                 IconColumn::make('mail_failed_at')->label(A::t('lead.mail'))
                     ->state(fn (Lead $record) => $record->mail_failed_at === null && $record->internal_mail_sent_at !== null)
                     ->boolean()
                     ->tooltip(fn (Lead $record) => A::t($record->mail_failed_at ? 'lead.mail_failed' : ($record->internal_mail_sent_at ? 'lead.mail_sent' : 'lead.mail_queued'))),
             ])
             ->filters([
-                SelectFilter::make('admin_email')->label('Canal Admin')
-                    ->options([
-                        'contact@venatomar.com' => 'Contact (contact@venatomar.com)',
-                        'info@venatomar.com' => 'Principal (info@venatomar.com)',
-                    ])
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : null),
                 SelectFilter::make('status')->label(A::t('lead.status'))->options(LeadResource::statusOptions())->multiple(),
                 SelectFilter::make('country')->label(A::t('lead.country'))->options($countries),
                 Filter::make('mail_failed')->label(A::t('lead.filter_mail_failed'))->toggle()
