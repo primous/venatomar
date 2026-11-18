@@ -327,6 +327,25 @@ class BankClientResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        $admin = auth()->user()?->email;
+
+        if ($admin === 'contact@venatomar.com') {
+            return $query->where('admin_email', 'contact@venatomar.com');
+        }
+
+        if ($admin === 'info@venatomar.com') {
+            return $query->where(function ($q) {
+                $q->where('admin_email', 'info@venatomar.com')
+                    ->orWhereNull('admin_email');
+            });
+        }
+
+        return $query;
+    }
+
     public static function getPages(): array
     {
         return [

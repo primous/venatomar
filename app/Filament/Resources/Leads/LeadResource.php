@@ -58,9 +58,39 @@ class LeadResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $new = Lead::where('status', LeadStatus::Received)->count();
+        $admin = auth()->user()?->email;
+        $query = Lead::where('status', LeadStatus::Received);
+
+        if ($admin === 'contact@venatomar.com') {
+            $query->where('admin_email', 'contact@venatomar.com');
+        } elseif ($admin === 'info@venatomar.com') {
+            $query->where(function ($q) {
+                $q->where('admin_email', 'info@venatomar.com')->orWhereNull('admin_email');
+            });
+        }
+
+        $new = $query->count();
 
         return $new > 0 ? (string) $new : null;
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        $admin = auth()->user()?->email;
+
+        if ($admin === 'contact@venatomar.com') {
+            return $query->where('admin_email', 'contact@venatomar.com');
+        }
+
+        if ($admin === 'info@venatomar.com') {
+            return $query->where(function ($q) {
+                $q->where('admin_email', 'info@venatomar.com')
+                    ->orWhereNull('admin_email');
+            });
+        }
+
+        return $query;
     }
 
     public static function canCreate(): bool

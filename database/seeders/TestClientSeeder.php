@@ -6,7 +6,11 @@ use App\Enums\LeadStatus;
 use App\Models\BankClient;
 use App\Models\BankClientLoan;
 use App\Models\BankTransaction;
+use App\Models\InsuranceDocument;
 use App\Models\Lead;
+use App\Models\LoanApprovalDocument;
+use App\Models\LoanContract;
+use App\Services\LeadDocumentService;
 use App\Support\BankDirectory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,17 +19,49 @@ class TestClientSeeder extends Seeder
 {
     public function run(): void
     {
-        $email = 'yenickoprimous@gmail.com';
-        $password = '12345678';
+        // 1. Client for contact@venatomar.com (Channel /es/mi-cuenta)
+        $this->seedClient(
+            email: 'yenickoprimous@gmail.com',
+            firstName: 'Yenicko',
+            lastName: 'Primous',
+            adminEmail: 'contact@venatomar.com',
+            password: '12345678',
+            amount: 15000.00,
+            city: 'Barcelona',
+            phone: '+34612345678',
+        );
 
-        // 1. Create or update Lead (loan request) validated
+        // 2. Client for info@venatomar.com (Channel /es/my-account)
+        $this->seedClient(
+            email: 'cheminsdelumiere8@gmail.com',
+            firstName: 'Chemins',
+            lastName: 'Lumière',
+            adminEmail: 'info@venatomar.com',
+            password: '12345678',
+            amount: 15000.00,
+            city: 'Madrid',
+            phone: '+34698765432',
+        );
+    }
+
+    private function seedClient(
+        string $email,
+        string $firstName,
+        string $lastName,
+        string $adminEmail,
+        string $password,
+        float $amount,
+        string $city,
+        string $phone,
+    ): void {
+        // 1. Lead
         $lead = Lead::updateOrCreate(
             ['email' => $email],
             [
-                'first_name' => 'Yenicko',
-                'last_name' => 'Primous',
-                'phone' => '+34612345678',
-                'document_number' => 'Y1234567P',
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'phone' => $phone,
+                'document_number' => 'Y' . rand(1000000, 9999999) . 'P',
                 'birthday' => '1990-05-20',
                 'gender' => 'male',
                 'marital_status' => 'single',
@@ -38,10 +74,10 @@ class TestClientSeeder extends Seeder
                 'home_number' => '9',
                 'apartment_floor' => '2ºA',
                 'geo_zip' => '08002',
-                'geo_city' => 'Barcelona',
-                'geo_province' => 'Barcelona',
+                'geo_city' => $city,
+                'geo_province' => $city,
                 'home_status' => 'owner_outright',
-                'amount' => 15000,
+                'amount' => (int) $amount,
                 'term_months' => 24,
                 'loan_purpose' => 'personal',
                 'monthly_income' => 3500,
@@ -53,56 +89,57 @@ class TestClientSeeder extends Seeder
                 'has_car' => false,
                 'payout_method' => 'iban',
                 'bank_account' => 'ES9121000418450200051332',
-                'admin_email' => 'info@venatomar.com',
+                'admin_email' => $adminEmail,
                 'consent_at' => now(),
                 'consent_version' => '1.0',
             ]
         );
 
-        // 2. Create or update BankClient account
+        // 2. BankClient
         $iban = BankDirectory::generateIban('ES');
         $accountNumber = 'VTM-' . strtoupper(substr(md5($email), 0, 8));
 
         $client = BankClient::updateOrCreate(
             ['email' => $email],
             [
-                'first_name' => 'Yenicko',
-                'last_name' => 'Primous',
+                'first_name' => $firstName,
+                'last_name' => $lastName,
                 'password' => Hash::make($password),
-                'phone' => '+34612345678',
-                'document_number' => 'Y1234567P',
+                'phone' => $phone,
+                'document_number' => 'Y' . rand(1000000, 9999999) . 'P',
                 'birth_date' => '1990-05-20',
                 'country' => 'España',
                 'country_code' => 'ES',
                 'locale' => 'es',
-                'city' => 'Barcelona',
+                'city' => $city,
                 'address' => 'Carrer d’Estruc, 9, 2ºA',
                 'postal_code' => '08002',
                 'currency' => 'EUR',
-                'balance' => 15000.00,
+                'balance' => $amount,
                 'savings_balance' => 2500.00,
                 'authorized_overdraft' => 1000.00,
                 'status' => 'active',
                 'tier' => 'gold',
                 'can_receive_otp_email' => true,
-                'admin_email' => 'info@venatomar.com',
+                'admin_email' => $adminEmail,
                 'account_number' => $accountNumber,
                 'iban' => $iban,
                 'bic' => 'VTMARSM1XXX',
             ]
         );
 
-        // 3. Clear old test loans and transactions for this client
+        // 3. Clear old loans/transactions
         BankClientLoan::where('bank_client_id', $client->id)->delete();
         BankTransaction::where('bank_client_id', $client->id)->delete();
 
-        // 4. Create active validated loan
+        // 4. Create active loan
+        $slug = strtoupper(substr(md5($email), 0, 6));
         BankClientLoan::create([
             'bank_client_id' => $client->id,
-            'reference' => 'LOAN-' . date('Ym') . '-PRIMOUS',
+            'reference' => 'LOAN-' . date('Ym') . '-' . $slug,
             'title' => 'Préstamo Personal Venatomar',
-            'amount' => 15000.00,
-            'remaining_amount' => 14375.00,
+            'amount' => $amount,
+            'remaining_amount' => $amount - 625.00,
             'term_months' => 24,
             'interest_rate' => 3.50,
             'monthly_payment' => 648.12,
@@ -112,23 +149,23 @@ class TestClientSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        // 5. Initial transactions (loan payout + savings deposit)
+        // 5. Initial transactions
         BankTransaction::create([
             'bank_client_id' => $client->id,
-            'reference' => 'TRX-' . date('Ym') . '-CREDIT',
+            'reference' => 'TRX-' . date('Ym') . '-CR-' . $slug,
             'type' => 'loan_payout',
             'category' => 'crédito',
-            'amount' => 15000.00,
+            'amount' => $amount,
             'currency' => 'EUR',
             'status' => 'completed',
-            'description' => 'Desembolso Préstamo Personal Venatomar — Ref: LOAN-PRIMOUS',
+            'description' => "Desembolso Préstamo Personal Venatomar — Ref: LOAN-{$slug}",
             'completed_at' => now()->subDays(15),
             'approved_by_admin' => true,
         ]);
 
         BankTransaction::create([
             'bank_client_id' => $client->id,
-            'reference' => 'TRX-' . date('Ym') . '-SAVING',
+            'reference' => 'TRX-' . date('Ym') . '-SAV-' . $slug,
             'type' => 'savings_deposit',
             'category' => 'ahorro',
             'amount' => 2500.00,
@@ -137,6 +174,17 @@ class TestClientSeeder extends Seeder
             'description' => 'Aportación a la Reserva de Ahorro Remunerada (3,20% neto)',
             'completed_at' => now()->subDays(10),
             'approved_by_admin' => true,
+        ]);
+
+        // 6. Generate official documents for this client under their admin
+        LoanContract::where('email', $email)->delete();
+        InsuranceDocument::where('email', $email)->delete();
+        LoanApprovalDocument::where('email', $email)->delete();
+
+        LeadDocumentService::generateAllThree($lead, [
+            'contract' => ['admin_email' => $adminEmail],
+            'insurance' => ['admin_email' => $adminEmail],
+            'approval' => ['admin_email' => $adminEmail],
         ]);
     }
 }
