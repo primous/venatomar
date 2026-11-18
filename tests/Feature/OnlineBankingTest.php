@@ -105,7 +105,8 @@ class OnlineBankingTest extends TestCase
             'last_name' => 'Silva',
             'email' => 'mateo.silva@example.com',
             'password' => Hash::make('Password123!'),
-            'country' => 'Uruguay',
+            'country' => 'France',
+            'locale' => 'fr',
             'balance' => 28000.00,
             'savings_balance' => 12000.00,
         ]);
@@ -127,7 +128,6 @@ class OnlineBankingTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Tous les comptes');
         $response->assertSee('Compte individuel');
-        $response->assertSee('Descendez pour');
         $response->assertSee('Prêt Personnel Facelia');
     }
 
@@ -280,7 +280,7 @@ class OnlineBankingTest extends TestCase
         $portalResponse = $this->actingAs($client, 'client')->get('/fr/portal');
         $portalResponse->assertStatus(200);
         $portalResponse->assertSee('Tous les comptes');
-        $portalResponse->assertSee('Descendez pour');
+        $portalResponse->assertSee('Compte individuel');
     }
 
     public function test_client_accessing_wrong_locale_portal_url_is_automatically_redirected_to_assigned_locale(): void

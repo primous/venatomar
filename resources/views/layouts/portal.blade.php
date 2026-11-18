@@ -10,11 +10,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        .header-paris {
-            background-color: #0B1F3A;
-            background-image: linear-gradient(to bottom, rgba(11, 31, 58, 0.85), rgba(11, 31, 58, 0.95)), url("{{ asset('images/paris-header.svg') }}");
-            background-size: cover;
-            background-position: center top;
+        .header-venatomar {
+            background: linear-gradient(135deg, #0B1F3A 0%, #0E3638 55%, #0A5E4E 100%);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -73,8 +70,8 @@
                             {{ strtoupper(substr(auth('client')->user()?->first_name ?? 'C', 0, 1) . substr(auth('client')->user()?->last_name ?? 'L', 0, 1)) }}
                         </div>
                         <div class="text-xs">
-                            <div class="font-bold text-white group-hover:text-[#0FA57E] transition">{{ auth('client')->user()?->fullName() }}</div>
-                            <div class="text-slate-400 font-mono text-[11px]">{{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})</div>
+                            <div class="font-bold text-white group-hover:text-[#1CCB9E] transition">{{ auth('client')->user()?->fullName() }}</div>
+                            <div class="text-slate-300 font-mono text-[11px]">{{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})</div>
                         </div>
                     </a>
 
@@ -91,8 +88,8 @@
         </div>
     </header>
 
-    <!-- Header Banner Inspired by screenshot (Atmospheric Paris Dusk + "Tous les comptes" in client language) -->
-    <section class="header-paris text-white pt-6 pb-12 px-4 sm:px-6 lg:px-8">
+    <!-- Header Banner Harmonized with Venatomar Emerald/Navy Branding -->
+    <section class="header-venatomar text-white pt-6 pb-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             
             <!-- Mobile Top Bar (< md) -->
@@ -118,7 +115,7 @@
             <!-- Header Titles & Tabs -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <div class="text-xs uppercase font-bold tracking-wider text-[#0FA57E] mb-1">
+                    <div class="text-xs uppercase font-bold tracking-wider text-[#1CCB9E] mb-1">
                         {{ __('portal.secure_portal') }} · {{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})
                     </div>
                     <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
@@ -131,13 +128,13 @@
                     <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="relative pb-2 text-white font-bold transition">
                         {{ __('portal.all') }}
                         @if(request()->routeIs('portal.dashboard'))
-                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0FA57E] rounded-full"></span>
+                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1CCB9E] rounded-full"></span>
                         @endif
                     </a>
                     <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="relative pb-2 text-slate-300 hover:text-white transition">
                         {{ __('portal.customize') }}
                         @if(request()->routeIs('portal.profile*'))
-                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0FA57E] rounded-full"></span>
+                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1CCB9E] rounded-full"></span>
                         @endif
                     </a>
                 </div>
