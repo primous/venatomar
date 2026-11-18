@@ -51,8 +51,8 @@
 }
 
 @layer base {
-  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; }
-  body { @apply bg-surface font-sans text-base leading-[1.6] text-ink-700 antialiased md:text-[1.0625rem]; }
+  html { -webkit-text-size-adjust: 100%; scroll-padding-top: 5rem; overflow-x: clip; }
+  body { @apply bg-surface font-sans text-base leading-[1.6] text-ink-700 antialiased md:text-[1.0625rem]; overflow-x: clip; max-width: 100vw; }
   h1, h2, h3 { @apply font-display text-ink-900; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-brand-600; }
   [x-cloak] { display: none !important; }

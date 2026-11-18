@@ -63,7 +63,7 @@
             {{-- Calculator --}}
             <div class="lg:col-span-5">
                 <div class="relative pt-3">
-                    <p class="absolute top-0 left-1/2 z-10 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3 py-1 text-xs font-semibold text-cta-700 shadow-card ring-1 ring-cta-100 lg:right-6 lg:left-auto lg:translate-x-0">
+                    <p class="absolute top-0 left-1/2 z-10 inline-flex max-w-[calc(100%-1rem)] -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-3 py-1 text-xs font-semibold text-cta-700 shadow-card ring-1 ring-cta-100 lg:right-6 lg:left-auto lg:translate-x-0">
                         <x-icon name="clock" class="size-4" /> {{ __('home.hero.eyebrow') }}
                     </p>
 

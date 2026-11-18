@@ -4,7 +4,7 @@
     $palette = ['bg-cta-100 text-cta-700', 'bg-mint-100 text-brand-700', 'bg-surface-2 text-ink-700', 'bg-[#FDF3D7] text-[#7A5A00]', 'bg-[#E8EEFF] text-[#2F4AA8]'];
     $avatar = $palette[mb_ord($review->initial() ?: 'A') % count($palette)];
 @endphp
-<article {{ $attributes->merge(['class' => 'flex h-full flex-col rounded-md bg-white p-5 shadow-card ring-1 ring-line']) }}>
+<article {{ $attributes->merge(['class' => 'flex h-full flex-col overflow-hidden rounded-md bg-white p-5 shadow-card ring-1 ring-line break-words']) }}>
     <header class="flex items-center gap-3">
         <span @class(['inline-flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-bold', $avatar]) aria-hidden="true">{{ $review->initial() }}</span>
         <p class="min-w-0 flex-1 truncate text-sm font-semibold text-ink-900">{{ $review->author_name }}</p>

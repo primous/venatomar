@@ -40,10 +40,10 @@
                 </div>
             </div>
 
-            <x-button variant="cta" :href="$applyRoute" size="md" class="whitespace-nowrap px-4 text-sm md:px-5">{{ __('nav.apply') }}</x-button>
+            <x-button variant="cta" :href="$applyRoute" size="md" class="hidden md:inline-flex whitespace-nowrap px-4 text-sm md:px-5">{{ __('nav.apply') }}</x-button>
 
             <a href="{{ $accountRoute }}" title="{{ __('nav.account') }}"
-                class="inline-flex size-11 items-center justify-center rounded-md bg-white text-ink-900 ring-1 ring-line hover:bg-surface-2">
+                class="inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-white text-ink-900 ring-1 ring-line hover:bg-surface-2">
                 <x-icon name="user" class="size-5" />
                 <span class="sr-only">{{ __('nav.account') }}</span>
             </a>

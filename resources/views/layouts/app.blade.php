@@ -54,14 +54,14 @@
     <script type="application/json" id="pf-config">@json($clientConfig)</script>
     @stack('head')
 </head>
-<body class="flex min-h-screen flex-col">
+<body class="flex min-h-screen flex-col overflow-x-clip">
     <a href="#main" class="sr-only z-[60] rounded-md bg-brand-600 px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
         {{ __('nav.skip') }}
     </a>
 
     <x-header :alternates="$alternates" />
 
-    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
+    <main id="main" tabindex="-1" class="flex-1 overflow-x-clip focus:outline-none">
         {{ $slot }}
     </main>
 
