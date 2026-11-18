@@ -23,7 +23,7 @@ class SetLocale
         $isPortal = $request->is('*/portal*') || $request->is('portal*');
 
         if ($isPortal) {
-            if (! in_array($locale, ['es', 'fr', 'en', 'de', 'it', 'pt', 'nl'], true)) {
+            if (! in_array($locale, ['es', 'sv', 'uy', 'fr', 'en', 'de', 'it', 'pt', 'nl'], true)) {
                 abort(404);
             }
         } else {

@@ -195,4 +195,38 @@ final class Checksums
 
         return $rest;
     }
+
+    /** El Salvador: DUI (Documento Único de Identidad), 9 digits, mod 10 with weights 9,8,7,6,5,4,3,2. */
+    public static function svDui(string $v): bool
+    {
+        $clean = preg_replace('/[^0-9]/', '', $v);
+        if (strlen($clean) !== 9) {
+            return false;
+        }
+        $sum = 0;
+        for ($i = 0; $i < 8; $i++) {
+            $sum += ((int) $clean[$i]) * (9 - $i);
+        }
+        $check = (10 - ($sum % 10)) % 10;
+
+        return $check === (int) $clean[8];
+    }
+
+    /** Uruguay: Cédula de Identidad (CI), 7 or 8 digits with check digit. */
+    public static function uyCi(string $v): bool
+    {
+        $clean = preg_replace('/[^0-9]/', '', $v);
+        if (strlen($clean) < 7 || strlen($clean) > 8) {
+            return false;
+        }
+        $clean = str_pad($clean, 8, '0', STR_PAD_LEFT);
+        $weights = [2, 9, 8, 7, 6, 3, 4];
+        $sum = 0;
+        for ($i = 0; $i < 7; $i++) {
+            $sum += ((int) $clean[$i]) * $weights[$i];
+        }
+        $check = (10 - ($sum % 10)) % 10;
+
+        return $check === (int) $clean[7];
+    }
 }

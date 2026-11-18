@@ -67,6 +67,8 @@ return [
     */
     'calculator' => [
         'EUR' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
+        'USD' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
+        'UYU' => ['amount_min' => 5000, 'amount_max' => 200000, 'amount_step' => 1000, 'amount_default' => 50000, 'term_min' => 3, 'term_max' => 24, 'term_default' => 12],
         'GBP' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
         'MGA' => ['amount_min' => 100000, 'amount_max' => 5000000, 'amount_step' => 50000, 'amount_default' => 1400000, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
     ],
@@ -142,6 +144,20 @@ return [
             'example' => ['amount' => '[EX_MONTANT_MG]', 'term' => '[EX_DUREE_MG]', 'net' => '[EX_NET_MG]', 'total' => '[EX_TOTAL_MG]', 'apr' => '[EX_TAE_MG]'],
             'debt_threshold' => '[SEUIL_DETTE_MG]',
         ],
+        'sv' => [
+            'amount_min' => '[MONTANT_MIN_SV]', 'amount_max' => '[MONTANT_MAX_SV]', 'amount_step' => 50,
+            'term_min' => '[DUREE_MIN_SV]', 'term_max' => '[DUREE_MAX_SV]',
+            'apr_min' => '[TAE_MIN_SV]', 'apr_max' => '[TAE_MAX_SV]',
+            'example' => ['amount' => '[EX_MONTANT_SV]', 'term' => '[EX_DUREE_SV]', 'net' => '[EX_NET_SV]', 'total' => '[EX_TOTAL_SV]', 'apr' => '[EX_TAE_SV]'],
+            'debt_threshold' => 3000,
+        ],
+        'uy' => [
+            'amount_min' => '[MONTANT_MIN_UY]', 'amount_max' => '[MONTANT_MAX_UY]', 'amount_step' => 1000,
+            'term_min' => '[DUREE_MIN_UY]', 'term_max' => '[DUREE_MAX_UY]',
+            'apr_min' => '[TAE_MIN_UY]', 'apr_max' => '[TAE_MAX_UY]',
+            'example' => ['amount' => '[EX_MONTANT_UY]', 'term' => '[EX_DUREE_UY]', 'net' => '[EX_NET_UY]', 'total' => '[EX_TOTAL_UY]', 'apr' => '[EX_TAE_UY]'],
+            'debt_threshold' => 120000,
+        ],
     ],
 
     // Anti-spam.
@@ -167,7 +183,7 @@ return [
 
     // Supported locales => country code (see config/countries.php).
     'locales' => [
-        'es' => 'es', 'en' => 'gb', 'de' => 'de', 'it' => 'it', 'nl' => 'nl',
+        'es' => 'es', 'sv' => 'sv', 'uy' => 'uy', 'en' => 'gb', 'de' => 'de', 'it' => 'it', 'nl' => 'nl',
         'el' => 'gr', 'pt' => 'pt', 'sk' => 'sk', 'sl' => 'si', 'mg' => 'mg',
     ],
     'default_locale' => 'es',

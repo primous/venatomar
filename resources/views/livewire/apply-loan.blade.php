@@ -1,5 +1,5 @@
 @php
-    use App\Support\Venatomar as PF;
+    use \App\Support\Venatomar as PF;
     $currencySymbol = (new \NumberFormatter($country->numberLocale.'@currency='.$country->currency, \NumberFormatter::CURRENCY))->getSymbol(\NumberFormatter::CURRENCY_SYMBOL);
     $hasAmountBounds = $loan['amount_min'] !== null && $loan['amount_max'] !== null;
     $hasTermBounds = $loan['term_min'] !== null && $loan['term_max'] !== null;
@@ -29,6 +29,25 @@
 
                 {{-- STEP 1 · Ingresos --}}
                 @if ($step === 1)
+                    <div class="space-y-2">
+                        <label for="f-country" class="block text-xs font-semibold uppercase tracking-wider text-ink-700">{{ __('form.select_country') }}</label>
+                        <select id="f-country" wire:model.live="selected_country" class="w-full h-11 px-3 bg-surface-1 border border-line rounded-lg text-sm font-medium text-ink-900 focus:bg-white focus:border-brand-600 focus:ring-1 focus:ring-brand-600 focus:outline-none">
+                            <option value="es">🇪🇸 España (EUR €)</option>
+                            <option value="sv">🇸🇻 El Salvador (USD $)</option>
+                            <option value="uy">🇺🇾 Uruguay (UYU $)</option>
+                            <option value="fr">🇫🇷 France (EUR €)</option>
+                            <option value="gb">🇬🇧 United Kingdom (GBP £)</option>
+                            <option value="de">🇩🇪 Deutschland (EUR €)</option>
+                            <option value="it">🇮🇹 Italia (EUR €)</option>
+                            <option value="pt">🇵🇹 Portugal (EUR €)</option>
+                            <option value="nl">🇳🇱 Nederland (EUR €)</option>
+                            <option value="sk">🇸🇰 Slovensko (EUR €)</option>
+                            <option value="si">🇸🇮 Slovenija (EUR €)</option>
+                            <option value="gr">🇬🇷 Ελλάδα (EUR €)</option>
+                            <option value="mg">🇲🇬 Madagascar (MGA)</option>
+                        </select>
+                    </div>
+
                     <div class="space-y-3">
                         <x-field.input name="amount" :label="__('form.amount')" inputmode="numeric" :suffix="$currencySymbol"
                             :help="$hasAmountBounds ? __('form.amount_help', ['min' => PF::money($loan['amount_min'], $country), 'max' => PF::money($loan['amount_max'], $country)]) : null" />
@@ -119,6 +138,10 @@
                                 <x-field.input name="sort_code" inputmode="numeric" :label="__('form.sort_code')" placeholder="12-34-56" maxlength="8" />
                                 <x-field.input name="uk_account_number" inputmode="numeric" :label="__('form.uk_account_number')" maxlength="8" />
                             </div>
+                        @elseif (($country->bank['type'] ?? 'iban') === 'account')
+                            <x-field.input name="bank_account" :label="__('form.account_number')"
+                                :placeholder="$country->bank['example'] ?? '123456789012'"
+                                :help="__('form.account_help', ['example' => $country->bank['example'] ?? '123456789012'])" spellcheck="false" />
                         @else
                             <x-field.input name="bank_account" :label="__('form.iban')" autocapitalize="characters" spellcheck="false"
                                 :placeholder="$country->bank['iban_country'].'00 0000 0000 …'"

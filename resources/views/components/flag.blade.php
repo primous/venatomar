@@ -12,5 +12,7 @@
         @case('sk') <rect width="30" height="20" fill="#EE1C25"/><rect width="30" height="13.33" fill="#0B4EA2"/><rect width="30" height="6.67" fill="#fff"/><path d="M6 5h7v6c0 2.5-1.6 4-3.5 5C7.6 15 6 13.5 6 11z" fill="#fff"/><path d="M6.8 5.8h5.4v5.2c0 2-1.2 3.2-2.7 4-1.5-.8-2.7-2-2.7-4z" fill="#EE1C25"/> @break
         @case('sl') <rect width="30" height="20" fill="#ED1C24"/><rect width="30" height="13.33" fill="#005DA4"/><rect width="30" height="6.67" fill="#fff"/><path d="M6 4.5h6v4.5c0 2-1.4 3.2-3 3.8-1.6-.6-3-1.8-3-3.8z" fill="#005DA4" stroke="#ED1C24" stroke-width=".6"/> @break
         @case('mg') <rect width="30" height="20" fill="#007E3A"/><rect width="30" height="10" fill="#FC3D32"/><rect width="10" height="20" fill="#fff"/> @break
+        @case('sv') <rect width="30" height="20" fill="#0F47AF"/><rect y="6.67" width="30" height="6.67" fill="#fff"/><circle cx="15" cy="10" r="2.4" fill="#C59B27"/> @break
+        @case('uy') <rect width="30" height="20" fill="#fff"/><path d="M0 2.22h30M0 6.67h30M0 11.11h30M0 15.56h30" stroke="#5B92E5" stroke-width="2.22"/><rect width="11" height="10" fill="#fff"/><circle cx="5.5" cy="5" r="2.5" fill="#FCD116"/> @break
     @endswitch
 </svg>

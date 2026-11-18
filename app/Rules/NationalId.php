@@ -34,6 +34,8 @@ class NationalId implements ValidationRule
             'sk_rodne_cislo' => Checksums::slovakBirthNumber($v),
             'si_emso' => Checksums::sloveneEmso($v),
             'mg_cin' => Checksums::malagasyCin($v),
+            'sv_dui' => Checksums::svDui($v),
+            'uy_ci' => Checksums::uyCi($v),
             default => false,
         };
     }

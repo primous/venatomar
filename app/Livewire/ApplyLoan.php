@@ -10,6 +10,7 @@ use App\Rules\Iban;
 use App\Rules\MalagasyRib;
 use App\Rules\NationalId;
 use App\Support\Country;
+use App\Support\Venatomar;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -31,6 +32,7 @@ class ApplyLoan extends Component
 
     /** Fields that are kept in the session draft. */
     public const DRAFT_FIELDS = [
+        'selected_country',
         'amount', 'term_months', 'monthly_income', 'employment_status', 'defaulter_list',
         'first_name', 'last_name', 'document_number', 'birthday', 'email', 'phone', 'accept_privacy',
         'geo_zip', 'geo_province', 'geo_city', 'home_street', 'home_number', 'apartment_floor',
@@ -38,6 +40,8 @@ class ApplyLoan extends Component
         'gender', 'loan_purpose', 'marital_status', 'company_sector', 'education', 'home_status',
         'regular_expenses', 'has_debt', 'has_car', 'car_number',
     ];
+
+    public string $selected_country = '';
 
     #[Locked]
     public string $locale = 'es';
@@ -127,7 +131,30 @@ class ApplyLoan extends Component
         }
 
         $this->restoreDraft();
+        if (empty($this->selected_country)) {
+            $code = Venatomar::locales()[$this->locale] ?? $this->locale;
+            $this->selected_country = config('countries.'.$code) ? $code : 'es';
+        }
+        $country = $this->country();
+        if ($country->isMobileMoneyCountry()) {
+            $this->payout_method = 'rib';
+        }
+
         $this->prefillFromCalculator();
+    }
+
+    public function updatedSelectedCountry(string $value): void
+    {
+        if (config('countries.'.$value)) {
+            $this->selected_country = $value;
+            $newCountry = new Country($value);
+            $calc = $newCountry->calculator();
+            $this->amount = $calc['amount'];
+            $this->term_months = $calc['term'];
+            $this->geo_province = '';
+            $this->payout_method = $newCountry->isMobileMoneyCountry() ? 'rib' : (($newCountry->bank['type'] ?? 'iban') === 'account' ? 'account' : 'iban');
+            $this->saveDraft();
+        }
     }
 
     /** Home calculator link (?amount=&term=): applied only inside the calculator range. */
@@ -152,6 +179,15 @@ class ApplyLoan extends Component
 
     public function country(): Country
     {
+        if (! empty($this->selected_country) && config('countries.'.$this->selected_country)) {
+            return new Country($this->selected_country);
+        }
+
+        $code = Venatomar::locales()[$this->locale] ?? $this->locale;
+        if (config('countries.'.$code)) {
+            return new Country($code);
+        }
+
         return Country::forLocale($this->locale);
     }
 
@@ -235,6 +271,13 @@ class ApplyLoan extends Component
                     'uk_account_number' => ['required', 'regex:/^\d{8}$/'],
                 ]
                 : ['bank_account' => ['required', 'string', new Iban('GB', 22)]]);
+        }
+
+        if (($c->bank['type'] ?? 'iban') === 'account') {
+            return [
+                'payout_method' => ['required', Rule::in(['account', 'iban'])],
+                'bank_account' => ['required', 'string', 'min:6', 'max:34', 'regex:'.($c->bank['regex'] ?? '/^[A-Za-z0-9\- ]+$/')],
+            ];
         }
 
         return [
@@ -409,6 +452,7 @@ class ApplyLoan extends Component
             $isMm => null,
             $this->payout_method === 'uk_account' => 'SC '.preg_replace('/\D/', '', $this->sort_code).' / '.$this->uk_account_number,
             $c->isMobileMoneyCountry() => preg_replace('/\D/', '', $this->bank_account),
+            ($c->bank['type'] ?? 'iban') === 'account' => trim($this->bank_account),
             default => Iban::normalize($this->bank_account),
         };
 

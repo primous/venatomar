@@ -184,4 +184,32 @@ return [
         'authority' => ['name' => "Commission Malagasy sur l'Informatique et les Libertés (CMIL)", 'url' => 'https://www.cmil.mg'],
     ],
 
+    'sv' => [
+        'name' => 'El Salvador', 'currency' => 'USD', 'number_locale' => 'es_SV',
+        'phone_prefix' => '+503', 'phone_regex' => '/^[67]\d{7}$/', 'phone_example' => '7123 4567',
+        'postal_regex' => '/^\d{4}$/', 'postal_example' => '1101',
+        'document' => ['type' => 'sv_dui', 'required' => true, 'regex' => '/^\d{8}-?\d$/', 'example' => '01234567-8'],
+        'bank' => ['type' => 'iban', 'iban_country' => 'SV', 'iban_length' => 28],
+        'credit_bureau' => 'Equifax (DICOM) / SSF',
+        'date_order' => ['d', 'm', 'y'], 'date_separator' => '/',
+        'address_order' => $addressDefault,
+        'plate_regex' => '/^[A-Z]\d{3}[-\s]?\d{3}$/i', 'plate_example' => 'P123-456',
+        'employment' => $employment, 'education' => $education, 'marital' => $marital, 'home' => $home,
+        'authority' => ['name' => 'Defensoría del Consumidor / IAIP', 'url' => 'https://www.defensoria.gob.sv'],
+    ],
+
+    'uy' => [
+        'name' => 'Uruguay', 'currency' => 'UYU', 'number_locale' => 'es_UY',
+        'phone_prefix' => '+598', 'phone_regex' => '/^9\d{7}$/', 'phone_example' => '99 123 456',
+        'postal_regex' => '/^\d{5}$/', 'postal_example' => '11000',
+        'document' => ['type' => 'uy_ci', 'required' => true, 'regex' => '/^\d{7,8}$/', 'example' => '12345678'],
+        'bank' => ['type' => 'account', 'regex' => '/^[A-Z0-9\-\.]{6,24}$/i', 'example' => '123456789012'],
+        'credit_bureau' => 'Clearing de Informes (Equifax) / BCU',
+        'date_order' => ['d', 'm', 'y'], 'date_separator' => '/',
+        'address_order' => $addressDefault,
+        'plate_regex' => '/^[A-Z]{3}[\s-]?\d{4}$/', 'plate_example' => 'SAB 1234',
+        'employment' => $employment, 'education' => $education, 'marital' => $marital, 'home' => $home,
+        'authority' => ['name' => 'Unidad Reguladora y de Control de Datos Personales (URCDP)', 'url' => 'https://www.gub.uy/unidad-reguladora-control-datos-personales'],
+    ],
+
 ];
