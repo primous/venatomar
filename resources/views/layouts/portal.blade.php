@@ -64,16 +64,67 @@
                     <span class="absolute top-1 right-1 size-2 bg-[#F26B1D] rounded-full"></span>
                 </a>
 
-                <div class="flex items-center gap-3 pl-3 border-l border-white/15">
-                    <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="flex items-center gap-2.5 text-left group">
+                <div x-data="{ desktopUserMenu: false }" class="relative flex items-center gap-3 pl-3 border-l border-white/15">
+                    <button type="button" @click="desktopUserMenu = !desktopUserMenu" class="flex items-center gap-2.5 text-left group focus:outline-none">
                         <div class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center">
-                            {{ strtoupper(substr(auth('client')->user()?->first_name ?? 'C', 0, 1) . substr(auth('client')->user()?->last_name ?? 'L', 0, 1)) }}
+                            {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1) . substr(auth('client')->user()?->last_name ?? 'L', 0, 1)) }}
                         </div>
                         <div class="text-xs">
-                            <div class="font-bold text-white group-hover:text-[#1CCB9E] transition">{{ auth('client')->user()?->fullName() }}</div>
+                            <div class="font-bold text-white group-hover:text-[#1CCB9E] transition flex items-center gap-1">
+                                <span>{{ auth('client')->user()?->fullName() }}</span>
+                                <svg class="size-3 text-slate-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
                             <div class="text-slate-300 font-mono text-[11px]">{{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})</div>
                         </div>
-                    </a>
+                    </button>
+
+                    <!-- Desktop Dropdown -->
+                    <div x-show="desktopUserMenu"
+                        @click.outside="desktopUserMenu = false"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 scale-95 translate-y-1"
+                        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-100"
+                        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 scale-95 translate-y-1"
+                        x-cloak
+                        class="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] border border-slate-200/90 py-2.5 z-50 text-[#24324A]">
+
+                        <div class="px-4 py-2 border-b border-slate-100">
+                            <div class="text-xs font-bold text-[#0B1F3A] truncate">{{ auth('client')->user()?->fullName() }}</div>
+                            <div class="text-[11px] text-slate-400 font-mono truncate">{{ auth('client')->user()?->email }}</div>
+                        </div>
+
+                        <div class="py-1.5 px-2">
+                            <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}"
+                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
+                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <span>{{ __('portal.profile_title') }}</span>
+                            </a>
+                            <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}"
+                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
+                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                </svg>
+                                <span>{{ __('portal.nav_help') }}</span>
+                            </a>
+                        </div>
+
+                        <div class="pt-1.5 px-2 border-t border-slate-100">
+                            <form method="POST" action="{{ route('portal.logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition">
+                                    <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                    </svg>
+                                    <span>{{ __('portal.logout') }}</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
 
                     <form method="POST" action="{{ route('portal.logout') }}">
                         @csrf
@@ -106,9 +157,79 @@
                         </svg>
                         <span class="absolute top-1 right-1 size-2 bg-[#F26B1D] rounded-full"></span>
                     </a>
-                    <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center">
-                        {{ strtoupper(substr(auth('client')->user()?->first_name ?? 'C', 0, 1)) }}
-                    </a>
+
+                    <!-- Mobile User Avatar Button & Dropdown Menu -->
+                    <div x-data="{ mobileUserMenu: false }" class="relative">
+                        <button type="button" @click="mobileUserMenu = !mobileUserMenu"
+                            class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/40 shadow-sm transition active:scale-95"
+                            aria-label="Menu utilisateur">
+                            {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1)) }}
+                        </button>
+
+                        <div x-show="mobileUserMenu"
+                            @click.outside="mobileUserMenu = false"
+                            x-transition:enter="transition ease-out duration-150"
+                            x-transition:enter-start="opacity-0 scale-95 translate-y-1"
+                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 scale-95 translate-y-1"
+                            x-cloak
+                            class="absolute right-0 top-10 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] border border-slate-200/90 py-2.5 z-50 text-[#24324A]">
+
+                            <div class="px-4 py-2 border-b border-slate-100">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center shrink-0">
+                                        {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1)) }}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div class="text-xs font-bold text-[#0B1F3A] truncate">{{ auth('client')->user()?->fullName() }}</div>
+                                        <div class="text-[11px] text-slate-400 font-mono truncate">{{ auth('client')->user()?->email }}</div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 flex items-center justify-between">
+                                    <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2 py-0.5 rounded-full border border-[#0FA57E]/20">
+                                        {{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})
+                                    </span>
+                                    <span class="text-[10px] font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full">
+                                        {{ strtoupper(auth('client')->user()?->tier ?? 'PLATINUM') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="py-1.5 px-2">
+                                <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}"
+                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
+                                    <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    <span>{{ __('portal.profile_title') }}</span>
+                                </a>
+
+                                <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}"
+                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
+                                    <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                                    </svg>
+                                    <span>{{ __('portal.nav_help') }}</span>
+                                </a>
+                            </div>
+
+                            <div class="pt-1.5 px-2 border-t border-slate-100">
+                                <form method="POST" action="{{ route('portal.logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition">
+                                        <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                        <span>{{ __('portal.logout') }}</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 

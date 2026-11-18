@@ -40,20 +40,23 @@
                 </div>
 
                 <!-- Card 1: Compte individuel / Cuenta individual principal -->
-                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 hover:shadow-md transition">
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <div class="text-sm sm:text-base font-bold text-[#0B1F3A]">{{ __('portal.individual_account') }}</div>
-                            <div class="inline-flex items-center gap-2 mt-1 px-2.5 py-0.5 rounded-lg bg-slate-50 border border-slate-200/60 font-mono text-xs text-slate-500">
-                                <span>{{ $client->account_number }}</span>
-                                <span class="text-slate-300">|</span>
-                                <span>IBAN {{ substr($client->iban, 0, 4) }} •••• {{ substr($client->iban, -4) }}</span>
-                            </div>
-                        </div>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold {{ $client->isActive() ? 'bg-[#E6F5F1] text-[#0A5E4E] border border-[#0FA57E]/20' : 'bg-amber-50 text-amber-800 border border-amber-200' }}">
+                <div class="bg-white rounded-2xl p-5 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 hover:shadow-md transition">
+                    <!-- Row 1: Titre du compte & Badge de vérification bien aéré -->
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 class="text-base sm:text-lg font-bold text-[#0B1F3A]">
+                            {{ __('portal.individual_account') }}
+                        </h3>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shrink-0 whitespace-nowrap {{ $client->isActive() ? 'bg-[#E6F5F1] text-[#0A5E4E] border border-[#0FA57E]/20' : 'bg-amber-50 text-amber-800 border border-amber-200' }}">
                             <span class="size-2 rounded-full {{ $client->isActive() ? 'bg-[#0FA57E]' : 'bg-amber-500' }}"></span>
                             <span>{{ $client->isActive() ? __('portal.verified_account') : 'Verification' }}</span>
                         </span>
+                    </div>
+
+                    <!-- Row 2: Identifiants du compte (N° et IBAN masqué) sur sa propre ligne -->
+                    <div class="mt-2.5 inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-xl bg-slate-50 border border-slate-200/70 font-mono text-xs text-slate-600">
+                        <span>N° {{ $client->account_number }}</span>
+                        <span class="text-slate-300">·</span>
+                        <span>IBAN {{ substr($client->iban, 0, 4) }} •••• {{ substr($client->iban, -4) }}</span>
                     </div>
 
                     <div class="mt-5">
@@ -93,7 +96,7 @@
                                 {{ $client->account_number }}-EP
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20">
+                        <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20 whitespace-nowrap shrink-0">
                             {{ __('portal.immediate_availability') }}
                         </span>
                     </div>
@@ -132,7 +135,7 @@
                                     Ref. {{ $loan->reference }} · {{ $loan->term_months }} {{ trans('admin.months', [], app()->getLocale()) ?: 'meses' }}
                                 </div>
                             </div>
-                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20">
+                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20 whitespace-nowrap shrink-0">
                                 {{ __('portal.active_loan') }}
                             </span>
                         </div>
