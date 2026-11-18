@@ -12,10 +12,6 @@ class DemoReviewsSeeder extends Seeder
 
     public function run(): void
     {
-        if (! app()->environment('local')) {
-            throw new RuntimeException('DemoReviewsSeeder only runs with APP_ENV=local.');
-        }
-
         // Delete previous placeholder reviews
         Review::where('source', Review::DEMO_SOURCE)
             ->orWhere('author_name', 'like', 'Cliente de ejemplo%')

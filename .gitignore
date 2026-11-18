@@ -30,6 +30,7 @@
 .env.backup
 /deploy/askpass.bat
 /deploy/build_zip.ps1
+/deploy/.env.production
 /storage/deploy_stage/
 .env.production
 .phpactor.json
