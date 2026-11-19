@@ -6,16 +6,16 @@
 
         <!-- Left / Bank Card Showcase (5 cols) -->
         <div class="lg:col-span-5">
-            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-[#5B6B82] mb-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+                <h2 class="hidden sm:block text-xs font-bold uppercase tracking-wider text-[#5B6B82] mb-4">
                     {{ __('portal.virtual_card') }}
                 </h2>
 
                 <!-- Premium Venatomar Debit Card -->
-                <div class="relative w-full min-h-[225px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
+                <div class="relative w-full aspect-[1.586/1] min-h-[195px] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-                    <div class="relative z-10 flex flex-col justify-between h-full min-h-[195px] sm:min-h-0">
+                    <div class="relative z-10 flex flex-col justify-between h-full">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="{{ asset('images/logo.svg') }}" alt="Venatomar" class="size-6 brightness-200">
@@ -39,7 +39,7 @@
                             </svg>
                         </div>
 
-                        <div class="space-y-1.5 sm:space-y-2">
+                        <div class="space-y-1 sm:space-y-2">
                             <div class="font-mono text-base sm:text-lg tracking-widest font-bold">
                                 •••• •••• •••• {{ substr($client->account_number, -4) }}
                             </div>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <div class="hidden sm:flex mt-4 pt-3 border-t border-slate-100 items-center justify-between text-xs text-slate-500">
                     <span>{{ __('portal.card_status_prefix') }} <strong class="text-[#0FA57E]">{{ __('portal.card_active') }}</strong></span>
                     <span>{{ __('portal.card_contactless') }}</span>
                 </div>
