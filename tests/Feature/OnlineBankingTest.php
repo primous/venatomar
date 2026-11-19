@@ -127,7 +127,7 @@ class OnlineBankingTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Tous les comptes');
-        $response->assertSee('Compte individuel');
+        $response->assertSee($client->account_number);
         $response->assertSee('Prêt Personnel Facelia');
     }
 
@@ -280,7 +280,7 @@ class OnlineBankingTest extends TestCase
         $portalResponse = $this->actingAs($client, 'client')->get('/fr/portal');
         $portalResponse->assertStatus(200);
         $portalResponse->assertSee('Tous les comptes');
-        $portalResponse->assertSee('Compte individuel');
+        $portalResponse->assertSee($client->account_number);
     }
 
     public function test_client_accessing_wrong_locale_portal_url_is_automatically_redirected_to_assigned_locale(): void
