@@ -46,7 +46,12 @@ class BankClientLoan extends Model
 
     public function repayments(): HasMany
     {
-        return $this->hasMany(BankLoanRepayment::class)->orderBy('installment_number');
+        return $this->hasMany(BankLoanRepayment::class, 'bank_client_loan_id')->orderBy('installment_number');
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->repayments();
     }
 
     public function formattedRemaining(): string

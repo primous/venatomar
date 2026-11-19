@@ -12,10 +12,10 @@
                 </h2>
 
                 <!-- Premium Venatomar Debit Card -->
-                <div class="relative w-full aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-5 sm:p-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
+                <div class="relative w-full min-h-[225px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-                    <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div class="relative z-10 flex flex-col justify-between h-full min-h-[195px] sm:min-h-0">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="{{ asset('images/logo.svg') }}" alt="Venatomar" class="size-6 brightness-200">
@@ -27,31 +27,31 @@
                         </div>
 
                         <!-- Chip -->
-                        <div class="flex items-center gap-3 my-auto">
-                            <div class="w-10 h-7 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-300 shadow-sm relative overflow-hidden flex items-center justify-center">
+                        <div class="flex items-center gap-3 my-2 sm:my-auto">
+                            <div class="w-9 sm:w-10 h-6 sm:h-7 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-300 shadow-sm relative overflow-hidden flex items-center justify-center shrink-0">
                                 <div class="w-full h-[1px] bg-amber-700/40 absolute top-2"></div>
                                 <div class="w-full h-[1px] bg-amber-700/40 absolute bottom-2"></div>
                                 <div class="h-full w-[1px] bg-amber-700/40 absolute left-3"></div>
                             </div>
                             <!-- Contactless wave -->
-                            <svg class="size-5 text-emerald-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="size-4 sm:size-5 text-emerald-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 010-7.778M11.646 19.94a10.5 10.5 0 000-14.85M15.182 23.475a15.5 15.5 0 000-21.95"/>
                             </svg>
                         </div>
 
-                        <div>
+                        <div class="space-y-1.5 sm:space-y-2">
                             <div class="font-mono text-base sm:text-lg tracking-widest font-bold">
                                 •••• •••• •••• {{ substr($client->account_number, -4) }}
                             </div>
 
-                            <div class="flex items-end justify-between mt-2 text-xs">
-                                <div>
+                            <div class="flex items-end justify-between gap-3 text-xs pt-0.5">
+                                <div class="min-w-0 flex-1">
                                     <div class="text-[8.5px] uppercase tracking-wider text-emerald-200 font-semibold">{{ __('portal.card_holder') }}</div>
-                                    <div class="font-bold tracking-wide uppercase">{{ $client->fullName() }}</div>
+                                    <div class="font-bold tracking-wide uppercase truncate text-xs sm:text-sm">{{ $client->fullName() }}</div>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right shrink-0">
                                     <div class="text-[8.5px] uppercase tracking-wider text-emerald-200 font-semibold">{{ __('portal.card_expires') }}</div>
-                                    <div class="font-bold font-mono">12/28</div>
+                                    <div class="font-bold font-mono text-xs sm:text-sm">12/28</div>
                                 </div>
                             </div>
                         </div>

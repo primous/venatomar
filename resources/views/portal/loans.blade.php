@@ -167,15 +167,15 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            @forelse($activeLoan->schedules as $sch)
+                            @forelse(($activeLoan->repayments ?? $activeLoan->schedules) ?? [] as $sch)
                                 <tr class="hover:bg-slate-50/70 transition">
                                     <td class="p-3.5 font-bold text-slate-700">#{{ $sch->installment_number }}</td>
-                                    <td class="p-3.5 text-slate-500 whitespace-nowrap">{{ $sch->due_date->format('d/m/Y') }}</td>
-                                    <td class="p-3.5 font-extrabold font-display text-[#0B1F3A]">{{ $client->formatMoney($sch->monthly_payment) }}</td>
-                                    <td class="p-3.5 text-slate-600">{{ $client->formatMoney($sch->principal_amount) }}</td>
-                                    <td class="p-3.5 text-slate-400">{{ $client->formatMoney($sch->interest_amount) }}</td>
+                                    <td class="p-3.5 text-slate-500 whitespace-nowrap">{{ $sch->due_date ? $sch->due_date->format('d/m/Y') : '-' }}</td>
+                                    <td class="p-3.5 font-extrabold font-display text-[#0B1F3A]">{{ $client->formatMoney($sch->amount ?? $sch->monthly_payment ?? 0) }}</td>
+                                    <td class="p-3.5 text-slate-600">{{ $client->formatMoney($sch->principal_amount ?? 0) }}</td>
+                                    <td class="p-3.5 text-slate-400">{{ $client->formatMoney($sch->interest_amount ?? 0) }}</td>
                                     <td class="p-3.5 text-right whitespace-nowrap">
-                                        @if($sch->status === 'paid')
+                                        @if(($sch->status ?? '') === 'paid')
                                             <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2.5 py-0.5 rounded-full">
                                                 {{ __('portal.status_paid') }}
                                             </span>

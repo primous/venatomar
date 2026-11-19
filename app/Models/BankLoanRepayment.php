@@ -27,4 +27,9 @@ class BankLoanRepayment extends Model
     {
         return $this->belongsTo(BankClientLoan::class, 'bank_client_loan_id');
     }
+
+    public function getMonthlyPaymentAttribute(): float
+    {
+        return (float) ($this->attributes['amount'] ?? 0);
+    }
 }

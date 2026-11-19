@@ -321,6 +321,28 @@ class OnlineBankingTest extends TestCase
             'savings_balance' => 2500.00,
         ]);
 
+        $loan = BankClientLoan::create([
+            'bank_client_id' => $client->id,
+            'title' => 'Préstamo Personal',
+            'amount' => 5000.00,
+            'remaining_amount' => 4500.00,
+            'term_months' => 12,
+            'interest_rate' => 3.50,
+            'monthly_payment' => 425.00,
+            'total_repayable' => 5100.00,
+            'status' => 'active',
+        ]);
+
+        \App\Models\BankLoanRepayment::create([
+            'bank_client_loan_id' => $loan->id,
+            'installment_number' => 1,
+            'due_date' => now()->addMonth(),
+            'amount' => 425.00,
+            'principal_amount' => 410.00,
+            'interest_amount' => 15.00,
+            'status' => 'pending',
+        ]);
+
         $this->actingAs($client, 'client')->get('/es/portal')->assertStatus(200)->assertSee('Todas las cuentas');
         $this->actingAs($client, 'client')->get('/es/portal/transfers')->assertStatus(200)->assertSee('Transferencias y Envíos');
         $this->actingAs($client, 'client')->get('/es/portal/documents')->assertStatus(200)->assertSee('Tarjetas y Documentos Oficiales');
