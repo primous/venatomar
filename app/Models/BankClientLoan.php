@@ -56,11 +56,13 @@ class BankClientLoan extends Model
 
     public function formattedRemaining(): string
     {
-        return $this->client ? $this->client->formatMoney($this->remaining_amount) : number_format($this->remaining_amount, 2) . ' €';
+        $val = (float) ($this->remaining_amount ?? 0);
+        return $this->client ? $this->client->formatMoney($val) : number_format($val, 2) . ' €';
     }
 
     public function formattedMonthly(): string
     {
-        return $this->client ? $this->client->formatMoney($this->monthly_payment) : number_format($this->monthly_payment, 2) . ' €';
+        $val = (float) ($this->monthly_payment ?? 0);
+        return $this->client ? $this->client->formatMoney($val) : number_format($val, 2) . ' €';
     }
 }

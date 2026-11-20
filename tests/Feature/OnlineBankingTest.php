@@ -10,6 +10,7 @@ use App\Support\BankDirectory;
 use App\Support\BankPdfEngine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class OnlineBankingTest extends TestCase
@@ -349,5 +350,117 @@ class OnlineBankingTest extends TestCase
         $this->actingAs($client, 'client')->get('/es/portal/loans')->assertStatus(200)->assertSee('Ahorro y Financiación');
         $this->actingAs($client, 'client')->get('/es/portal/support')->assertStatus(200)->assertSee('Atención al Cliente y Seguridad');
         $this->actingAs($client, 'client')->get('/es/portal/profile')->assertStatus(200)->assertSee('Perfil y Parámetros de Seguridad');
+    }
+
+    public function test_portal_mailables_render_content_properly(): void
+    {
+        $client = BankClient::create([
+            'first_name' => 'Carlos',
+            'last_name' => 'Rodriguez',
+            'email' => 'carlos.r@example.com',
+            'password' => Hash::make('Secret123!'),
+            'country' => 'España',
+            'locale' => 'es',
+            'balance' => 8500.00,
+            'currency' => 'EUR',
+        ]);
+
+        // 1. Welcome Mail
+        $welcomeMail = new \App\Mail\BankClientWelcomeMail(
+            client: $client,
+            plainPassword: 'Secret123!',
+            loginUrl: 'https://venatomar.com/es/portal/login'
+        );
+        $welcomeHtml = $welcomeMail->render();
+        $this->assertStringContainsString('Carlos', $welcomeHtml);
+        $this->assertStringContainsString('carlos.r@example.com', $welcomeHtml);
+        $this->assertStringContainsString('Secret123!', $welcomeHtml);
+        $this->assertStringContainsString($client->iban, $welcomeHtml);
+
+        // 2. Credited Mail
+        $creditMail = new \App\Mail\BankClientCreditedMail(
+            client: $client,
+            amount: 5000.00,
+            description: 'Virement de déblocage de prêt personnel',
+            newBalance: 13500.00,
+            date: now()
+        );
+        $creditHtml = $creditMail->render();
+        $this->assertStringContainsString('5', $creditHtml);
+        $this->assertStringContainsString('13', $creditHtml);
+        $this->assertStringContainsString('Virement de déblocage de prêt', $creditHtml);
+
+        // 3. Debited Mail
+        $debitMail = new \App\Mail\BankClientDebitedMail(
+            client: $client,
+            amount: 1200.00,
+            description: 'Virement SEPA vers Banco Santander',
+            newBalance: 12300.00,
+            date: now()
+        );
+        $debitHtml = $debitMail->render();
+        $this->assertStringContainsString('1', $debitHtml);
+        $this->assertStringContainsString('Banco Santander', $debitHtml);
+
+        // 4. Status Changed Mail
+        $statusMail = new \App\Mail\BankClientStatusChangedMail(
+            client: $client,
+            newStatus: 'frozen',
+            reason: 'Blocage de sécurité pour vérification administrative'
+        );
+        $statusHtml = $statusMail->render();
+        $this->assertStringContainsString('Carlos', $statusHtml);
+        $this->assertStringContainsString('Blocage de sécurité', $statusHtml);
+    }
+
+    public function test_bank_transaction_approval_triggers_client_email_notification(): void
+    {
+        Mail::fake();
+
+        $client = BankClient::create([
+            'first_name' => 'Elena',
+            'last_name' => 'Vargas',
+            'email' => 'elena.v@example.com',
+            'password' => Hash::make('Password123!'),
+            'country' => 'España',
+            'locale' => 'es',
+            'balance' => 2500.00,
+            'currency' => 'EUR',
+        ]);
+
+        $transaction = \App\Models\BankTransaction::create([
+            'bank_client_id' => $client->id,
+            'type' => 'transfer_out',
+            'category' => 'virement',
+            'amount' => 500.00,
+            'currency' => 'EUR',
+            'status' => 'pending',
+            'target_bank_name' => 'BBVA',
+            'target_account_holder' => 'Elena Vargas',
+            'target_account_number' => 'ES9121000418450200051332',
+            'description' => 'Acompte travaux',
+        ]);
+
+        // Simulating the approve action logic in BankTransactionResource
+        $client->decrement('balance', $transaction->amount);
+        $transaction->update([
+            'status' => 'completed',
+            'approved_by_admin' => true,
+            'completed_at' => now(),
+        ]);
+
+        Mail::to($client->email)->queue(new \App\Mail\BankClientDebitedMail(
+            client: $client->fresh(),
+            amount: (float) $transaction->amount,
+            description: (string) ($transaction->description ?: "Virement vers {$transaction->target_bank_name}"),
+            newBalance: (float) $client->fresh()->balance,
+            date: $transaction->completed_at ?: now()
+        ));
+
+        Mail::assertQueued(\App\Mail\BankClientDebitedMail::class, function ($mail) use ($client) {
+            return $mail->hasTo('elena.v@example.com')
+                && $mail->amount === 500.00
+                && $mail->newBalance === 2000.00;
+        });
     }
 }

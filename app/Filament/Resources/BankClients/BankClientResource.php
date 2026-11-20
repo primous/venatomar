@@ -5,6 +5,10 @@ namespace App\Filament\Resources\BankClients;
 use App\Filament\Resources\BankClients\Pages\CreateBankClient;
 use App\Filament\Resources\BankClients\Pages\EditBankClient;
 use App\Filament\Resources\BankClients\Pages\ListBankClients;
+use App\Mail\BankClientCreditedMail;
+use App\Mail\BankClientDebitedMail;
+use App\Mail\BankClientStatusChangedMail;
+use App\Mail\BankClientWelcomeMail;
 use App\Models\BankClient;
 use App\Models\BankTransaction;
 use App\Support\BankDirectory;
@@ -29,6 +33,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class BankClientResource extends Resource
 {
@@ -254,9 +260,18 @@ class BankClientResource extends Resource
                             'completed_at' => now(),
                         ]);
 
+                        if (! empty($record->email)) {
+                            Mail::to($record->email)->queue(new BankClientCreditedMail(
+                                $record,
+                                $amount,
+                                $data['description'],
+                                $record->fresh()->formattedBalance()
+                            ));
+                        }
+
                         Notification::make()
-                            ->title('Compte crédité avec succès')
-                            ->body("Le compte a été crédité de {$data['amount']} {$record->currency}.")
+                            ->title('Compte crédité et client notifié !')
+                            ->body("Le compte a été crédité de {$data['amount']} {$record->currency}. L'e-mail officiel a été envoyé à {$record->email}.")
                             ->success()
                             ->send();
                     }),
@@ -288,9 +303,18 @@ class BankClientResource extends Resource
                             'completed_at' => now(),
                         ]);
 
+                        if (! empty($record->email)) {
+                            Mail::to($record->email)->queue(new BankClientDebitedMail(
+                                $record,
+                                $amount,
+                                $data['description'],
+                                $record->fresh()->formattedBalance()
+                            ));
+                        }
+
                         Notification::make()
-                            ->title('Compte débité avec succès')
-                            ->body("Le compte a été débité de {$data['amount']} {$record->currency}.")
+                            ->title('Compte débité et client notifié !')
+                            ->body("Le compte a été débité de {$data['amount']} {$record->currency}. L'e-mail officiel a été envoyé à {$record->email}.")
                             ->warning()
                             ->send();
                     }),
@@ -304,8 +328,39 @@ class BankClientResource extends Resource
                         $newStatus = $record->isFrozen() ? 'active' : 'frozen';
                         $record->update(['status' => $newStatus]);
 
+                        if (! empty($record->email)) {
+                            Mail::to($record->email)->queue(new BankClientStatusChangedMail($record, $newStatus));
+                        }
+
                         Notification::make()
-                            ->title($newStatus === 'frozen' ? 'Compte gelé' : 'Compte réactivé')
+                            ->title($newStatus === 'frozen' ? 'Compte gelé et client notifié' : 'Compte réactivé et client notifié')
+                            ->body("L'e-mail officiel d'information a été envoyé à {$record->email}.")
+                            ->success()
+                            ->send();
+                    }),
+
+                Action::make('resend_credentials')
+                    ->label('Renvoyer identifiants')
+                    ->icon(Heroicon::OutlinedKey)
+                    ->color('info')
+                    ->modalHeading('Renvoyer les identifiants d\'accès')
+                    ->modalDescription('Définissez un mot de passe (ou conservez celui suggéré) qui sera transmis par courriel au client avec son numéro de compte et IBAN.')
+                    ->schema([
+                        TextInput::make('password')
+                            ->label('Nouveau mot de passe de connexion')
+                            ->default(fn () => Str::random(10))
+                            ->required(),
+                    ])
+                    ->action(function (BankClient $record, array $data) {
+                        $record->update(['password' => $data['password']]);
+
+                        if (! empty($record->email)) {
+                            Mail::to($record->email)->queue(new BankClientWelcomeMail($record, $data['password']));
+                        }
+
+                        Notification::make()
+                            ->title('Identifiants envoyés avec succès')
+                            ->body("Les identifiants de connexion ont été envoyés par courriel à {$record->email}.")
                             ->success()
                             ->send();
                     }),

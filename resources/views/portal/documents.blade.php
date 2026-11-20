@@ -12,10 +12,10 @@
                 </h2>
 
                 <!-- Premium Venatomar Debit Card -->
-                <div class="relative w-full aspect-[1.586/1] min-h-[195px] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
+                <div class="relative w-full min-h-[215px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 pb-5 sm:pb-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
-                    <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div class="relative z-10 flex flex-col justify-between h-full min-h-[190px] sm:min-h-0">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <img src="{{ asset('images/logo.svg') }}" alt="Venatomar" class="size-6 brightness-200">
@@ -39,7 +39,7 @@
                             </svg>
                         </div>
 
-                        <div class="space-y-1 sm:space-y-2">
+                        <div class="space-y-1 sm:space-y-2 pb-0.5">
                             <div class="font-mono text-base sm:text-lg tracking-widest font-bold">
                                 •••• •••• •••• {{ substr($client->account_number, -4) }}
                             </div>

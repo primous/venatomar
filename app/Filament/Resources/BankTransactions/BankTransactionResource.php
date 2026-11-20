@@ -5,6 +5,8 @@ namespace App\Filament\Resources\BankTransactions;
 use App\Filament\Resources\BankTransactions\Pages\CreateBankTransaction;
 use App\Filament\Resources\BankTransactions\Pages\EditBankTransaction;
 use App\Filament\Resources\BankTransactions\Pages\ListBankTransactions;
+use App\Mail\BankClientCreditedMail;
+use App\Mail\BankClientDebitedMail;
 use App\Models\BankClient;
 use App\Models\BankTransaction;
 use BackedEnum;
@@ -24,6 +26,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
 
 class BankTransactionResource extends Resource
 {
@@ -208,9 +211,33 @@ class BankTransactionResource extends Resource
                             'completed_at' => now(),
                         ]);
 
+                        if ($client && !empty($client->email)) {
+                            try {
+                                if (in_array($record->type, ['transfer_out', 'fee'], true)) {
+                                    Mail::to($client->email)->queue(new BankClientDebitedMail(
+                                        client: $client->fresh(),
+                                        amount: (float) $record->amount,
+                                        description: (string) ($record->description ?: "Virement vers {$record->target_bank_name}"),
+                                        newBalance: (float) $client->fresh()->balance,
+                                        date: $record->completed_at ?: now()
+                                    ));
+                                } else {
+                                    Mail::to($client->email)->queue(new BankClientCreditedMail(
+                                        client: $client->fresh(),
+                                        amount: (float) $record->amount,
+                                        description: (string) ($record->description ?: "Virement reçu"),
+                                        newBalance: (float) $client->fresh()->balance,
+                                        date: $record->completed_at ?: now()
+                                    ));
+                                }
+                            } catch (\Throwable $e) {
+                                report($e);
+                            }
+                        }
+
                         Notification::make()
                             ->title('Virement validé avec succès')
-                            ->body("Le virement {$record->reference} a été validé et débité du compte.")
+                            ->body("Le virement {$record->reference} a été validé et le client a été notifié par e-mail.")
                             ->success()
                             ->send();
                     }),

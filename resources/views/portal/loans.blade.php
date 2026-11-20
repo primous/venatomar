@@ -167,7 +167,10 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            @forelse(($activeLoan->repayments ?? $activeLoan->schedules) ?? [] as $sch)
+                            @php
+                                $loanSchedules = $activeLoan->repayments ?? collect();
+                            @endphp
+                            @forelse($loanSchedules as $sch)
                                 <tr class="hover:bg-slate-50/70 transition">
                                     <td class="p-3.5 font-bold text-slate-700">#{{ $sch->installment_number }}</td>
                                     <td class="p-3.5 text-slate-500 whitespace-nowrap">{{ $sch->due_date ? $sch->due_date->format('d/m/Y') : '-' }}</td>

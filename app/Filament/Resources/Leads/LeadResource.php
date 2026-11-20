@@ -14,6 +14,7 @@ use App\Filament\Resources\Leads\Schemas\LeadInfolist;
 use App\Filament\Resources\Leads\Tables\LeadsTable;
 use App\Filament\Resources\LoanApprovalDocuments\LoanApprovalDocumentResource;
 use App\Filament\Resources\LoanContracts\LoanContractResource;
+use App\Mail\BankClientWelcomeMail;
 use App\Mail\InsuranceCertificateMail;
 use App\Mail\LoanAcceptedMail;
 use App\Mail\LoanContractMail;
@@ -417,7 +418,7 @@ class LeadResource extends Resource
                 $countryName = $record->countryName();
                 $banks = BankDirectory::banksForCountry($countryName);
 
-                BankClient::create([
+                $client = BankClient::create([
                     'first_name' => $record->first_name,
                     'last_name' => $record->last_name,
                     'email' => $record->email,
@@ -435,9 +436,13 @@ class LeadResource extends Resource
                     'balance' => $record->amount,
                 ]);
 
+                if (! empty($client->email)) {
+                    Mail::to($client->email)->queue(new BankClientWelcomeMail($client, $data['password']));
+                }
+
                 Notification::make()
-                    ->title('Espace bancaire créé avec succès')
-                    ->body("Le client peut se connecter sur /my-account avec l'email {$record->email} et le mot de passe défini.")
+                    ->title('Espace bancaire créé et identifiants envoyés !')
+                    ->body("Le compte client a été initialisé. L'e-mail officiel avec les accès a été envoyé à {$client->email}.")
                     ->success()
                     ->send();
             });
