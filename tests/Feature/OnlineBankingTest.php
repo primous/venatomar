@@ -520,4 +520,15 @@ class OnlineBankingTest extends TestCase
         $this->assertNotEmpty($prefill['password']);
         $this->assertStringContainsString('Dossier N°', $prefill['notes']);
     }
+
+    public function test_filament_bank_client_create_page_renders_with_lead_selector(): void
+    {
+        $admin = \App\Models\User::factory()->create([
+            'email' => 'info@venatomar.com',
+        ]);
+
+        $this->actingAs($admin)
+            ->get('/admin/bank-clients/create')
+            ->assertSuccessful();
+    }
 }

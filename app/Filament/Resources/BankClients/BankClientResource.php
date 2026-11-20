@@ -83,13 +83,13 @@ class BankClientResource extends Resource
                         ->live()
                         ->default(fn () => request()->query('lead_id'))
                         ->options(function () {
-                            $adminChannel = auth()->user()?->email === 'contact@venatomar.com' ? 'contact' : 'info';
+                            $adminEmail = auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com';
 
                             return Lead::query()
-                                ->when(config('venatomar.features.admin_isolation', true), function ($q) use ($adminChannel) {
-                                    $q->where(function ($sub) use ($adminChannel) {
-                                        $sub->where('admin_channel', $adminChannel)
-                                            ->orWhereNull('admin_channel');
+                                ->when(config('venatomar.features.admin_isolation', true), function ($q) use ($adminEmail) {
+                                    $q->where(function ($sub) use ($adminEmail) {
+                                        $sub->where('admin_email', $adminEmail)
+                                            ->orWhereNull('admin_email');
                                     });
                                 })
                                 ->latest()
