@@ -38,6 +38,7 @@ class LeadConfirmation extends QueuedMail
                 'contactEmail' => $this->lead->admin_email ?: config('venatomar.legal.contact_email'),
                 'accountUrl' => route($accountRoute, ['locale' => $this->lead->locale]),
                 'privacyUrl' => route('legal', ['locale' => $this->lead->locale, 'page' => 'privacy-policy']),
+                'date' => ($this->lead->created_at ?? now())->format('d/m/Y'),
             ],
         );
     }
