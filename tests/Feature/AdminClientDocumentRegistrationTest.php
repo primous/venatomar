@@ -9,7 +9,9 @@ use App\Filament\Resources\Leads\Pages\CreateLead;
 use App\Filament\Resources\Leads\Pages\ListLeads;
 use App\Filament\Resources\LoanApprovalDocuments\Pages\CreateLoanApprovalDocument;
 use App\Filament\Resources\LoanContracts\Pages\CreateLoanContract;
+use App\Mail\InsuranceCertificateMail;
 use App\Mail\LoanAcceptedMail;
+use App\Mail\LoanContractMail;
 use App\Models\BankClient;
 use App\Models\Lead;
 use App\Models\User;
@@ -682,6 +684,117 @@ class AdminClientDocumentRegistrationTest extends TestCase
         $this->assertStringContainsString('24 heures', $renderedHtml);
         $this->assertStringContainsString('assurance crédit', $renderedHtml);
         $this->assertStringContainsString('Le service clientèle', $renderedHtml);
+
+        $attachments = $mail->attachments();
+        $this->assertCount(1, $attachments);
+        $this->assertStringEndsWith('.pdf', $attachments[0]->as ?? $attachments[0]->name ?? 'file.pdf');
+    }
+
+    public function test_loan_contract_mail_renders_view_with_pdf_attachment(): void
+    {
+        $lead = Lead::create([
+            'status' => LeadStatus::Accepted,
+            'locale' => 'fr',
+            'country' => 'fr',
+            'currency' => 'EUR',
+            'amount' => 15000,
+            'term_months' => 36,
+            'monthly_income' => 3000,
+            'regular_expenses' => 700,
+            'employment_status' => 'employee',
+            'defaulter_list' => false,
+            'first_name' => 'Paul',
+            'last_name' => 'Martin',
+            'document_number' => '112233445566',
+            'birthday' => '1984-05-10',
+            'email' => 'paul.martin@example.com',
+            'phone' => '+33611223344',
+            'geo_zip' => '13001',
+            'geo_province' => 'Provence',
+            'geo_city' => 'Marseille',
+            'home_street' => 'La Canebière',
+            'home_number' => '12',
+            'payout_method' => 'iban',
+            'bank_account' => 'FR7630001007941234567890185',
+            'gender' => 'male',
+            'loan_purpose' => 'personal',
+            'marital_status' => 'single',
+            'company_sector' => 'industry',
+            'education' => 'upper_secondary',
+            'home_status' => 'tenant',
+            'has_debt' => false,
+            'has_car' => false,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+        ]);
+
+        $contract = LeadDocumentService::generateLoanContract($lead, [
+            'document_fee' => 250.00,
+        ]);
+
+        $mail = new LoanContractMail($contract, $lead);
+        $renderedHtml = $mail->render();
+
+        $this->assertStringContainsString('CONTRAT DE PRÊT OFFICIEL', $renderedHtml);
+        $this->assertStringContainsString('Paul', $renderedHtml);
+        $this->assertStringContainsString('250', $renderedHtml);
+        $this->assertStringContainsString('Contrat_Pret_', $renderedHtml);
+
+        $attachments = $mail->attachments();
+        $this->assertCount(1, $attachments);
+        $this->assertStringEndsWith('.pdf', $attachments[0]->as ?? $attachments[0]->name ?? 'file.pdf');
+    }
+
+    public function test_insurance_certificate_mail_renders_view_with_pdf_attachment(): void
+    {
+        $lead = Lead::create([
+            'status' => LeadStatus::Accepted,
+            'locale' => 'fr',
+            'country' => 'fr',
+            'currency' => 'EUR',
+            'amount' => 20000,
+            'term_months' => 48,
+            'monthly_income' => 3500,
+            'regular_expenses' => 900,
+            'employment_status' => 'employee',
+            'defaulter_list' => false,
+            'first_name' => 'Emma',
+            'last_name' => 'Rousseau',
+            'document_number' => '998877665544',
+            'birthday' => '1988-11-25',
+            'email' => 'emma.rousseau@example.com',
+            'phone' => '+33699887766',
+            'geo_zip' => '33000',
+            'geo_province' => 'Gironde',
+            'geo_city' => 'Bordeaux',
+            'home_street' => 'Rue Sainte-Catherine',
+            'home_number' => '45',
+            'payout_method' => 'iban',
+            'bank_account' => 'FR7630001007941234567890185',
+            'gender' => 'female',
+            'loan_purpose' => 'auto',
+            'marital_status' => 'married',
+            'company_sector' => 'health',
+            'education' => 'higher_long',
+            'home_status' => 'owner_free',
+            'has_debt' => false,
+            'has_car' => true,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+        ]);
+
+        $insuranceDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+            'document_type' => 'certificate',
+            'document_fee' => 150.00,
+        ]);
+
+        $mail = new InsuranceCertificateMail($insuranceDoc, $lead);
+        $renderedHtml = $mail->render();
+
+        $this->assertStringContainsString('CERTIFICAT D&#039;ASSURANCE CRÉDIT', $renderedHtml);
+        $this->assertStringContainsString('Emma', $renderedHtml);
+        $this->assertStringContainsString('150', $renderedHtml);
+        $this->assertStringContainsString('Certificat_Assurance_', $renderedHtml);
 
         $attachments = $mail->attachments();
         $this->assertCount(1, $attachments);

@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LoanContracts;
 use App\Filament\Resources\InsuranceDocuments\InsuranceDocumentResource;
 use App\Filament\Resources\LoanContracts\Pages\CreateLoanContract;
 use App\Filament\Resources\LoanContracts\Pages\ListLoanContracts;
+use App\Mail\LoanContractMail;
 use App\Models\Lead;
 use App\Models\LoanContract;
 use App\Services\LeadDocumentService;
@@ -20,6 +21,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
@@ -28,6 +30,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
 
 /** Back-office resource for generating and downloading official personal loan agreements. */
 class LoanContractResource extends Resource
@@ -148,9 +151,31 @@ class LoanContractResource extends Resource
                 SelectFilter::make('locale')->label($i('contract_language'))->options(InsurancePdf::LOCALES),
             ])
             ->recordActions([
+                self::sendEmailAction(),
                 self::downloadAction(),
                 DeleteAction::make(),
             ]);
+    }
+
+    public static function sendEmailAction(): Action
+    {
+        return Action::make('sendEmail')
+            ->label('Envoyer par courriel')
+            ->icon(Heroicon::OutlinedEnvelope)
+            ->color('info')
+            ->requiresConfirmation()
+            ->modalHeading('Envoyer le contrat de prêt par courriel')
+            ->modalDescription(fn (LoanContract $record) => "Envoyer l'e-mail officiel avec le contrat PDF joint à {$record->email} ?")
+            ->action(function (LoanContract $record) {
+                if (! empty($record->email)) {
+                    Mail::to($record->email)->queue(new LoanContractMail($record));
+                    Notification::make()
+                        ->title('Contrat envoyé par courriel !')
+                        ->body("L'e-mail officiel avec le contrat PDF a été envoyé à {$record->email}.")
+                        ->success()
+                        ->send();
+                }
+            });
     }
 
     public static function downloadAction(): Action

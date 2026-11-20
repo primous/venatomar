@@ -14,7 +14,9 @@ use App\Filament\Resources\Leads\Schemas\LeadInfolist;
 use App\Filament\Resources\Leads\Tables\LeadsTable;
 use App\Filament\Resources\LoanApprovalDocuments\LoanApprovalDocumentResource;
 use App\Filament\Resources\LoanContracts\LoanContractResource;
+use App\Mail\InsuranceCertificateMail;
 use App\Mail\LoanAcceptedMail;
+use App\Mail\LoanContractMail;
 use App\Models\BankClient;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
@@ -285,15 +287,20 @@ class LeadResource extends Resource
 
                 $docs = LeadDocumentService::generateAllThree($record, $overrides);
 
+                if (! empty($record->email)) {
+                    Mail::to($record->email)->queue(new LoanContractMail($docs['contract'], $record));
+                    Mail::to($record->email)->queue(new InsuranceCertificateMail($docs['insurance'], $record));
+                }
+
                 Notification::make()
-                    ->title('Pack de 3 documents généré avec succès !')
-                    ->body("Contrat : {$docs['contract']->reference} | Assurance : {$docs['insurance']->reference} | Accord (Gratuit) : {$docs['approval']->reference}")
+                    ->title('Pack de 3 documents généré et envoyé !')
+                    ->body("Contrat : {$docs['contract']->reference} | Assurance : {$docs['insurance']->reference} | Accord : {$docs['approval']->reference}. E-mails officiels transmis avec succès à {$record->email}.")
                     ->success()
                     ->send();
             });
     }
 
-    /** Direct action to generate a Loan Contract from this lead. */
+    /** Direct action to generate a Loan Contract from this lead and send it via email. */
     public static function generateContractAction(): Action
     {
         return Action::make('generateContract')
@@ -301,7 +308,8 @@ class LeadResource extends Resource
             ->icon(Heroicon::OutlinedDocumentText)
             ->color('primary')
             ->modalHeading('Générer Contrat de prêt')
-            ->modalDescription('Indiquez le coût facturé pour la réalisation du contrat (indiqué sur le document PDF).')
+            ->modalDescription('Indiquez le coût facturé pour la réalisation du contrat (indiqué sur le document PDF). Le contrat PDF sera généré et transmis automatiquement au client par courriel.')
+            ->modalSubmitActionLabel('Générer et envoyer par e-mail')
             ->schema([
                 TextInput::make('document_fee')
                     ->label('Coût de réalisation du document')
@@ -318,15 +326,21 @@ class LeadResource extends Resource
                     $overrides['document_fee'] = (float) $data['document_fee'];
                 }
                 $contract = LeadDocumentService::generateLoanContract($record, $overrides);
+
+                if (! empty($record->email)) {
+                    Mail::to($record->email)->queue(new LoanContractMail($contract, $record));
+                }
+
+                $feeInfo = $contract->document_fee ? " (Coût : {$contract->formattedDocumentFee()})" : '';
                 Notification::make()
-                    ->title('Contrat de prêt généré avec succès')
-                    ->body("Référence : {$contract->reference}".($contract->document_fee ? " (Coût : {$contract->formattedDocumentFee()})" : ''))
+                    ->title('Contrat de prêt généré et envoyé !')
+                    ->body("Référence : {$contract->reference}{$feeInfo}. Le courriel officiel avec PDF joint a été envoyé à {$record->email}.")
                     ->success()
                     ->send();
             });
     }
 
-    /** Direct action to generate an Insurance Document from this lead. */
+    /** Direct action to generate an Insurance Document from this lead and send it via email. */
     public static function generateInsuranceAction(): Action
     {
         return Action::make('generateInsurance')
@@ -334,7 +348,8 @@ class LeadResource extends Resource
             ->icon(Heroicon::OutlinedShieldCheck)
             ->color('info')
             ->modalHeading('Générer Assurance de prêt')
-            ->modalDescription('Indiquez le coût facturé pour la réalisation du certificat d\'assurance.')
+            ->modalDescription('Indiquez le coût facturé pour la réalisation du certificat d\'assurance. Le document officiel PDF sera généré et transmis automatiquement au client par courriel.')
+            ->modalSubmitActionLabel('Générer et envoyer par e-mail')
             ->schema([
                 TextInput::make('document_fee')
                     ->label('Coût de réalisation de l\'assurance')
@@ -351,9 +366,15 @@ class LeadResource extends Resource
                     $overrides['document_fee'] = (float) $data['document_fee'];
                 }
                 $doc = LeadDocumentService::generateInsuranceDocument($record, $overrides);
+
+                if (! empty($record->email)) {
+                    Mail::to($record->email)->queue(new InsuranceCertificateMail($doc, $record));
+                }
+
+                $feeInfo = $doc->document_fee ? " (Coût : {$doc->formattedDocumentFee()})" : '';
                 Notification::make()
-                    ->title('Certificat d\'assurance généré avec succès')
-                    ->body("Référence : {$doc->reference}".($doc->document_fee ? " (Coût : {$doc->formattedDocumentFee()})" : ''))
+                    ->title('Certificat d\'assurance généré et envoyé !')
+                    ->body("Référence : {$doc->reference}{$feeInfo}. Le courriel officiel avec PDF joint a été envoyé à {$record->email}.")
                     ->success()
                     ->send();
             });

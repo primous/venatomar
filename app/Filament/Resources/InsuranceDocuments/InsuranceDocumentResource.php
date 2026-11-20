@@ -4,6 +4,8 @@ namespace App\Filament\Resources\InsuranceDocuments;
 
 use App\Filament\Resources\InsuranceDocuments\Pages\CreateInsuranceDocument;
 use App\Filament\Resources\InsuranceDocuments\Pages\ListInsuranceDocuments;
+use App\Mail\InsuranceCertificateMail;
+use App\Mail\LoanAcceptedMail;
 use App\Models\InsuranceDocument;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
@@ -18,6 +20,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
@@ -26,6 +29,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
 
 /** Personalised credit-insurance certificate and information sheets (PDF), in the selected language. */
 class InsuranceDocumentResource extends Resource
@@ -167,9 +171,35 @@ class InsuranceDocumentResource extends Resource
                 ]),
             ])
             ->recordActions([
+                self::sendEmailAction(),
                 self::downloadAction(),
                 DeleteAction::make(),
             ]);
+    }
+
+    public static function sendEmailAction(): Action
+    {
+        return Action::make('sendEmail')
+            ->label('Envoyer par courriel')
+            ->icon(Heroicon::OutlinedEnvelope)
+            ->color('info')
+            ->requiresConfirmation()
+            ->modalHeading('Envoyer le document d\'assurance par courriel')
+            ->modalDescription(fn (InsuranceDocument $record) => "Envoyer l'e-mail officiel avec le document PDF joint à {$record->email} ?")
+            ->action(function (InsuranceDocument $record) {
+                if (! empty($record->email)) {
+                    if ($record->document_type === 'information' && $record->lead) {
+                        Mail::to($record->email)->queue(new LoanAcceptedMail($record->lead, $record));
+                    } else {
+                        Mail::to($record->email)->queue(new InsuranceCertificateMail($record));
+                    }
+                    Notification::make()
+                        ->title('Document d\'assurance envoyé par courriel !')
+                        ->body("L'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
+                        ->success()
+                        ->send();
+                }
+            });
     }
 
     public static function downloadAction(): Action
