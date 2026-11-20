@@ -677,6 +677,7 @@
     "mail.portal.password": "Začetno geslo",
     "mail.portal.initial_balance": "Začetno razpoložljivo stanje",
     "mail.portal.btn_access": "Dostop do mojega računa",
+    "mail.portal.link_fallback": "Če gumb ne deluje, kopirajte in prilepite to povezavo v svoj brskalnik:",
     "mail.portal.security_notice_title": "Varnostna priporočila:",
     "mail.portal.security_notice_1": "Zaradi varnosti priporočamo, da ob prvi prijavi spremenite geslo.",
     "mail.portal.security_notice_2": "Nikoli ne delite svojih prijavnih podatkov ali varnostnih kod s tretjimi osebami.",

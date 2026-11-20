@@ -12,15 +12,23 @@ use Illuminate\Mail\Mailables\Envelope;
 class BankClientStatusChangedMail extends QueuedMail
 {
     public string $status;
+    public string $loginUrl;
 
     public function __construct(
         public BankClient $client,
         string $status = 'active',
         public ?string $reason = null,
-        ?string $newStatus = null
+        ?string $newStatus = null,
+        ?string $loginUrl = null
     ) {
         $this->status = $newStatus ?? $status;
-        $this->locale($client->locale ?: 'es');
+        $locale = $client->locale ?: 'es';
+        $this->locale($locale);
+
+        $adminEmail = $client->admin_email ?: config('venatomar.legal.contact_email');
+        $accountRoute = ($locale === 'es' || $adminEmail === 'contact@venatomar.com') ? 'solicitar.account' : 'account';
+
+        $this->loginUrl = $loginUrl ?: route($accountRoute, ['locale' => $locale]);
     }
 
     public function envelope(): Envelope
@@ -34,7 +42,6 @@ class BankClientStatusChangedMail extends QueuedMail
     {
         $locale = $this->client->locale ?: 'es';
         $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
-        $accountRoute = $adminEmail === 'contact@venatomar.com' ? 'solicitar.account' : 'account';
 
         return new Content(
             view: 'mail.bank-client-status-changed',
@@ -46,7 +53,7 @@ class BankClientStatusChangedMail extends QueuedMail
                 'isFrozen' => $this->status === 'frozen',
                 'isActive' => $this->status === 'active',
                 'reason' => $this->reason,
-                'loginUrl' => route($accountRoute, ['locale' => $locale]),
+                'loginUrl' => $this->loginUrl,
                 'contactEmail' => $adminEmail,
                 'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
             ],

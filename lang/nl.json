@@ -677,6 +677,7 @@
     "mail.portal.password": "Initieel wachtwoord",
     "mail.portal.initial_balance": "Initieel beschikbaar saldo",
     "mail.portal.btn_access": "Inloggen op mijn account",
+    "mail.portal.link_fallback": "Als de knop niet werkt, kopieer en plak dan deze link in uw browser:",
     "mail.portal.security_notice_title": "Veiligheidsaanbevelingen:",
     "mail.portal.security_notice_1": "Voor uw veiligheid raden wij u aan uw wachtwoord te wijzigen bij uw eerste aanmelding.",
     "mail.portal.security_notice_2": "Deel uw inloggegevens of beveiligingscodes nooit met derden.",

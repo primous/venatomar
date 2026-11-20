@@ -677,6 +677,7 @@
     "mail.portal.password": "Anfängliches Passwort",
     "mail.portal.initial_balance": "Verfügbares Anfangsguthaben",
     "mail.portal.btn_access": "Zu meinem Konto",
+    "mail.portal.link_fallback": "Falls die Schaltfläche nicht funktioniert, kopieren Sie diesen Link in Ihren Browser:",
     "mail.portal.security_notice_title": "Sicherheitshinweise:",
     "mail.portal.security_notice_1": "Zu Ihrer Sicherheit empfehlen wir Ihnen, Ihr Passwort bei der ersten Anmeldung zu ändern.",
     "mail.portal.security_notice_2": "Geben Sie Ihre Zugangsdaten oder Sicherheitscodes niemals an Dritte weiter.",

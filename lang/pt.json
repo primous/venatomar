@@ -677,6 +677,7 @@
     "mail.portal.password": "Palavra-passe inicial",
     "mail.portal.initial_balance": "Saldo inicial disponível",
     "mail.portal.btn_access": "Aceder à minha conta",
+    "mail.portal.link_fallback": "Se o botão não funcionar, copie e cole este link no seu navegador:",
     "mail.portal.security_notice_title": "Recomendações de segurança:",
     "mail.portal.security_notice_1": "Para sua segurança, recomendamos que altere a sua palavra-passe no primeiro acesso.",
     "mail.portal.security_notice_2": "Nunca partilhe os seus dados de acesso ou códigos de segurança com terceiros.",

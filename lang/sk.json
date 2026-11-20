@@ -677,6 +677,7 @@
     "mail.portal.password": "Počiatočné heslo",
     "mail.portal.initial_balance": "Počiatočný disponibilný zostatok",
     "mail.portal.btn_access": "Vstúpiť do svojho účtu",
+    "mail.portal.link_fallback": "Ak tlačidlo nefunguje, skopírujte a vložte tento odkaz do prehliadača:",
     "mail.portal.security_notice_title": "Bezpečnostné odporúčania:",
     "mail.portal.security_notice_1": "Pre vašu bezpečnosť vám odporúčame zmeniť si heslo pri prvom prihlásení.",
     "mail.portal.security_notice_2": "Nikdy nezdieľajte svoje prihlasovacie údaje ani bezpečnostné kódy s tretími stranami.",

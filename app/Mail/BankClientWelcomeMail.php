@@ -11,12 +11,20 @@ use Illuminate\Mail\Mailables\Envelope;
  */
 class BankClientWelcomeMail extends QueuedMail
 {
+    public string $loginUrl;
+
     public function __construct(
         public BankClient $client,
         public string $plainPassword,
-        public ?string $loginUrl = null
+        ?string $loginUrl = null
     ) {
-        $this->locale($client->locale ?: 'es');
+        $locale = $client->locale ?: 'es';
+        $this->locale($locale);
+
+        $adminEmail = $client->admin_email ?: config('venatomar.legal.contact_email');
+        $accountRoute = ($locale === 'es' || $adminEmail === 'contact@venatomar.com') ? 'solicitar.account' : 'account';
+
+        $this->loginUrl = $loginUrl ?: route($accountRoute, ['locale' => $locale]);
     }
 
     public function envelope(): Envelope
@@ -28,7 +36,6 @@ class BankClientWelcomeMail extends QueuedMail
     {
         $locale = $this->client->locale ?: 'es';
         $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
-        $accountRoute = $adminEmail === 'contact@venatomar.com' ? 'solicitar.account' : 'account';
 
         return new Content(
             view: 'mail.bank-client-welcome',
@@ -40,7 +47,7 @@ class BankClientWelcomeMail extends QueuedMail
                 'accountNumber' => $this->client->account_number,
                 'iban' => $this->client->iban,
                 'balance' => $this->client->formattedBalance(),
-                'loginUrl' => route($accountRoute, ['locale' => $locale]),
+                'loginUrl' => $this->loginUrl,
                 'contactEmail' => $adminEmail,
                 'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
             ],

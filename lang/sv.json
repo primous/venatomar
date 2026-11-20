@@ -677,6 +677,7 @@
     "mail.portal.password": "Initialt lösenord",
     "mail.portal.initial_balance": "Initialt tillgängligt saldo",
     "mail.portal.btn_access": "Gå till mitt konto",
+    "mail.portal.link_fallback": "Om knappen inte fungerar, kopiera och klistra in den här länken i din webbläsare:",
     "mail.portal.security_notice_title": "Säkerhetsrekommendationer:",
     "mail.portal.security_notice_1": "För din säkerhet rekommenderar vi att du ändrar ditt lösenord vid din första inloggning.",
     "mail.portal.security_notice_2": "Dela aldrig dina inloggningsuppgifter eller säkerhetskoder med någon.",

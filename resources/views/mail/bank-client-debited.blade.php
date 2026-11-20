@@ -37,11 +37,19 @@
         </tr>
     </table>
 
-    <div style="text-align:center;margin:28px 0 32px;">
-        <a href="{{ $loginUrl }}" style="display:inline-block;padding:14px 32px;background:#0FA57E;color:#FFFFFF;text-decoration:none;border-radius:12px;font-family:Manrope,Segoe UI,Helvetica,Arial,sans-serif;font-weight:700;font-size:15px;box-shadow:0 4px 12px rgba(15,165,126,0.25);">
-            {{ __('mail.portal.btn_access') }} →
-        </a>
-    </div>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="margin:28px auto 14px;text-align:center;">
+        <tr>
+            <td align="center" style="border-radius:12px;background:#0FA57E;">
+                <a href="{{ $loginUrl }}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:14px 32px;font-family:Manrope,Segoe UI,Helvetica,Arial,sans-serif;font-weight:700;font-size:15px;color:#FFFFFF;text-decoration:none;border-radius:12px;background:#0FA57E;border:1px solid #0FA57E;">
+                    {{ __('mail.portal.btn_access') }} &rarr;
+                </a>
+            </td>
+        </tr>
+    </table>
+    <p style="margin:0 0 28px;text-align:center;font-size:12px;line-height:1.4;color:#5B6B82;">
+        {{ __('mail.portal.link_fallback') }}<br>
+        <a href="{{ $loginUrl }}" target="_blank" rel="noopener noreferrer" style="color:#0A5E4E;word-break:break-all;text-decoration:underline;font-weight:600;">{{ $loginUrl }}</a>
+    </p>
 
     <div style="margin:24px 0 0;font-size:15px;line-height:1.6;color:#24324A;">
         <p style="margin:0;">{{ __('mail.accepted.closing') }}</p>

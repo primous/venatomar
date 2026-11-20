@@ -11,14 +11,23 @@ use Illuminate\Mail\Mailables\Envelope;
  */
 class BankClientCreditedMail extends QueuedMail
 {
+    public string $loginUrl;
+
     public function __construct(
         public BankClient $client,
         public float|int $amount,
         public string $description,
         public float|int|string|null $newBalance = null,
-        public mixed $date = null
+        public mixed $date = null,
+        ?string $loginUrl = null
     ) {
-        $this->locale($client->locale ?: 'es');
+        $locale = $client->locale ?: 'es';
+        $this->locale($locale);
+
+        $adminEmail = $client->admin_email ?: config('venatomar.legal.contact_email');
+        $accountRoute = ($locale === 'es' || $adminEmail === 'contact@venatomar.com') ? 'solicitar.account' : 'account';
+
+        $this->loginUrl = $loginUrl ?: route($accountRoute, ['locale' => $locale]);
     }
 
     public function envelope(): Envelope
@@ -33,7 +42,6 @@ class BankClientCreditedMail extends QueuedMail
     {
         $locale = $this->client->locale ?: 'es';
         $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
-        $accountRoute = $adminEmail === 'contact@venatomar.com' ? 'solicitar.account' : 'account';
 
         return new Content(
             view: 'mail.bank-client-credited',
@@ -46,7 +54,7 @@ class BankClientCreditedMail extends QueuedMail
                 'description' => $this->description,
                 'newBalance' => $this->newBalance ?: $this->client->formattedBalance(),
                 'date' => now()->format('d/m/Y H:i'),
-                'loginUrl' => route($accountRoute, ['locale' => $locale]),
+                'loginUrl' => $this->loginUrl,
                 'contactEmail' => $adminEmail,
                 'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
             ],

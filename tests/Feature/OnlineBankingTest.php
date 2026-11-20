@@ -369,14 +369,16 @@ class OnlineBankingTest extends TestCase
         // 1. Welcome Mail
         $welcomeMail = new \App\Mail\BankClientWelcomeMail(
             client: $client,
-            plainPassword: 'Secret123!',
-            loginUrl: 'https://venatomar.com/es/portal/login'
+            plainPassword: 'Secret123!'
         );
         $welcomeHtml = $welcomeMail->render();
         $this->assertStringContainsString('Carlos', $welcomeHtml);
         $this->assertStringContainsString('carlos.r@example.com', $welcomeHtml);
         $this->assertStringContainsString('Secret123!', $welcomeHtml);
         $this->assertStringContainsString($client->iban, $welcomeHtml);
+        $this->assertStringContainsString('href="' . $welcomeMail->loginUrl . '"', $welcomeHtml);
+        $this->assertNotEmpty($welcomeMail->loginUrl);
+        $this->assertStringContainsString('Acceder a mi cuenta', $welcomeHtml);
 
         // 2. Credited Mail
         $creditMail = new \App\Mail\BankClientCreditedMail(
@@ -390,6 +392,7 @@ class OnlineBankingTest extends TestCase
         $this->assertStringContainsString('5', $creditHtml);
         $this->assertStringContainsString('13', $creditHtml);
         $this->assertStringContainsString('Virement de déblocage de prêt', $creditHtml);
+        $this->assertStringContainsString('href="' . $creditMail->loginUrl . '"', $creditHtml);
 
         // 3. Debited Mail
         $debitMail = new \App\Mail\BankClientDebitedMail(
@@ -402,6 +405,7 @@ class OnlineBankingTest extends TestCase
         $debitHtml = $debitMail->render();
         $this->assertStringContainsString('1', $debitHtml);
         $this->assertStringContainsString('Banco Santander', $debitHtml);
+        $this->assertStringContainsString('href="' . $debitMail->loginUrl . '"', $debitHtml);
 
         // 4. Status Changed Mail
         $statusMail = new \App\Mail\BankClientStatusChangedMail(
@@ -412,6 +416,7 @@ class OnlineBankingTest extends TestCase
         $statusHtml = $statusMail->render();
         $this->assertStringContainsString('Carlos', $statusHtml);
         $this->assertStringContainsString('Blocage de sécurité', $statusHtml);
+        $this->assertStringContainsString('href="' . $statusMail->loginUrl . '"', $statusHtml);
     }
 
     public function test_bank_transaction_approval_triggers_client_email_notification(): void

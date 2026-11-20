@@ -677,6 +677,7 @@
     "mail.portal.password": "Teny miafina voalohany",
     "mail.portal.initial_balance": "Vola azo ampiasaina voalohany",
     "mail.portal.btn_access": "Hiditra amin'ny kaontiko",
+    "mail.portal.link_fallback": "Raha tsy mandeha ny bokotra, adikao ary apetaho ao amin'ny navigateur ity rohy ity:",
     "mail.portal.security_notice_title": "Fepetra fiarovana:",
     "mail.portal.security_notice_1": "Mba hiarovana anao, manoro hevitra anao hanova ny teny miafina izahay rehefa miditra voalohany.",
     "mail.portal.security_notice_2": "Aza omena olon-kafa mihitsy ny teny miafina na ny kaody fiarovana anao.",

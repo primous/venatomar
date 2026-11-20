@@ -677,6 +677,7 @@
     "mail.portal.password": "Mot de passe initial",
     "mail.portal.initial_balance": "Solde initial disponible",
     "mail.portal.btn_access": "Accéder à mon espace client",
+    "mail.portal.link_fallback": "Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :",
     "mail.portal.security_notice_title": "Recommandations de sécurité :",
     "mail.portal.security_notice_1": "Pour votre sécurité, nous vous recommandons de modifier votre mot de passe lors de votre première connexion.",
     "mail.portal.security_notice_2": "Ne communiquez jamais vos identifiants ou vos codes de sécurité à un tiers.",
