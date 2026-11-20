@@ -23,9 +23,10 @@ class HomeDesignTest extends TestCase
     public function test_calculator_uses_currency_defaults_while_bounds_are_placeholders(): void
     {
         $this->get('/es')->assertOk()
-            ->assertSee('id="calc-amount"', false)->assertSee('min="100" max="5000"', false)
-            ->assertSee("Solicitar 1.400\u{a0}€", false);
-        $this->get('/mg')->assertOk()->assertSee('min="100000" max="5000000"', false);
+            ->assertSee('id="calc-amount"', false)->assertSee('min="1000" max="70000"', false)
+            ->assertSee('id="calc-term"', false)->assertSee('min="3" max="120"', false)
+            ->assertSee("Solicitar 10.000\u{a0}€", false);
+        $this->get('/mg')->assertOk()->assertSee('min="100000" max="5000000"', false)->assertSee('min="3" max="120"', false);
     }
 
     public function test_calculator_uses_configured_bounds_only(): void

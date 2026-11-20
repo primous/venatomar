@@ -66,11 +66,11 @@ return [
     | Values from the client's mock-up, confirmed by the client on 2026-11-16.
     */
     'calculator' => [
-        'EUR' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
-        'USD' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
-        'UYU' => ['amount_min' => 5000, 'amount_max' => 200000, 'amount_step' => 1000, 'amount_default' => 50000, 'term_min' => 3, 'term_max' => 24, 'term_default' => 12],
-        'GBP' => ['amount_min' => 100, 'amount_max' => 5000, 'amount_step' => 50, 'amount_default' => 1400, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
-        'MGA' => ['amount_min' => 100000, 'amount_max' => 5000000, 'amount_step' => 50000, 'amount_default' => 1400000, 'term_min' => 3, 'term_max' => 12, 'term_default' => 7],
+        'EUR' => ['amount_min' => 1000, 'amount_max' => 70000, 'amount_step' => 500, 'amount_default' => 10000, 'term_min' => 3, 'term_max' => 120, 'term_default' => 24],
+        'USD' => ['amount_min' => 1000, 'amount_max' => 70000, 'amount_step' => 500, 'amount_default' => 10000, 'term_min' => 3, 'term_max' => 120, 'term_default' => 24],
+        'UYU' => ['amount_min' => 5000, 'amount_max' => 200000, 'amount_step' => 1000, 'amount_default' => 50000, 'term_min' => 3, 'term_max' => 120, 'term_default' => 24],
+        'GBP' => ['amount_min' => 1000, 'amount_max' => 70000, 'amount_step' => 500, 'amount_default' => 10000, 'term_min' => 3, 'term_max' => 120, 'term_default' => 24],
+        'MGA' => ['amount_min' => 100000, 'amount_max' => 5000000, 'amount_step' => 50000, 'amount_default' => 1400000, 'term_min' => 3, 'term_max' => 120, 'term_default' => 24],
     ],
 
     'loan' => [
