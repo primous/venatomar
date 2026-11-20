@@ -48,6 +48,12 @@
             <td style="padding:6px 20px;color:#5B6B82;">- {{ __('mail.confirmation.term') }} :</td>
             <td style="padding:6px 20px;text-align:right;font-weight:700;color:#0B1F3A;">{{ trans_choice('form.months', $term, ['count' => $term]) }}</td>
         </tr>
+        @if(!empty($documentFee))
+        <tr>
+            <td style="padding:6px 20px;color:#5B6B82;">- {{ __('mail.accepted.document_fee') }} :</td>
+            <td style="padding:6px 20px;text-align:right;font-weight:700;color:#0B1F3A;">{{ $documentFee }}</td>
+        </tr>
+        @endif
         <tr>
             <td style="padding:6px 20px 14px;color:#5B6B82;">- {{ __('mail.accepted.attached_document') }} :</td>
             <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">{{ $docReference ?: $reference }}.pdf</td>

@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Lep pozdrav,",
     "mail.accepted.service": "Služba za pomoč strankam",
     "mail.accepted.badge": "VLOGA SPREJETA IN POTRJENA",
-    "mail.accepted.attached_document": "Priložen uradni dokument: Informativni list o zavarovanju kredita"
+    "mail.accepted.attached_document": "Priložen uradni dokument: Informativni list o zavarovanju kredita",
+    "mail.accepted.document_fee": "Stroški izdaje dokumenta"
 }

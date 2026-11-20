@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Cordialement,",
     "mail.accepted.service": "Le service clientèle",
     "mail.accepted.badge": "DEMANDE ACCEPTÉE ET VALIDÉE",
-    "mail.accepted.attached_document": "Document officiel joint : Fiche d'information d'assurance crédit"
+    "mail.accepted.attached_document": "Document officiel joint : Fiche d'information d'assurance crédit",
+    "mail.accepted.document_fee": "Frais de réalisation du document"
 }

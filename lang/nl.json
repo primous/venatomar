@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Met vriendelijke groet,",
     "mail.accepted.service": "De klantenservice",
     "mail.accepted.badge": "AANVRAAG GEACCEPTEERD EN GEVALIDEERD",
-    "mail.accepted.attached_document": "Officieel document bijgevoegd: Informatieblad kredietverzekering"
+    "mail.accepted.attached_document": "Officieel document bijgevoegd: Informatieblad kredietverzekering",
+    "mail.accepted.document_fee": "Documentuitgiftekosten"
 }

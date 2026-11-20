@@ -635,5 +635,6 @@
     "mail.accepted.closing": "S pozdravom,",
     "mail.accepted.service": "Zákaznícky servis",
     "mail.accepted.badge": "ŽIADOSŤ PRIJATÁ A SCHVÁLENÁ",
-    "mail.accepted.attached_document": "Priložený oficiálny dokument: Informačný list o poistení úveru"
+    "mail.accepted.attached_document": "Priložený oficiálny dokument: Informačný list o poistení úveru",
+    "mail.accepted.document_fee": "Poplatok za vystavenie dokumentu"
 }

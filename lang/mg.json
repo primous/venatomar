@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Fiarahabana finaritra,",
     "mail.accepted.service": "Ny tolotra mpanjifa",
     "mail.accepted.badge": "FANGATAHANA NEIKY SY NOHAMARININA",
-    "mail.accepted.attached_document": "Taratasy ofisialy miaraka aminy: Fampahafantarana momba ny fiantohana trosa"
+    "mail.accepted.attached_document": "Taratasy ofisialy miaraka aminy: Fampahafantarana momba ny fiantohana trosa",
+    "mail.accepted.document_fee": "Saram-pamokarana ny taratasy"
 }

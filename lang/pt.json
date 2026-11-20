@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Com os melhores cumprimentos,",
     "mail.accepted.service": "O serviço de apoio ao cliente",
     "mail.accepted.badge": "PEDIDO ACEITE E VALIDADO",
-    "mail.accepted.attached_document": "Documento oficial em anexo: Ficha de informação do seguro de crédito"
+    "mail.accepted.attached_document": "Documento oficial em anexo: Ficha de informação do seguro de crédito",
+    "mail.accepted.document_fee": "Custos de formalização do documento"
 }

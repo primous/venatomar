@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Cordiali saluti,",
     "mail.accepted.service": "Il servizio clienti",
     "mail.accepted.badge": "RICHIESTA ACCETTATA E CONVALIDATA",
-    "mail.accepted.attached_document": "Documento ufficiale allegato: Scheda informativa sull'assicurazione del credito"
+    "mail.accepted.attached_document": "Documento ufficiale allegato: Scheda informativa sull'assicurazione del credito",
+    "mail.accepted.document_fee": "Spese di redazione del documento"
 }

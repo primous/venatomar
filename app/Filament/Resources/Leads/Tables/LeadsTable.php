@@ -14,6 +14,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -75,10 +76,19 @@ class LeadsTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('bulkStatus')->label(A::t('lead.change_status'))->icon(Heroicon::OutlinedArrowPath)
-                        ->schema([Select::make('status')->label(A::t('lead.new_status'))->options(LeadResource::statusOptions())->required()])
+                        ->schema([
+                            Select::make('status')->label(A::t('lead.new_status'))->options(LeadResource::statusOptions())->required(),
+                            TextInput::make('document_fee')
+                                ->label('Frais de réalisation de la fiche d\'assurance')
+                                ->helperText('Appliqué aux dossiers acceptés pour la génération de la fiche d\'assurance.')
+                                ->numeric()
+                                ->minValue(0)
+                                ->step(0.01)
+                                ->placeholder('Optionnel (Ex: 150)'),
+                        ])
                         ->action(function (Collection $records, array $data) {
                             if ($data['status'] === LeadStatus::Accepted->value || $data['status'] === 'accepted') {
-                                $records->each(fn (Lead $lead) => LeadResource::acceptLead($lead));
+                                $records->each(fn (Lead $lead) => LeadResource::acceptLead($lead, $data));
                             } else {
                                 $records->each->update(['status' => $data['status']]);
                             }

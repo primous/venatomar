@@ -6,6 +6,9 @@
 - {!! __('mail.confirmation.reference') !!} : {!! $reference !!}
 - {!! __('mail.confirmation.amount') !!} : {!! PF::money($amount, $country) !!}
 - {!! __('mail.confirmation.term') !!} : {!! trans_choice('form.months', $term, ['count' => $term]) !!}
+@if(!empty($documentFee))
+- {!! __('mail.accepted.document_fee') !!} : {!! $documentFee !!}
+@endif
 - {!! __('mail.accepted.attached_document') !!} : {!! $docReference ?: $reference !!}.pdf
 
 {!! __('mail.accepted.document_notice') !!}

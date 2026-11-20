@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Με εκτίμηση,",
     "mail.accepted.service": "Η εξυπηρέτηση πελατών",
     "mail.accepted.badge": "ΑΙΤΗΣΗ ΕΓΚΡΙΘΗΚΕ ΚΑΙ ΕΠΙΚΥΡΩΘΗΚΕ",
-    "mail.accepted.attached_document": "Συνημμένο επίσημο έγγραφο: Ενημερωτικό δελτίο ασφάλισης πίστωσης"
+    "mail.accepted.attached_document": "Συνημμένο επίσημο έγγραφο: Ενημερωτικό δελτίο ασφάλισης πίστωσης",
+    "mail.accepted.document_fee": "Έξοδα έκδοσης εγγράφου"
 }

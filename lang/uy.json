@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Cordialmente,",
     "mail.accepted.service": "El servicio de atención al cliente",
     "mail.accepted.badge": "SOLICITUD ACEPTADA Y VALIDADA",
-    "mail.accepted.attached_document": "Documento oficial adjunto: Ficha de información de seguro de crédito"
+    "mail.accepted.attached_document": "Documento oficial adjunto: Ficha de información de seguro de crédito",
+    "mail.accepted.document_fee": "Gastos de formalización del documento"
 }

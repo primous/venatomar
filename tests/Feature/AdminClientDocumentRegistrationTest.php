@@ -612,18 +612,24 @@ class AdminClientDocumentRegistrationTest extends TestCase
             'consent_version' => '1.0',
         ]);
 
-        $res = LeadResource::acceptLead($lead);
+        $res = LeadResource::acceptLead($lead, ['document_fee' => 175.00]);
 
         $this->assertSame(LeadStatus::Accepted, $lead->fresh()->status);
         $this->assertNotNull($res['insurance']);
         $this->assertSame('information', $res['insurance']->document_type);
         $this->assertSame('Jean', $res['insurance']->first_name);
         $this->assertSame('Dupont', $res['insurance']->last_name);
+        $this->assertEquals(175.00, (float) $res['insurance']->document_fee);
+
+        $pdf = InsurancePdf::render($res['insurance'], 'information');
+        $this->assertStringContainsString('175', $pdf);
 
         Mail::assertQueued(LoanAcceptedMail::class, function (LoanAcceptedMail $mail) use ($lead) {
+            $rendered = $mail->render();
             return $mail->lead->id === $lead->id
                 && $mail->insuranceDocument->document_type === 'information'
-                && $mail->hasTo($lead->email);
+                && $mail->hasTo($lead->email)
+                && str_contains($rendered, '175');
         });
     }
 

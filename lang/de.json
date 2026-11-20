@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Mit freundlichen Grüßen,",
     "mail.accepted.service": "Der Kundenservice",
     "mail.accepted.badge": "ANTRAG ANGENOMMEN UND VALIDIERT",
-    "mail.accepted.attached_document": "Offizielles Dokument im Anhang: Informationsblatt zur Restkreditversicherung"
+    "mail.accepted.attached_document": "Offizielles Dokument im Anhang: Informationsblatt zur Restkreditversicherung",
+    "mail.accepted.document_fee": "Dokumentenausstellungsgebühr"
 }

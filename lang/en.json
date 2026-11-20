@@ -635,5 +635,6 @@
     "mail.accepted.closing": "Best regards,",
     "mail.accepted.service": "Customer Service",
     "mail.accepted.badge": "APPLICATION ACCEPTED AND VALIDATED",
-    "mail.accepted.attached_document": "Official document attached: Credit Insurance Information Sheet"
+    "mail.accepted.attached_document": "Official document attached: Credit Insurance Information Sheet",
+    "mail.accepted.document_fee": "Document issuance fee"
 }

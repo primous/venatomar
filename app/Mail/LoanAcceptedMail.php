@@ -38,6 +38,9 @@ class LoanAcceptedMail extends QueuedMail
                 'firstName' => $this->lead->first_name,
                 'reference' => $this->lead->reference,
                 'docReference' => $this->insuranceDocument->reference,
+                'documentFee' => ($this->insuranceDocument->document_fee && (float) $this->insuranceDocument->document_fee > 0)
+                    ? $this->insuranceDocument->formattedDocumentFee()
+                    : null,
                 'amount' => $this->lead->amount,
                 'term' => $this->lead->term_months,
                 'country' => $this->lead->countryInfo(),

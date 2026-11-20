@@ -26,6 +26,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -127,11 +128,13 @@ class LeadResource extends Resource
 
     /**
      * Accepts a lead: updates status to Accepted, ensures the personalised credit
-     * insurance information sheet is generated, and queues the official notification email with PDF.
+     * insurance information sheet is generated with document_fee, and queues the official notification email with PDF.
      */
-    public static function acceptLead(Lead $lead): array
+    public static function acceptLead(Lead $lead, array $options = []): array
     {
         $lead->update(['status' => LeadStatus::Accepted]);
+
+        $fee = isset($options['document_fee']) && $options['document_fee'] !== '' ? (float) $options['document_fee'] : null;
 
         // Find existing or generate new personalised insurance information document
         $insuranceDoc = $lead->insuranceDocuments()
@@ -140,9 +143,12 @@ class LeadResource extends Resource
             ->first();
 
         if (! $insuranceDoc) {
-            $insuranceDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+            $insuranceDoc = LeadDocumentService::generateInsuranceDocument($lead, array_filter([
                 'document_type' => 'information',
-            ]);
+                'document_fee' => $fee,
+            ], fn ($v) => $v !== null));
+        } elseif ($fee !== null) {
+            $insuranceDoc->update(['document_fee' => $fee]);
         }
 
         Mail::to($lead->email)->queue(new LoanAcceptedMail($lead, $insuranceDoc));
@@ -159,16 +165,27 @@ class LeadResource extends Resource
             ->label('Accepter la demande')
             ->icon(Heroicon::OutlinedCheckCircle)
             ->color('success')
-            ->requiresConfirmation()
             ->modalHeading('Accepter et valider cette demande de prêt')
-            ->modalDescription('La demande passera au statut « Acceptée ». La fiche d\'information personnalisée d\'assurance sera automatiquement générée et l\'e-mail officiel d\'acceptation sera envoyé au client avec le document PDF joint.')
-            ->modalSubmitActionLabel('Oui, accepter et envoyer le mail')
+            ->modalDescription('La demande passera au statut « Acceptée ». Renseignez les frais de réalisation de la fiche d\'information d\'assurance. Le document officiel PDF sera automatiquement généré avec ce montant et transmis par courriel au client.')
+            ->modalSubmitActionLabel('Accepter et envoyer le courriel')
+            ->schema([
+                TextInput::make('document_fee')
+                    ->label('Frais de réalisation de la fiche d\'assurance')
+                    ->helperText('Ce montant sera mentionné sur la fiche officielle d\'assurance et dans le courriel envoyé au client.')
+                    ->numeric()
+                    ->minValue(0)
+                    ->step(0.01)
+                    ->suffix(fn (Lead $record) => $record->currency ?: 'EUR')
+                    ->placeholder('Ex: 150')
+                    ->default(fn (Lead $record) => $record->insuranceDocuments()->where('document_type', 'information')->latest()->first()?->document_fee),
+            ])
             ->visible(fn (Lead $record) => $record->status !== LeadStatus::Accepted)
-            ->action(function (Lead $record) {
-                $result = self::acceptLead($record);
+            ->action(function (Lead $record, array $data) {
+                $result = self::acceptLead($record, $data);
+                $feeInfo = ! empty($data['document_fee']) ? " (Frais : {$result['insurance']->formattedDocumentFee()})" : "";
                 Notification::make()
                     ->title('Demande acceptée avec succès !')
-                    ->body("La fiche d'information ({$result['insurance']->reference}) a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
+                    ->body("La fiche d'information ({$result['insurance']->reference}){$feeInfo} a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
                     ->success()
                     ->send();
             });
@@ -179,16 +196,34 @@ class LeadResource extends Resource
         return Action::make('changeStatus')
             ->label(A::t('lead.change_status'))
             ->icon(Heroicon::OutlinedArrowPath)
-            ->fillForm(fn (Lead $record) => ['status' => $record->status->value])
+            ->fillForm(fn (Lead $record) => [
+                'status' => $record->status->value,
+                'document_fee' => $record->insuranceDocuments()->where('document_type', 'information')->latest()->first()?->document_fee,
+            ])
             ->schema([
-                Select::make('status')->label(A::t('lead.new_status'))->options(self::statusOptions())->required()->native(false),
+                Select::make('status')
+                    ->label(A::t('lead.new_status'))
+                    ->options(self::statusOptions())
+                    ->required()
+                    ->native(false)
+                    ->live(),
+                TextInput::make('document_fee')
+                    ->label('Frais de réalisation de la fiche d\'assurance')
+                    ->helperText('Si vous acceptez la demande, ce montant apparaîtra sur la fiche officielle et dans le courriel.')
+                    ->numeric()
+                    ->minValue(0)
+                    ->step(0.01)
+                    ->suffix(fn (Lead $record) => $record->currency ?: 'EUR')
+                    ->placeholder('Ex: 150')
+                    ->visible(fn (Get $get) => $get('status') === 'accepted' || $get('status') === LeadStatus::Accepted->value),
             ])
             ->action(function (Lead $record, array $data) {
                 if ($data['status'] === LeadStatus::Accepted->value || $data['status'] === 'accepted') {
-                    $result = self::acceptLead($record);
+                    $result = self::acceptLead($record, $data);
+                    $feeInfo = ! empty($data['document_fee']) ? " (Frais : {$result['insurance']->formattedDocumentFee()})" : "";
                     Notification::make()
                         ->title('Demande acceptée avec succès !')
-                        ->body("La fiche d'information ({$result['insurance']->reference}) a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
+                        ->body("La fiche d'information ({$result['insurance']->reference}){$feeInfo} a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
                         ->success()
                         ->send();
                 } else {
