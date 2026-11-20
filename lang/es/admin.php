@@ -9,7 +9,7 @@ return [
         'deletion' => 'solicitud de supresión', 'deletions' => 'supresiones RGPD',
     ],
     'status' => [
-        'received' => 'Recibida', 'sent' => 'Enviada a entidades', 'accepted' => 'Aceptada',
+        'received' => 'Recibida', 'sent' => 'En estudio', 'accepted' => 'Aceptada',
         'rejected' => 'No aceptada', 'funded' => 'Financiada',
     ],
     'all' => 'Todas',

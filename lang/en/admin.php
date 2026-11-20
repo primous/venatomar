@@ -9,7 +9,7 @@ return [
         'deletion' => 'erasure request', 'deletions' => 'GDPR erasures',
     ],
     'status' => [
-        'received' => 'Received', 'sent' => 'Sent to lenders', 'accepted' => 'Accepted',
+        'received' => 'Received', 'sent' => 'Under review', 'accepted' => 'Accepted',
         'rejected' => 'Not accepted', 'funded' => 'Funded',
     ],
     'all' => 'All',

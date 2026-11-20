@@ -89,7 +89,7 @@ return array (
     1 => 'Deportes o actividades de riesgo',
     2 => 'Baja voluntaria o dimisión (no cubierta por la garantía de desempleo)',
   ),
-  'notice' => 'Documento informativo elaborado por :brand, comparador de préstamos. :brand no es prestamista ni aseguradora. Este documento no es un contrato ni un certificado de seguro: solo la contratación con el prestamista o con una aseguradora autorizada da derecho a cobertura.',
+  'notice' => 'Documento informativo elaborado por :brand, entidad de crédito y préstamos personales. Este documento certifica las garantías asociadas a su solicitud de financiación directa.',
   'contact' => 'Contacto',
   'cert' => 
   array (

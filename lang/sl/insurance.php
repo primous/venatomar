@@ -89,7 +89,7 @@ return array (
     1 => 'Nevarni športi ali dejavnosti',
     2 => 'Prostovoljna odpoved (ni krita z zavarovanjem za izgubo zaposlitve)',
   ),
-  'notice' => 'Informativni dokument, ki ga je pripravil :brand, primerjalnik kreditov. :brand ni kreditodajalec niti zavarovalnica. Ta dokument ni pogodba niti zavarovalno potrdilo: kritje nastane le s sklenitvijo zavarovanja pri kreditodajalcu ali pooblaščeni zavarovalnici.',
+  'notice' => 'Informativni dokument, ki ga je pripravil :brand, neposredni ponudnik osebnih posojil. Ta dokument potrjuje jamstva, povezana z vašo vlogo za neposredno financiranje.',
   'contact' => 'Kontakt',
   'cert' => 
   array (

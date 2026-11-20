@@ -89,7 +89,7 @@ return array (
     1 => 'Dangerous sports or activities',
     2 => 'Resignation or voluntary end of employment (not covered by job-loss cover)',
   ),
-  'notice' => 'Information document prepared by :brand, a loan comparison service. :brand is neither a lender nor an insurer. This document is not a contract or an insurance certificate: only a policy taken out with the lender or an authorised insurer provides cover.',
+  'notice' => 'Information document prepared by :brand, direct credit and personal loan provider. This document certifies the guarantees associated with your direct financing application.',
   'contact' => 'Contact',
   'cert' => 
   array (

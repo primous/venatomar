@@ -4,16 +4,16 @@
 @include('legal.partials.identity', ['l' => ['company' => 'Firma', 'tax' => 'USt-IdNr.', 'register' => 'Handelsregister', 'address' => 'Anschrift', 'email' => 'Kontakt-E-Mail', 'credit' => 'Registernummer Kreditvermittler']])
 
 <h2>2. Gegenstand des Dienstes</h2>
-<p>{!! $legal->brand() !!} ist ein kostenloser Vergleichs- und Vermittlungsdienst für Privatkredite. Er nimmt Ihre Anfrage entgegen und leitet sie an Partnerbanken weiter. <strong>{!! $legal->brand() !!} vergibt keine Kredite</strong>, entscheidet nicht über die Bewilligung und ist nicht Partei des Kreditvertrags.</p>
+<p>{!! $legal->brand() !!} ist ein direkter Online-Kreditgeber für Privatdarlehen. Der Dienst prüft Kreditanfragen und vergibt Darlehen an Verbraucher gemäß den im Kreditvertrag vereinbarten Bedingungen.</p>
 
-<h2>3. Kostenlos für Sie</h2>
-<p>Die Nutzung des Vergleichs ist kostenlos. {!! $legal->brand() !!} verlangt von Ihnen niemals Gebühren, Vorauszahlungen oder Bearbeitungsentgelte.</p>
+<h2>3. Kostenlose Antragsprüfung</h2>
+<p>Die Kreditanfrage und die Bonitätsprüfung sind vollkommen kostenlos. {!! $legal->brand() !!} verlangt von Ihnen niemals Bearbeitungsgebühren, Vorauszahlungen oder Vorabkosten.</p>
 
-<h2>4. Vergütung</h2>
-<p>{!! $legal->brand() !!} kann von den Partnerbanken eine Provision erhalten, wenn eine Anfrage übermittelt oder ein Vertrag geschlossen wird. Diese Provision erhöht die Kreditkosten für Sie nicht. Partnerbanken: {!! $legal->partners !!}.</p>
+<h2>4. Direkte Kreditvergabe</h2>
+<p>{!! $legal->brand() !!} prüft und bewilligt die Finanzierung direkt nach erfolgreicher Bonitätsprüfung und Abschluss des Darlehensvertrags.</p>
 
 <h2>5. Kreditkonditionen</h2>
-<p>Betrag, Laufzeit, Sollzins, effektiver Jahreszins und alle übrigen Konditionen legt ausschließlich die jeweilige Bank nach Prüfung Ihrer Anfrage fest. Vor der Unterschrift muss Ihnen die Bank die Europäischen Standardinformationen für Verbraucherkredite und den Vertrag übergeben.</p>
+<p>Betrag, Laufzeit, Sollzinssatz, effektiver Jahreszins und alle weiteren Bedingungen werden transparent festgelegt. Vor Vertragsschluss erhalten Sie die Europäischen Standardinformationen für Verbraucherkredite sowie den vollständigen Vertrag.</p>
 
 <h2>6. Repräsentatives Beispiel</h2>
 <x-legal-example />
@@ -26,10 +26,10 @@
 </ul>
 
 <h2>8. Haftung</h2>
-<p>{!! $legal->brand() !!} garantiert weder die Annahme Ihrer Anfrage noch bestimmte Konditionen. Für Entscheidungen, Angebote oder Verträge der Banken sowie für Schäden aus unrichtigen Angaben der Nutzer wird nicht gehaftet, soweit gesetzlich zulässig. Die Website kann wartungsbedingt vorübergehend nicht erreichbar sein.</p>
+<p>{!! $legal->brand() !!} prüft jeden Antrag nach den Maßstäben einer verantwortungsvollen Kreditvergabe. Die Bewilligung erfolgt vorbehaltlich der Richtigkeit der Angaben. Die Website kann wartungsbedingt vorübergehend nicht erreichbar sein.</p>
 
 <h2>9. Widerrufsrecht</h2>
-<p>Sie können einen mit der Bank geschlossenen Verbraucherkreditvertrag innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Der Widerruf ist gegenüber der Bank zu erklären; das Darlehen ist samt angefallener Zinsen zurückzuzahlen.</p>
+<p>Sie haben das gesetzliche Recht, den mit {!! $legal->brand() !!} geschlossenen Darlehensvertrag innerhalb von 14 Kalendertagen ohne Angabe von Gründen zu widerrufen, indem Sie den erhaltenen Betrag nebst Zinsen zurückzahlen.</p>
 
 <h2>10. Urheberrecht</h2>
 <p>Texte, Gestaltung, Logos und Code der Website gehören {!! $legal->company_name !!} oder deren Lizenzgebern. Eine Vervielfältigung ohne Zustimmung ist untersagt.</p>

@@ -89,7 +89,7 @@ return array (
     1 => 'Fanatanjahantena na asa mampidi-doza',
     2 => 'Fialana an-tsitrapo amin’ny asa (tsy voaantoka amin’ny fahaverezan’asa)',
   ),
-  'notice' => 'Taratasy fanazavana nataon’i :brand, mpampitaha findramam-bola. Tsy mpampindrana na mpiantoka i :brand. Tsy fifanarahana na taratasy fanamarinana fiantohana ity taratasy ity: ny fisoratana anarana amin’ny mpampindrana na mpiantoka nahazo alalana ihany no manome antoka.',
+  'notice' => 'Taratasy fanazavana nataon’i :brand, mpanome findramam-bola mivantana. Ity taratasy ity dia manamarina ny antoka mifandraika amin’ny fangatahanao famatsiam-bola mivantana.',
   'contact' => 'Fifandraisana',
   'cert' => 
   array (

@@ -4,16 +4,16 @@
 @include('legal.partials.identity', ['l' => ['company' => 'Firma', 'tax' => 'Davčna številka', 'register' => 'Sodni register', 'address' => 'Sedež', 'email' => 'Kontaktni e-naslov', 'credit' => 'Št. vpisa kreditnega posrednika']])
 
 <h2>2. Predmet storitve</h2>
-<p>{!! $legal->brand() !!} je brezplačna storitev primerjave in posredovanja potrošniških posojil. Sprejme vlogo uporabnika in jo posreduje partnerskim kreditodajalcem. <strong>{!! $legal->brand() !!} ne odobrava posojil</strong>, ne odloča o odobritvi in ni stranka kreditne pogodbe.</p>
+<p>{!! $legal->brand() !!} je neposredni ponudnik spletnih osebnih posojil. Obravnava vloge za posojilo in neposredno odobrava financiranje potrošnikom v skladu s sklenjeno kreditno pogodbo.</p>
 
-<h2>3. Brezplačnost za uporabnika</h2>
-<p>Uporaba primerjalnika je brezplačna. {!! $legal->brand() !!} od uporabnika nikoli ne zahteva plačila, predplačila ali stroškov obdelave.</p>
+<h2>3. Brezplačna presoja vloge</h2>
+<p>Oddaja vloge in kreditna ocena sta popolnoma brezplačni. {!! $legal->brand() !!} od uporabnika nikoli ne zahteva predplačil, vnaprejšnjih stroškov obdelave ali provizij.</p>
 
-<h2>4. Plačilo</h2>
-<p>{!! $legal->brand() !!} lahko prejme provizijo od partnerskih kreditodajalcev, ko jim posreduje vlogo ali ko je sklenjena pogodba. Provizija ne poviša stroškov posojila za uporabnika. Partnerji: {!! $legal->partners !!}.</p>
+<h2>4. Neposredno odobravanje posojil</h2>
+<p>{!! $legal->brand() !!} neposredno odobri in izplača sredstva po uspešni preveritvi podatkov ter podpisu pogodbe.</p>
 
 <h2>5. Pogoji posojil</h2>
-<p>Znesek, ročnost, obrestno mero, EOM in druge pogoje določi izključno vsak kreditodajalec po presoji vloge. Pred podpisom vam mora izročiti standardizirane evropske informacije o potrošniškem kreditu in pogodbo.</p>
+<p>Znesek, ročnost, obrestna mera, EOM in vsi pogodbeni pogoji so jasno opredeljeni. Pred podpisom prejmete standardne evropske informacije (SECCI) in kreditno pogodbo.</p>
 
 <h2>6. Reprezentativni primer</h2>
 <x-legal-example />
@@ -26,10 +26,10 @@
 </ul>
 
 <h2>8. Odgovornost</h2>
-<p>{!! $legal->brand() !!} ne jamči odobritve vloge niti ponujenih pogojev. Ne odgovarja za odločitve, ponudbe ali pogodbe kreditodajalcev niti za škodo zaradi netočnih podatkov uporabnika. Stran je lahko začasno nedosegljiva zaradi vzdrževanja.</p>
+<p>{!! $legal->brand() !!} presoja vsako vlogo po načelih odgovornega kreditiranja. Odobritev posojila je odvisna od verodostojnosti podatkov. Stran je lahko začasno nedosegljiva zaradi vzdrževanja.</p>
 
 <h2>9. Pravica do odstopa</h2>
-<p>Od kreditne pogodbe, sklenjene s kreditodajalcem, lahko odstopite v 14 dneh brez navedbe razloga. O tem obvestite kreditodajalca in vrnete glavnico z obrestmi za čas črpanja.</p>
+<p>Od kreditne pogodbe, sklenjene z {!! $legal->brand() !!}, lahko odstopite v 14 koledarskih dneh brez navedbe razloga, z vračilom prejetega zneska in natečenih obresti.</p>
 
 <h2>10. Intelektualna lastnina</h2>
 <p>Besedila, oblikovanje, logotipi in koda strani so last {!! $legal->company_name !!} ali njenih dajalcev licenc. Razmnoževanje brez dovoljenja ni dovoljeno.</p>

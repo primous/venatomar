@@ -89,7 +89,7 @@ return array (
     1 => 'Risikosportarten oder gefährliche Tätigkeiten',
     2 => 'Eigenkündigung (nicht durch die Arbeitslosigkeitsleistung gedeckt)',
   ),
-  'notice' => 'Informationsdokument von :brand, einem Kreditvergleichsportal. :brand ist weder Kreditgeber noch Versicherer. Dieses Dokument ist weder ein Vertrag noch ein Versicherungsnachweis: Versicherungsschutz besteht nur nach Abschluss beim Kreditgeber oder bei einem zugelassenen Versicherer.',
+  'notice' => 'Informationsdokument von :brand, einem direkten Anbieter von Privatkrediten. Dieses Dokument bescheinigt die mit Ihrem Finanzierungsantrag verbundenen Garantien.',
   'contact' => 'Kontakt',
   'cert' => 
   array (

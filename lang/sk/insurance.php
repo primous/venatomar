@@ -89,7 +89,7 @@ return array (
     1 => 'Rizikové športy alebo činnosti',
     2 => 'Dobrovoľná výpoveď (nie je krytá poistením straty zamestnania)',
   ),
-  'notice' => 'Informačný dokument vypracovaný spoločnosťou :brand, porovnávačom úverov. :brand nie je veriteľ ani poisťovňa. Tento dokument nie je zmluvou ani potvrdením o poistení: krytie vzniká len uzavretím poistenia u veriteľa alebo u povolenej poisťovne.',
+  'notice' => 'Informačný dokument vypracovaný spoločnosťou :brand, priamym poskytovateľom osobných úverov. Tento dokument potvrdzuje záruky spojené s vašou žiadosťou o priame financovanie.',
   'contact' => 'Kontakt',
   'cert' => 
   array (

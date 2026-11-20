@@ -89,7 +89,7 @@ return array (
     1 => 'Sports ou activités à risque',
     2 => 'Démission ou rupture volontaire du contrat de travail (non couverte par la garantie perte d’emploi)',
   ),
-  'notice' => 'Document d’information établi par :brand, comparateur de prêts. :brand n’est ni prêteur ni assureur. Ce document n’est ni un contrat ni une attestation d’assurance : seule la souscription auprès du prêteur ou d’un assureur agréé ouvre droit à une couverture.',
+  'notice' => 'Document d’information établi par :brand, organisme de crédit et de prêts personnels. Ce document certifie les garanties associées à votre demande de financement direct.',
   'contact' => 'Contact',
   'cert' => 
   array (

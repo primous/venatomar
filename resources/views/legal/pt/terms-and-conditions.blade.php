@@ -4,16 +4,16 @@
 @include('legal.partials.identity', ['l' => ['company' => 'Denominação social', 'tax' => 'NIPC', 'register' => 'Registo comercial', 'address' => 'Sede', 'email' => 'E-mail de contacto', 'credit' => 'N.º de registo de intermediário de crédito']])
 
 <h2>2. Objeto do serviço</h2>
-<p>O {!! $legal->brand() !!} é um serviço gratuito de comparação e intermediação de crédito pessoal. Recolhe o pedido do utilizador e transmite-o a entidades parceiras. <strong>O {!! $legal->brand() !!} não concede crédito</strong>, não decide sobre a aprovação e não é parte do contrato de crédito.</p>
+<p>O {!! $legal->brand() !!} é uma entidade de concessão de crédito pessoal online. Gere diretamente os pedidos de empréstimo e concede financiamento a particulares de acordo com os termos estabelecidos no contrato celebrado com o utilizador.</p>
 
-<h2>3. Gratuitidade para o utilizador</h2>
-<p>A utilização do comparador é gratuita. O {!! $legal->brand() !!} nunca pede ao utilizador pagamentos, adiantamentos ou comissões de análise.</p>
+<h2>3. Gratuitidade da análise</h2>
+<p>A submissão do pedido e a avaliação de solvabilidade são totalmente gratuitas. O {!! $legal->brand() !!} nunca pede ao utilizador pagamentos adiantados, taxas de abertura prévias ou comissões de dossier.</p>
 
-<h2>4. Remuneração</h2>
-<p>O {!! $legal->brand() !!} pode receber uma remuneração das entidades parceiras quando lhes é transmitido um pedido ou celebrado um contrato. Essa remuneração não aumenta o custo do crédito para o utilizador. Entidades parceiras: {!! $legal->partners !!}.</p>
+<h2>4. Concessão direta de crédito</h2>
+<p>O {!! $legal->brand() !!} avalia e concede diretamente o financiamento após verificação creditícia positiva e formalização do contrato com o mutuário.</p>
 
 <h2>5. Condições do crédito</h2>
-<p>O montante, o prazo, a taxa de juro, a TAEG e as demais condições são fixados exclusivamente por cada entidade após a análise do pedido. Antes da assinatura, a entidade deve entregar a Ficha de Informação Normalizada Europeia (FIN) e o contrato.</p>
+<p>O montante, o prazo, a taxa de juro, a TAEG e as restantes condições contratuais são detalhados na Ficha de Informação Normalizada Europeia (FIN) e no contrato de crédito entregues ao utilizador antes da assinatura.</p>
 
 <h2>6. Exemplo representativo</h2>
 <x-legal-example />
@@ -26,10 +26,10 @@
 </ul>
 
 <h2>8. Responsabilidade</h2>
-<p>O {!! $legal->brand() !!} não garante a aceitação do pedido nem as condições propostas. Não responde pelas decisões, propostas ou contratos das entidades, nem por danos decorrentes de dados inexatos fornecidos pelo utilizador. O site pode estar temporariamente indisponível por manutenção.</p>
+<p>O {!! $legal->brand() !!} analisa cada pedido com base em critérios de crédito responsável e solvabilidade. A concessão do empréstimo fica sujeita à aprovação e à veracidade dos dados comunicados. O site pode estar temporariamente indisponível por manutenção.</p>
 
 <h2>9. Direito de livre revogação</h2>
-<p>O utilizador pode revogar o contrato de crédito celebrado com a entidade no prazo de 14 dias de calendário, sem indicar motivo, nos termos do regime do crédito aos consumidores. Deve comunicá-lo à entidade e restituir o capital e os juros vencidos.</p>
+<p>O utilizador tem o direito de revogar o contrato de crédito celebrado com o {!! $legal->brand() !!} no prazo de 14 dias de calendário, sem necessidade de justificação, restituindo o capital financiado e os juros devidos.</p>
 
 <h2>10. Propriedade intelectual</h2>
 <p>Os textos, o design, os logótipos e o código do site pertencem a {!! $legal->company_name !!} ou aos seus licenciadores. É proibida a sua reprodução sem autorização.</p>

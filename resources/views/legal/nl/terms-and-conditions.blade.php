@@ -4,16 +4,16 @@
 @include('legal.partials.identity', ['l' => ['company' => 'Bedrijfsnaam', 'tax' => 'Btw-nummer', 'register' => 'Handelsregister (KvK)', 'address' => 'Adres', 'email' => 'Contact-e-mail', 'credit' => 'Registratienummer kredietbemiddelaar']])
 
 <h2>2. Doel van de dienst</h2>
-<p>{!! $legal->brand() !!} is een gratis vergelijkings- en bemiddelingsdienst voor persoonlijke leningen. Wij nemen je aanvraag op en sturen die door naar partnerkredietverstrekkers. <strong>{!! $legal->brand() !!} verstrekt geen leningen</strong>, beslist niet over goedkeuring en is geen partij bij de kredietovereenkomst.</p>
+<p>{!! $legal->brand() !!} is een directe online kredietverstrekker voor persoonlijke leningen. Wij beoordelen leningaanvragen en verstrekken rechtstreeks financiering aan consumenten volgens de voorwaarden van de kredietovereenkomst.</p>
 
-<h2>3. Gratis voor jou</h2>
-<p>Het gebruik van de vergelijker is gratis. {!! $legal->brand() !!} vraagt nooit om een vergoeding, voorschot of afsluitkosten.</p>
+<h2>3. Kosteloze aanvraag en beoordeling</h2>
+<p>Het aanvragen van een lening en de kredietbeoordeling zijn volledig gratis. {!! $legal->brand() !!} brengt nooit afsluitkosten, administratiekosten vooraf of voorschotten in rekening.</p>
 
-<h2>4. Vergoeding</h2>
-<p>{!! $legal->brand() !!} kan een vergoeding ontvangen van partnerkredietverstrekkers wanneer een aanvraag wordt doorgestuurd of een overeenkomst wordt gesloten. Deze vergoeding verhoogt de kosten van de lening voor jou niet. Partners: {!! $legal->partners !!}.</p>
+<h2>4. Directe leningverstrekking</h2>
+<p>{!! $legal->brand() !!} verstrekt de financiering rechtstreeks na een positieve krediettoetsing en ondertekening van het contract.</p>
 
 <h2>5. Voorwaarden van de leningen</h2>
-<p>Bedrag, looptijd, rente, JKP en alle andere voorwaarden worden uitsluitend door de kredietverstrekker bepaald na beoordeling van je aanvraag, inclusief toetsing bij het BKR. Vóór ondertekening ontvang je de Europese standaardinformatie voor consumentenkrediet en de overeenkomst.</p>
+<p>Bedrag, looptijd, rente, JKP en alle overige contractvoorwaarden worden duidelijk gespecificeerd. Vóór ondertekening ontvangt u de Europese standaardinformatie (SECCI) en de kredietovereenkomst.</p>
 
 <h2>6. Representatief voorbeeld</h2>
 <x-legal-example />
@@ -26,10 +26,10 @@
 </ul>
 
 <h2>8. Aansprakelijkheid</h2>
-<p>{!! $legal->brand() !!} garandeert niet dat een kredietverstrekker je aanvraag accepteert of welke voorwaarden worden geboden. Wij zijn niet aansprakelijk voor beslissingen, aanbiedingen of overeenkomsten van kredietverstrekkers, noch voor schade door onjuiste gegevens van de gebruiker. De website kan tijdelijk onbereikbaar zijn voor onderhoud.</p>
+<p>{!! $legal->brand() !!} beoordeelt elke aanvraag volgens normen van verantwoord lenen. Toekenning geschiedt onder voorbehoud van acceptatie en juistheid van de gegevens. De website kan tijdelijk onbereikbaar zijn voor onderhoud.</p>
 
 <h2>9. Herroepingsrecht</h2>
-<p>Je kunt een met de kredietverstrekker gesloten kredietovereenkomst binnen 14 dagen zonder opgave van redenen ontbinden. Meld dit aan de kredietverstrekker en betaal het geleende bedrag met de opgebouwde rente terug.</p>
+<p>U heeft het wettelijke recht om de met {!! $legal->brand() !!} gesloten kredietovereenkomst binnen 14 kalenderdagen zonder opgave van redenen te herroepen, onder terugbetaling van het geleende bedrag en de opgebouwde rente.</p>
 
 <h2>10. Intellectueel eigendom</h2>
 <p>Teksten, ontwerp, logo's en code van de website zijn eigendom van {!! $legal->company_name !!} of haar licentiegevers. Verveelvoudiging zonder toestemming is niet toegestaan.</p>

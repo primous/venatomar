@@ -89,7 +89,7 @@ return array (
     1 => 'Sport o attività a rischio',
     2 => 'Dimissioni volontarie (non coperte dalla garanzia perdita dell’impiego)',
   ),
-  'notice' => 'Documento informativo redatto da :brand, comparatore di prestiti. :brand non è né un finanziatore né un assicuratore. Questo documento non è un contratto né un certificato assicurativo: solo la sottoscrizione presso il finanziatore o un assicuratore autorizzato dà diritto alla copertura.',
+  'notice' => 'Documento informativo redatto da :brand, istituto di credito e prestiti personali. Questo documento certifica le garanzie associate alla tua richiesta di finanziamento diretto.',
   'contact' => 'Contatti',
   'cert' => 
   array (

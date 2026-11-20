@@ -89,7 +89,7 @@ class RoutingTest extends TestCase
         // Placeholders hide the figures instead of printing them.
         $this->assertStringNotContainsString('[MONTANT_MAX', $html);
         $this->assertStringNotContainsString('TAE mínima', $html);
-        $this->assertStringContainsString('servicio gratuito de comparación', $html);
+        $this->assertStringContainsString('préstamo personal directo', $html);
     }
 
     public function test_figures_are_shown_from_config_only(): void
@@ -120,7 +120,7 @@ class RoutingTest extends TestCase
 
     public function test_legal_pages_contain_the_representative_example_source(): void
     {
-        $this->get('/it/legal/terms-and-conditions')->assertSee('servizio gratuito di confronto');
+        $this->get('/it/legal/terms-and-conditions')->assertSee('prestiti personali online');
         $this->get('/nl/legal/privacy-policy')->assertSee('nooit je BSN', false);
     }
 

@@ -4,16 +4,16 @@
 @include('legal.partials.identity', ['l' => ['company' => 'Ragione sociale', 'tax' => 'Partita IVA', 'register' => 'Registro delle imprese', 'address' => 'Sede', 'email' => 'E-mail di contatto', 'credit' => 'N. iscrizione mediatore creditizio']])
 
 <h2>2. Oggetto del servizio</h2>
-<p>{!! $legal->brand() !!} è un servizio gratuito di confronto e intermediazione di prestiti personali. Raccoglie la richiesta dell'utente e la trasmette a enti finanziatori partner. <strong>{!! $legal->brand() !!} non concede prestiti</strong>, non decide sull'approvazione e non è parte del contratto di finanziamento.</p>
+<p>{!! $legal->brand() !!} è un istituto di credito e prestiti personali online. Gestisce direttamente le richieste di prestito ed eroga finanziamenti a privati in conformità alle condizioni stabilite nel contratto stipulato con l'utente.</p>
 
-<h2>3. Gratuità per l'utente</h2>
-<p>L'uso del comparatore è gratuito. {!! $legal->brand() !!} non chiede mai all'utente pagamenti, anticipi o spese di istruttoria.</p>
+<h2>3. Gratuità della valutazione</h2>
+<p>La richiesta e la valutazione creditizia sono completamente gratuite. {!! $legal->brand() !!} non richiede mai all'utente spese anticipate di istruttoria né costi di gestione preliminari.</p>
 
-<h2>4. Remunerazione</h2>
-<p>{!! $legal->brand() !!} può ricevere un compenso dagli enti partner quando trasmette una richiesta o quando viene stipulato un contratto. Tale compenso non aumenta il costo del prestito per l'utente. Enti partner: {!! $legal->partners !!}.</p>
+<h2>4. Erogazione diretta</h2>
+<p>{!! $legal->brand() !!} valuta e concede direttamente il prestito al richiedente a seguito della verifica creditizia positiva e della sottoscrizione del contratto.</p>
 
 <h2>5. Condizioni dei prestiti</h2>
-<p>Importo, durata, tasso, TAEG e ogni altra condizione sono fissati esclusivamente da ciascun ente dopo la valutazione della richiesta. Prima della firma l'ente deve consegnare il modulo SECCI (Informazioni europee di base sul credito ai consumatori) e il contratto.</p>
+<p>L'importo, la durata, il tasso di interesse, il TAEG e tutte le condizioni contrattuali sono dettagliati nel modulo SECCI (Informazioni europee di base sul credito ai consumatori) e nel contratto di finanziamento consegnato all'utente prima della firma.</p>
 
 <h2>6. Esempio rappresentativo</h2>
 <x-legal-example />
@@ -26,10 +26,10 @@
 </ul>
 
 <h2>8. Responsabilità</h2>
-<p>{!! $legal->brand() !!} non garantisce l'accettazione della richiesta né le condizioni offerte. Non risponde delle decisioni, offerte o contratti degli enti, né dei danni derivanti da dati inesatti forniti dall'utente. Il sito può essere temporaneamente non disponibile per manutenzione.</p>
+<p>{!! $legal->brand() !!} analizza ogni richiesta secondo criteri di credito responsabile e solvibilità. La concessione del finanziamento è subordinata alla verifica dell'esattezza dei dati forniti. Il sito può essere temporaneamente non disponibile per manutenzione.</p>
 
 <h2>9. Diritto di recesso</h2>
-<p>L'utente può recedere dal contratto di credito stipulato con l'ente entro 14 giorni, senza indicarne il motivo, ai sensi del Codice del consumo e del TUB. Il recesso va comunicato all'ente, restituendo il capitale e gli interessi maturati.</p>
+<p>L'utente ha diritto di recedere dal contratto di credito concluso con {!! $legal->brand() !!} entro 14 giorni di calendario, senza indicarne il motivo, restituendo il capitale erogato e gli interessi maturati.</p>
 
 <h2>10. Proprietà intellettuale</h2>
 <p>Testi, grafica, loghi e codice del sito appartengono a {!! $legal->company_name !!} o ai suoi licenzianti. Ne è vietata la riproduzione senza autorizzazione.</p>

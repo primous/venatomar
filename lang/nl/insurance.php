@@ -89,7 +89,7 @@ return array (
     1 => 'Risicovolle sporten of activiteiten',
     2 => 'Vrijwillig ontslag (niet gedekt door de werkloosheidsdekking)',
   ),
-  'notice' => 'Informatiedocument opgesteld door :brand, een vergelijker van leningen. :brand is geen kredietverstrekker en geen verzekeraar. Dit document is geen overeenkomst en geen verzekeringsbewijs: alleen een verzekering afgesloten bij de kredietverstrekker of een erkende verzekeraar geeft recht op dekking.',
+  'notice' => 'Informatiedocument opgesteld door :brand, directe aanbieder van persoonlijke leningen. Dit document bevestigt de garanties verbonden aan uw directe financieringsaanvraag.',
   'contact' => 'Contact',
   'cert' => 
   array (

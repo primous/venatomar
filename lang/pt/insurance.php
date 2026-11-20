@@ -89,7 +89,7 @@ return array (
     1 => 'Desportos ou atividades de risco',
     2 => 'Demissão voluntária (não coberta pela garantia de desemprego)',
   ),
-  'notice' => 'Documento informativo elaborado pela :brand, comparador de créditos. A :brand não é credora nem seguradora. Este documento não é um contrato nem um certificado de seguro: só a subscrição junto do credor ou de uma seguradora autorizada dá direito a cobertura.',
+  'notice' => 'Documento informativo elaborado pela :brand, entidade de crédito e empréstimos pessoais. Este documento certifica as garantias associadas ao seu pedido de financiamento direto.',
   'contact' => 'Contacto',
   'cert' => 
   array (
