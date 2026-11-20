@@ -2,10 +2,6 @@
 
 @if($isFrozen)
 {!! __('mail.portal.status_frozen_intro') !!}
-@if(!empty($reason))
-
-{!! $reason !!}
-@endif
 
 {!! __('mail.portal.status_frozen_action') !!}
 @else
@@ -19,3 +15,4 @@
 
 —
 {!! __('mail.footer.why', ['brand' => config('venatomar.brand')]) !!} {!! __('footer.privacy') !!}: {!! $privacyUrl !!}
+

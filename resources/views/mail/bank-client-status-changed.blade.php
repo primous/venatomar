@@ -38,3 +38,4 @@
         <p style="margin:0;">{{ __('mail.footer.why', ['brand' => config('venatomar.brand')]) }} <a href="{{ $privacyUrl }}">{{ __('footer.privacy') }}</a></p>
     </x-slot:footer>
 </x-mail-layout>
+

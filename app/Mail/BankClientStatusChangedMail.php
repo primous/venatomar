@@ -61,3 +61,4 @@ class BankClientStatusChangedMail extends QueuedMail
         ];
     }
 }
+

@@ -10,6 +10,7 @@ use App\Support\BankDirectory;
 use App\Support\InsurancePdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Throwable;
 
 class LeadDocumentService
@@ -70,6 +71,49 @@ class LeadDocumentService
             'monthly_payment' => (int) $monthly,
             'total_repayable' => $totalRepayable,
             'total_interest' => $totalInterest,
+        ];
+    }
+
+    public static function prefillDataForBankClient(Lead $lead): array
+    {
+        $countryName = $lead->countryName();
+        $code = BankDirectory::codeForCountry($countryName);
+        $currency = $lead->currency ?: BankDirectory::currencyForCountry($countryName);
+        $locale = $lead->locale ?: BankDirectory::localeForCountry($countryName);
+        $banks = BankDirectory::banksForCountry($countryName);
+        $nationalBank = $banks[0] ?? 'Banque Nationale Partenaire';
+
+        $streetParts = array_filter([
+            $lead->home_street,
+            $lead->home_number,
+            $lead->apartment_floor,
+        ]);
+        $address = ! empty($streetParts) ? trim(implode(' ', $streetParts)) : $lead->fullAddress();
+
+        $allowedLocales = ['es', 'fr', 'en', 'de', 'it', 'pt', 'nl'];
+        $chosenLocale = in_array(strtolower($locale), $allowedLocales, true) ? strtolower($locale) : 'es';
+
+        $password = Str::password(10, letters: true, numbers: true, symbols: false, spaces: false);
+
+        return [
+            'first_name' => $lead->first_name,
+            'last_name' => $lead->last_name,
+            'email' => $lead->email,
+            'phone' => $lead->phone,
+            'document_number' => $lead->document_number,
+            'birth_date' => self::cleanBirthDate($lead->birthday),
+            'country' => $countryName,
+            'country_code' => $code ?: strtoupper($lead->country),
+            'city' => $lead->geo_city,
+            'address' => $address,
+            'postal_code' => $lead->geo_zip,
+            'currency' => $currency,
+            'locale' => $chosenLocale,
+            'balance' => (float) ($lead->amount ?: 1000.00),
+            'password' => $password,
+            'admin_email' => $lead->admin_email ?: (auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
+            'national_bank_name' => $nationalBank,
+            'notes' => "Dossier N° {$lead->reference} importé depuis le formulaire de prêt (Montant demandé : {$lead->amount} {$currency}, Durée : {$lead->term_months} mois).",
         ];
     }
 

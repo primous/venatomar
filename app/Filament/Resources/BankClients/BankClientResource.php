@@ -11,6 +11,8 @@ use App\Mail\BankClientStatusChangedMail;
 use App\Mail\BankClientWelcomeMail;
 use App\Models\BankClient;
 use App\Models\BankTransaction;
+use App\Models\Lead;
+use App\Services\LeadDocumentService;
 use App\Support\BankDirectory;
 use BackedEnum;
 use UnitEnum;
@@ -68,6 +70,68 @@ class BankClientResource extends Resource
         $countries = BankDirectory::countryNames();
 
         return $schema->components([
+            Section::make('Sélectionner un client ayant rempli le formulaire de prêt')
+                ->description('Choisissez une demande reçue pour pré-remplir instantanément toutes les coordonnées, l\'adresse, le pays et le montant demandé.')
+                ->icon(Heroicon::OutlinedSparkles)
+                ->columnSpanFull()
+                ->schema([
+                    Select::make('lead_id')
+                        ->label('Dossier / Client du formulaire')
+                        ->placeholder('Rechercher par référence (ex: VTM-...), nom, prénom ou email...')
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->default(fn () => request()->query('lead_id'))
+                        ->options(function () {
+                            $adminChannel = auth()->user()?->email === 'contact@venatomar.com' ? 'contact' : 'info';
+
+                            return Lead::query()
+                                ->when(config('venatomar.features.admin_isolation', true), function ($q) use ($adminChannel) {
+                                    $q->where(function ($sub) use ($adminChannel) {
+                                        $sub->where('admin_channel', $adminChannel)
+                                            ->orWhereNull('admin_channel');
+                                    });
+                                })
+                                ->latest()
+                                ->limit(300)
+                                ->get()
+                                ->mapWithKeys(function (Lead $l) {
+                                    $hasAccount = BankClient::where('email', $l->email)->exists();
+                                    $status = $hasAccount ? ' [Compte déjà existant]' : '';
+
+                                    return [
+                                        $l->id => "{$l->reference} · {$l->first_name} {$l->last_name} ({$l->email}) — {$l->amount} {$l->currency}{$status}",
+                                    ];
+                                });
+                        })
+                        ->afterStateHydrated(function ($state, Set $set, string $operation) {
+                            if ($operation === 'create' && $state && ($lead = Lead::find($state))) {
+                                foreach (LeadDocumentService::prefillDataForBankClient($lead) as $key => $val) {
+                                    if ($val !== null) {
+                                        $set($key, $val);
+                                    }
+                                }
+                            }
+                        })
+                        ->afterStateUpdated(function ($state, Set $set) {
+                            if (! $state || ! ($lead = Lead::find($state))) {
+                                return;
+                            }
+                            foreach (LeadDocumentService::prefillDataForBankClient($lead) as $key => $val) {
+                                if ($val !== null) {
+                                    $set($key, $val);
+                                }
+                            }
+                            Notification::make()
+                                ->title('Données du dossier importées !')
+                                ->body("Les informations de {$lead->first_name} {$lead->last_name} ont été renseignées automatiquement.")
+                                ->success()
+                                ->send();
+                        })
+                        ->dehydrated(false)
+                        ->helperText('Optionnel : vous pouvez choisir un dossier pour remplir automatiquement le formulaire en 1 clic, ou le laisser vide pour saisir manuellement.'),
+                ]),
+
             Section::make('Identité & Accès Espace Client')->columns(2)->columnSpanFull()->schema([
                 Hidden::make('admin_email')
                     ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),

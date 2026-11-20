@@ -44,8 +44,8 @@ class BankClientCreditedMail extends QueuedMail
                 'iban' => $this->client->iban,
                 'amount' => $this->client->formatMoney($this->amount),
                 'description' => $this->description,
-                'newBalance' => is_numeric($this->newBalance) ? $this->client->formatMoney((float) $this->newBalance) : ($this->newBalance ?: $this->client->formattedBalance()),
-                'date' => $this->date ? (is_string($this->date) ? $this->date : $this->date->format('d/m/Y H:i')) : now()->format('d/m/Y H:i'),
+                'newBalance' => $this->newBalance ?: $this->client->formattedBalance(),
+                'date' => now()->format('d/m/Y H:i'),
                 'loginUrl' => route($accountRoute, ['locale' => $locale]),
                 'contactEmail' => $adminEmail,
                 'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
@@ -61,3 +61,4 @@ class BankClientCreditedMail extends QueuedMail
         ];
     }
 }
+

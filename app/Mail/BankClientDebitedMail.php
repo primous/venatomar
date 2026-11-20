@@ -61,3 +61,4 @@ class BankClientDebitedMail extends QueuedMail
         ];
     }
 }
+

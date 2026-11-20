@@ -104,6 +104,7 @@ class OnlineBankingTest extends TestCase
         $client = BankClient::create([
             'first_name' => 'Mateo',
             'last_name' => 'Silva',
+            'gender' => 'male',
             'email' => 'mateo.silva@example.com',
             'password' => Hash::make('Password123!'),
             'country' => 'France',
@@ -462,5 +463,61 @@ class OnlineBankingTest extends TestCase
                 && $mail->amount === 500.00
                 && $mail->newBalance === 2000.00;
         });
+    }
+
+    public function test_lead_data_prefills_bank_client_creation(): void
+    {
+        $lead = \App\Models\Lead::create([
+            'first_name' => 'Mateo',
+            'last_name' => 'Silva',
+            'gender' => 'male',
+            'loan_purpose' => 'renovation',
+            'marital_status' => 'single',
+            'company_sector' => 'services',
+            'education' => 'higher',
+            'home_status' => 'owner',
+            'regular_expenses' => 600,
+            'has_debt' => false,
+            'has_car' => true,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+            'email' => 'mateo.silva@example.com',
+            'phone' => '+34612345678',
+            'document_number' => '54321678K',
+            'birthday' => '1988-06-15',
+            'country' => 'es',
+            'currency' => 'EUR',
+            'locale' => 'es',
+            'amount' => 15000,
+            'term_months' => 48,
+            'monthly_income' => 3200,
+            'employment_status' => 'permanent',
+            'defaulter_list' => false,
+            'geo_zip' => '28001',
+            'geo_province' => 'Madrid',
+            'geo_city' => 'Madrid',
+            'home_street' => 'Calle de Serrano',
+            'home_number' => '42',
+            'apartment_floor' => '3B',
+        ]);
+
+        $prefill = \App\Services\LeadDocumentService::prefillDataForBankClient($lead);
+
+        $this->assertSame('Mateo', $prefill['first_name']);
+        $this->assertSame('Silva', $prefill['last_name']);
+        $this->assertSame('mateo.silva@example.com', $prefill['email']);
+        $this->assertSame('+34612345678', $prefill['phone']);
+        $this->assertSame('54321678K', $prefill['document_number']);
+        $this->assertSame('1988-06-15', $prefill['birth_date']);
+        $this->assertSame('España', $prefill['country']);
+        $this->assertSame('ES', $prefill['country_code']);
+        $this->assertSame('Madrid', $prefill['city']);
+        $this->assertSame('Calle de Serrano 42 3B', $prefill['address']);
+        $this->assertSame('28001', $prefill['postal_code']);
+        $this->assertSame('EUR', $prefill['currency']);
+        $this->assertSame('es', $prefill['locale']);
+        $this->assertSame(15000.0, $prefill['balance']);
+        $this->assertNotEmpty($prefill['password']);
+        $this->assertStringContainsString('Dossier N°', $prefill['notes']);
     }
 }

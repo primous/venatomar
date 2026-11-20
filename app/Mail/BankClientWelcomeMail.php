@@ -14,7 +14,7 @@ class BankClientWelcomeMail extends QueuedMail
     public function __construct(
         public BankClient $client,
         public string $plainPassword,
-        public ?string $loginUrl = null,
+        public ?string $loginUrl = null
     ) {
         $this->locale($client->locale ?: 'es');
     }
@@ -40,7 +40,7 @@ class BankClientWelcomeMail extends QueuedMail
                 'accountNumber' => $this->client->account_number,
                 'iban' => $this->client->iban,
                 'balance' => $this->client->formattedBalance(),
-                'loginUrl' => $this->loginUrl ?: route($accountRoute, ['locale' => $locale]),
+                'loginUrl' => route($accountRoute, ['locale' => $locale]),
                 'contactEmail' => $adminEmail,
                 'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
             ],
@@ -55,3 +55,4 @@ class BankClientWelcomeMail extends QueuedMail
         ];
     }
 }
+
