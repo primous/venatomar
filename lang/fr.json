@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Nous vous contacterons par e-mail ou par téléphone dans un délai de 24h pour vous communiquer une réponse.",
     "mail.confirmation.questions": "Pour toute question, répondez à cet e-mail ou écrivez-nous à l'adresse mail : :email",
     "mail.confirmation.closing": "Cordialement,",
-    "mail.confirmation.team": "L'équipe :brand"
+    "mail.confirmation.team": "L'équipe :brand",
+    "mail.accepted.subject": "Votre demande de prêt a été acceptée et validée - :reference",
+    "mail.accepted.preheader": "Votre demande de prêt a été acceptée et validée. Veuillez consulter le document joint.",
+    "mail.accepted.greeting": "Bonjour :name,",
+    "mail.accepted.intro": "Nous avons le plaisir de vous informer que votre demande de prêt a été acceptée et validée.",
+    "mail.accepted.document_notice": "Nous vous invitons à prendre connaissance du document relatif à l’assurance crédit qui vous a été transmis. Celui-ci contient des informations importantes concernant les conditions et les modalités de couverture de votre prêt.",
+    "mail.accepted.action_required": "Après lecture, nous vous prions de bien vouloir nous faire parvenir votre retour dans les meilleurs délais, et au plus tard dans un délai de 24 heures, afin de nous permettre de poursuivre les prochaines étapes du processus.",
+    "mail.accepted.questions": "Nous restons à votre disposition pour toute question ou information complémentaire.",
+    "mail.accepted.closing": "Cordialement,",
+    "mail.accepted.service": "Le service clientèle",
+    "mail.accepted.badge": "DEMANDE ACCEPTÉE ET VALIDÉE",
+    "mail.accepted.attached_document": "Document officiel joint : Fiche d'information d'assurance crédit"
 }

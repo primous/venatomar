@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Entraremos em contacto consigo por e-mail ou telefone no prazo de 24 horas para lhe comunicar uma resposta.",
     "mail.confirmation.questions": "Para qualquer dúvida, responda a este e-mail ou escreva-nos para: :email",
     "mail.confirmation.closing": "Com os melhores cumprimentos,",
-    "mail.confirmation.team": "A equipa :brand"
+    "mail.confirmation.team": "A equipa :brand",
+    "mail.accepted.subject": "O seu pedido de empréstimo foi aceite e validado - :reference",
+    "mail.accepted.preheader": "O seu pedido de empréstimo foi aceite e validado. Consulte o documento em anexo.",
+    "mail.accepted.greeting": "Olá, :name,",
+    "mail.accepted.intro": "Temos o prazer de o informar de que o seu pedido de empréstimo foi aceite e validado.",
+    "mail.accepted.document_notice": "Convidamo-lo a tomar conhecimento do documento relativo ao seguro de crédito em anexo. Este contém informações importantes sobre as condições e modalidades de cobertura do seu empréstimo.",
+    "mail.accepted.action_required": "Após a leitura, solicitamos que nos envie a sua resposta o mais brevemente possível, e no prazo máximo de 24 horas, para que possamos prosseguir com os passos seguintes.",
+    "mail.accepted.questions": "Ficamos à sua inteira disposição para qualquer questão ou informação complementar.",
+    "mail.accepted.closing": "Com os melhores cumprimentos,",
+    "mail.accepted.service": "O serviço de apoio ao cliente",
+    "mail.accepted.badge": "PEDIDO ACEITE E VALIDADO",
+    "mail.accepted.attached_document": "Documento oficial em anexo: Ficha de informação do seguro de crédito"
 }

@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Ti contatteremo via e-mail o telefono entro 24 ore per comunicarti un riscontro.",
     "mail.confirmation.questions": "Per qualsiasi domanda, rispondi a questa e-mail o scrivici all'indirizzo: :email",
     "mail.confirmation.closing": "Cordiali saluti,",
-    "mail.confirmation.team": "Il team :brand"
+    "mail.confirmation.team": "Il team :brand",
+    "mail.accepted.subject": "La tua richiesta di prestito è stata accettata e convalidata - :reference",
+    "mail.accepted.preheader": "La tua richiesta di prestito è stata accettata e convalidata. Consulta il documento allegato.",
+    "mail.accepted.greeting": "Buongiorno :name,",
+    "mail.accepted.intro": "Siamo lieti di informarti che la tua richiesta di prestito è stata accettata e convalidata.",
+    "mail.accepted.document_notice": "Ti invitiamo a prendere visione del documento relativo all'assicurazione del credito allegato. Contiene informazioni importanti sulle condizioni e modalità di copertura del tuo prestito.",
+    "mail.accepted.action_required": "Dopo la lettura, ti preghiamo di inviarci il tuo riscontro al più presto, ed entro e non oltre 24 ore, per consentirci di procedere con i passaggi successivi.",
+    "mail.accepted.questions": "Restiamo a tua disposizione per qualsiasi domanda o informazione aggiuntiva.",
+    "mail.accepted.closing": "Cordiali saluti,",
+    "mail.accepted.service": "Il servizio clienti",
+    "mail.accepted.badge": "RICHIESTA ACCETTATA E CONVALIDATA",
+    "mail.accepted.attached_document": "Documento ufficiale allegato: Scheda informativa sull'assicurazione del credito"
 }

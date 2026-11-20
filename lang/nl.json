@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Wij nemen binnen 24 uur per e-mail of telefoon contact met u op voor een antwoord.",
     "mail.confirmation.questions": "Voor vragen kunt u deze e-mail beantwoorden of schrijven naar: :email",
     "mail.confirmation.closing": "Met vriendelijke groet,",
-    "mail.confirmation.team": "Het :brand Team"
+    "mail.confirmation.team": "Het :brand Team",
+    "mail.accepted.subject": "Uw leningaanvraag is geaccepteerd en gevalideerd - :reference",
+    "mail.accepted.preheader": "Uw leningaanvraag is geaccepteerd en gevalideerd. Bekijk het bijgevoegde document.",
+    "mail.accepted.greeting": "Hallo :name,",
+    "mail.accepted.intro": "Wij zijn verheugd u te kunnen meedelen dat uw leningaanvraag is geaccepteerd en gevalideerd.",
+    "mail.accepted.document_notice": "Wij nodigen u uit om kennis te nemen van het bijgevoegde document met betrekking tot de kredietverzekering. Dit bevat belangrijke informatie over de voorwaarden en dekking van uw lening.",
+    "mail.accepted.action_required": "Na lezing verzoeken wij u vriendelijk om ons zo snel mogelijk, en uiterlijk binnen 24 uur, uw reactie te sturen, zodat wij door kunnen gaan met de volgende stappen.",
+    "mail.accepted.questions": "Wij blijven tot uw beschikking voor eventuele vragen of aanvullende informatie.",
+    "mail.accepted.closing": "Met vriendelijke groet,",
+    "mail.accepted.service": "De klantenservice",
+    "mail.accepted.badge": "AANVRAAG GEACCEPTEERD EN GEVALIDEERD",
+    "mail.accepted.attached_document": "Officieel document bijgevoegd: Informatieblad kredietverzekering"
 }

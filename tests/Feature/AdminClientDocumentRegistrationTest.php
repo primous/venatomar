@@ -4,10 +4,12 @@ namespace Tests\Feature;
 
 use App\Enums\LeadStatus;
 use App\Filament\Resources\InsuranceDocuments\Pages\CreateInsuranceDocument;
+use App\Filament\Resources\Leads\LeadResource;
 use App\Filament\Resources\Leads\Pages\CreateLead;
 use App\Filament\Resources\Leads\Pages\ListLeads;
 use App\Filament\Resources\LoanApprovalDocuments\Pages\CreateLoanApprovalDocument;
 use App\Filament\Resources\LoanContracts\Pages\CreateLoanContract;
+use App\Mail\LoanAcceptedMail;
 use App\Models\BankClient;
 use App\Models\Lead;
 use App\Models\User;
@@ -16,6 +18,7 @@ use App\Support\InsurancePdf;
 use App\Support\LoanApprovalPdf;
 use App\Support\LoanContractPdf;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -565,5 +568,117 @@ class AdminClientDocumentRegistrationTest extends TestCase
         $this->assertEquals(320.00, (float) $docs['contract']->document_fee);
         $this->assertEquals(190.00, (float) $docs['insurance']->document_fee);
         $this->assertFalse(array_key_exists('document_fee', $docs['approval']->getAttributes()));
+    }
+
+    public function test_admin_accept_loan_action_updates_status_generates_insurance_and_queues_mail(): void
+    {
+        Mail::fake();
+
+        $this->actingAs($this->admin);
+
+        $lead = Lead::create([
+            'status' => LeadStatus::Received,
+            'locale' => 'fr',
+            'country' => 'fr',
+            'currency' => 'EUR',
+            'amount' => 15000,
+            'term_months' => 36,
+            'monthly_income' => 3200,
+            'regular_expenses' => 800,
+            'employment_status' => 'employee',
+            'defaulter_list' => false,
+            'first_name' => 'Jean',
+            'last_name' => 'Dupont',
+            'document_number' => '123456789012',
+            'birthday' => '1982-04-12',
+            'email' => 'jean.dupont@example.com',
+            'phone' => '+33612345678',
+            'geo_zip' => '75001',
+            'geo_province' => 'Île-de-France',
+            'geo_city' => 'Paris',
+            'home_street' => 'Rue de Rivoli',
+            'home_number' => '10',
+            'payout_method' => 'iban',
+            'bank_account' => 'FR7630001007941234567890185',
+            'gender' => 'male',
+            'loan_purpose' => 'auto',
+            'marital_status' => 'single',
+            'company_sector' => 'commerce',
+            'education' => 'upper_secondary',
+            'home_status' => 'tenant',
+            'has_debt' => false,
+            'has_car' => true,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+        ]);
+
+        $res = LeadResource::acceptLead($lead);
+
+        $this->assertSame(LeadStatus::Accepted, $lead->fresh()->status);
+        $this->assertNotNull($res['insurance']);
+        $this->assertSame('information', $res['insurance']->document_type);
+        $this->assertSame('Jean', $res['insurance']->first_name);
+        $this->assertSame('Dupont', $res['insurance']->last_name);
+
+        Mail::assertQueued(LoanAcceptedMail::class, function (LoanAcceptedMail $mail) use ($lead) {
+            return $mail->lead->id === $lead->id
+                && $mail->insuranceDocument->document_type === 'information'
+                && $mail->hasTo($lead->email);
+        });
+    }
+
+    public function test_loan_accepted_mail_renders_view_with_pdf_attachment(): void
+    {
+        $lead = Lead::create([
+            'status' => LeadStatus::Accepted,
+            'locale' => 'fr',
+            'country' => 'fr',
+            'currency' => 'EUR',
+            'amount' => 12000,
+            'term_months' => 24,
+            'monthly_income' => 2800,
+            'regular_expenses' => 700,
+            'employment_status' => 'employee',
+            'defaulter_list' => false,
+            'first_name' => 'Claire',
+            'last_name' => 'Bernard',
+            'document_number' => '987654321098',
+            'birthday' => '1990-08-20',
+            'email' => 'claire.bernard@example.com',
+            'phone' => '+33698765432',
+            'geo_zip' => '69002',
+            'geo_province' => 'Rhône',
+            'geo_city' => 'Lyon',
+            'home_street' => 'Place Bellecour',
+            'home_number' => '3',
+            'payout_method' => 'iban',
+            'bank_account' => 'FR7630001007941234567890185',
+            'gender' => 'female',
+            'loan_purpose' => 'renovation',
+            'marital_status' => 'married',
+            'company_sector' => 'services',
+            'education' => 'higher_long',
+            'home_status' => 'owner_mortgage',
+            'has_debt' => false,
+            'has_car' => true,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+        ]);
+
+        $insuranceDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+            'document_type' => 'information',
+        ]);
+
+        $mail = new LoanAcceptedMail($lead, $insuranceDoc);
+        $renderedHtml = $mail->render();
+
+        $this->assertStringContainsString('acceptée et validée', $renderedHtml);
+        $this->assertStringContainsString('24 heures', $renderedHtml);
+        $this->assertStringContainsString('assurance crédit', $renderedHtml);
+        $this->assertStringContainsString('Le service clientèle', $renderedHtml);
+
+        $attachments = $mail->attachments();
+        $this->assertCount(1, $attachments);
+        $this->assertStringEndsWith('.pdf', $attachments[0]->as ?? $attachments[0]->name ?? 'file.pdf');
     }
 }

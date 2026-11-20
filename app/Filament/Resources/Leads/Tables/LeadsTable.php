@@ -58,8 +58,10 @@ class LeadsTable
                     ->query(fn (Builder $query) => $query->whereNotNull('mail_failed_at')),
             ])
             ->recordActions([
+                LeadResource::acceptLeadAction(),
                 ViewAction::make(),
                 ActionGroup::make([
+                    LeadResource::acceptLeadAction(),
                     LeadResource::generateAllDocumentsAction(),
                     LeadResource::generateContractAction(),
                     LeadResource::generateInsuranceAction(),
@@ -74,7 +76,13 @@ class LeadsTable
                 BulkActionGroup::make([
                     BulkAction::make('bulkStatus')->label(A::t('lead.change_status'))->icon(Heroicon::OutlinedArrowPath)
                         ->schema([Select::make('status')->label(A::t('lead.new_status'))->options(LeadResource::statusOptions())->required()])
-                        ->action(fn (Collection $records, array $data) => $records->each->update(['status' => $data['status']]))
+                        ->action(function (Collection $records, array $data) {
+                            if ($data['status'] === LeadStatus::Accepted->value || $data['status'] === 'accepted') {
+                                $records->each(fn (Lead $lead) => LeadResource::acceptLead($lead));
+                            } else {
+                                $records->each->update(['status' => $data['status']]);
+                            }
+                        })
                         ->deselectRecordsAfterCompletion(),
                     DeleteBulkAction::make(),
                 ]),

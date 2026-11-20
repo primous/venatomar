@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "We will contact you by email or phone within 24 hours to give you an answer.",
     "mail.confirmation.questions": "For any questions, reply to this email or write to us at: :email",
     "mail.confirmation.closing": "Kind regards,",
-    "mail.confirmation.team": "The :brand Team"
+    "mail.confirmation.team": "The :brand Team",
+    "mail.accepted.subject": "Your loan application has been accepted and validated - :reference",
+    "mail.accepted.preheader": "Your loan application has been accepted and validated. Please review the attached document.",
+    "mail.accepted.greeting": "Hello :name,",
+    "mail.accepted.intro": "We are pleased to inform you that your loan application has been accepted and validated.",
+    "mail.accepted.document_notice": "We invite you to review the attached credit insurance document. It contains important information regarding the conditions and terms of coverage of your loan.",
+    "mail.accepted.action_required": "After reading, please send us your reply as soon as possible, and at the latest within 24 hours, so that we can proceed with the next steps of the process.",
+    "mail.accepted.questions": "We remain at your disposal for any questions or additional information.",
+    "mail.accepted.closing": "Best regards,",
+    "mail.accepted.service": "Customer Service",
+    "mail.accepted.badge": "APPLICATION ACCEPTED AND VALIDATED",
+    "mail.accepted.attached_document": "Official document attached: Credit Insurance Information Sheet"
 }

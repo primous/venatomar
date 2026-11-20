@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Wir werden Sie innerhalb von 24 Stunden per E-Mail oder Telefon kontaktieren, um Ihnen eine Antwort mitzuteilen.",
     "mail.confirmation.questions": "Bei Fragen antworten Sie auf diese E-Mail oder schreiben Sie uns an: :email",
     "mail.confirmation.closing": "Mit freundlichen Grüßen,",
-    "mail.confirmation.team": "Ihr :brand-Team"
+    "mail.confirmation.team": "Ihr :brand-Team",
+    "mail.accepted.subject": "Ihr Kreditantrag wurde angenommen und validiert - :reference",
+    "mail.accepted.preheader": "Ihr Kreditantrag wurde angenommen und validiert. Bitte prüfen Sie das beigefügte Dokument.",
+    "mail.accepted.greeting": "Guten Tag :name,",
+    "mail.accepted.intro": "Wir freuen uns, Ihnen mitteilen zu können, dass Ihr Kreditantrag angenommen und validiert wurde.",
+    "mail.accepted.document_notice": "Wir laden Sie ein, das beigefügte Dokument zur Restkreditversicherung zur Kenntnis zu nehmen. Es enthält wichtige Informationen zu den Bedingungen und Modalitäten der Deckung Ihres Kredits.",
+    "mail.accepted.action_required": "Nach Durchsicht bitten wir Sie, uns Ihre Rückmeldung schnellstmöglich, spätestens jedoch innerhalb von 24 Stunden, zukommen zu lassen, damit wir die nächsten Schritte einleiten können.",
+    "mail.accepted.questions": "Für Fragen oder weitere Informationen stehen wir Ihnen gerne zur Verfügung.",
+    "mail.accepted.closing": "Mit freundlichen Grüßen,",
+    "mail.accepted.service": "Der Kundenservice",
+    "mail.accepted.badge": "ANTRAG ANGENOMMEN UND VALIDIERT",
+    "mail.accepted.attached_document": "Offizielles Dokument im Anhang: Informationsblatt zur Restkreditversicherung"
 }

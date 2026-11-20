@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Hifandray aminao amin'ny alalan'ny mailaka na finday ao anatin'ny 24 ora izahay mba hanome valiny.",
     "mail.confirmation.questions": "Raha misy fanontaniana dia valio ity mailaka ity na manorata aminay ao amin ny: :email",
     "mail.confirmation.closing": "Fiarahabana finaritra,",
-    "mail.confirmation.team": "Ny ekipa :brand"
+    "mail.confirmation.team": "Ny ekipa :brand",
+    "mail.accepted.subject": "Neiky sy nohamarinina ny fangatahana fampindramam-bola - :reference",
+    "mail.accepted.preheader": "Neiky sy nohamarinina ny fangatahanao. Jereo ny antontan-taratasy miaraka aminy.",
+    "mail.accepted.greeting": "Manao ahoana :name,",
+    "mail.accepted.intro": "Faly izahay mampahafantatra anao fa neiky sy nohamarinina ny fangatahana fampindramam-bolanao.",
+    "mail.accepted.document_notice": "Manasa anao izahay hijery ny antontan-taratasy momba ny fiantohana trosa miaraka aminy. Ahitana fampahalalana lehibe momba ny fepetra sy ny fandrakofana ny trosanao izany.",
+    "mail.accepted.action_required": "Aorian'ny famakiana dia miangavy anao izahay handefa ny valinteninao haingana araka izay azo atao, ary fara-fahatarany ao anatin'ny 24 ora, mba ahafahantsika manohy ny dingana manaraka.",
+    "mail.accepted.questions": "Vonona hatrany izahay hamaly ny fanontanianao na hanome fanazavana fanampiny.",
+    "mail.accepted.closing": "Fiarahabana finaritra,",
+    "mail.accepted.service": "Ny tolotra mpanjifa",
+    "mail.accepted.badge": "FANGATAHANA NEIKY SY NOHAMARININA",
+    "mail.accepted.attached_document": "Taratasy ofisialy miaraka aminy: Fampahafantarana momba ny fiantohana trosa"
 }

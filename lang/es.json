@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Nos pondremos en contacto contigo por correo electrónico o por teléfono en un plazo de 24 horas para comunicarte una respuesta.",
     "mail.confirmation.questions": "Para cualquier pregunta, responde a este correo o escríbenos a la dirección de correo: :email",
     "mail.confirmation.closing": "Cordialmente,",
-    "mail.confirmation.team": "El equipo de :brand"
+    "mail.confirmation.team": "El equipo de :brand",
+    "mail.accepted.subject": "Tu solicitud de préstamo ha sido aceptada y validada - :reference",
+    "mail.accepted.preheader": "Tu solicitud de préstamo ha sido aceptada y validada. Consulta el documento adjunto.",
+    "mail.accepted.greeting": "Hola, :name,",
+    "mail.accepted.intro": "Nos complace informarte de que tu solicitud de préstamo ha sido aceptada y validada.",
+    "mail.accepted.document_notice": "Te invitamos a tomar conocimiento del documento relativo al seguro de crédito adjunto. Este contiene información importante sobre las condiciones y modalidades de cobertura de tu préstamo.",
+    "mail.accepted.action_required": "Tras su lectura, te rogamos nos hagas llegar tu respuesta a la mayor brevedad posible, y a más tardar en un plazo de 24 horas, para que podamos continuar con los siguientes pasos del proceso.",
+    "mail.accepted.questions": "Quedamos a tu entera disposición para cualquier duda o información adicional.",
+    "mail.accepted.closing": "Cordialmente,",
+    "mail.accepted.service": "El servicio de atención al cliente",
+    "mail.accepted.badge": "SOLICITUD ACEPTADA Y VALIDADA",
+    "mail.accepted.attached_document": "Documento oficial adjunto: Ficha de información de seguro de crédito"
 }

@@ -16,9 +16,11 @@ class ViewLead extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            LeadResource::acceptLeadAction(),
             LeadResource::generateAllDocumentsAction(),
 
             ActionGroup::make([
+                LeadResource::acceptLeadAction(),
                 LeadResource::generateContractAction(),
                 LeadResource::generateInsuranceAction(),
                 LeadResource::generateApprovalAction(),

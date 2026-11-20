@@ -14,6 +14,7 @@ use App\Filament\Resources\Leads\Schemas\LeadInfolist;
 use App\Filament\Resources\Leads\Tables\LeadsTable;
 use App\Filament\Resources\LoanApprovalDocuments\LoanApprovalDocumentResource;
 use App\Filament\Resources\LoanContracts\LoanContractResource;
+use App\Mail\LoanAcceptedMail;
 use App\Models\BankClient;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
@@ -28,6 +29,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 /** Client loan requests & registered borrower dossiers. */
@@ -123,6 +125,55 @@ class LeadResource extends Resource
         };
     }
 
+    /**
+     * Accepts a lead: updates status to Accepted, ensures the personalised credit
+     * insurance information sheet is generated, and queues the official notification email with PDF.
+     */
+    public static function acceptLead(Lead $lead): array
+    {
+        $lead->update(['status' => LeadStatus::Accepted]);
+
+        // Find existing or generate new personalised insurance information document
+        $insuranceDoc = $lead->insuranceDocuments()
+            ->where('document_type', 'information')
+            ->latest()
+            ->first();
+
+        if (! $insuranceDoc) {
+            $insuranceDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+                'document_type' => 'information',
+            ]);
+        }
+
+        Mail::to($lead->email)->queue(new LoanAcceptedMail($lead, $insuranceDoc));
+
+        return [
+            'lead' => $lead,
+            'insurance' => $insuranceDoc,
+        ];
+    }
+
+    public static function acceptLeadAction(): Action
+    {
+        return Action::make('acceptLoan')
+            ->label('Accepter la demande')
+            ->icon(Heroicon::OutlinedCheckCircle)
+            ->color('success')
+            ->requiresConfirmation()
+            ->modalHeading('Accepter et valider cette demande de prêt')
+            ->modalDescription('La demande passera au statut « Acceptée ». La fiche d\'information personnalisée d\'assurance sera automatiquement générée et l\'e-mail officiel d\'acceptation sera envoyé au client avec le document PDF joint.')
+            ->modalSubmitActionLabel('Oui, accepter et envoyer le mail')
+            ->visible(fn (Lead $record) => $record->status !== LeadStatus::Accepted)
+            ->action(function (Lead $record) {
+                $result = self::acceptLead($record);
+                Notification::make()
+                    ->title('Demande acceptée avec succès !')
+                    ->body("La fiche d'information ({$result['insurance']->reference}) a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
+                    ->success()
+                    ->send();
+            });
+    }
+
     public static function changeStatusAction(): Action
     {
         return Action::make('changeStatus')
@@ -133,8 +184,17 @@ class LeadResource extends Resource
                 Select::make('status')->label(A::t('lead.new_status'))->options(self::statusOptions())->required()->native(false),
             ])
             ->action(function (Lead $record, array $data) {
-                $record->update(['status' => $data['status']]);
-                Notification::make()->title(A::t('lead.status_updated'))->success()->send();
+                if ($data['status'] === LeadStatus::Accepted->value || $data['status'] === 'accepted') {
+                    $result = self::acceptLead($record);
+                    Notification::make()
+                        ->title('Demande acceptée avec succès !')
+                        ->body("La fiche d'information ({$result['insurance']->reference}) a été générée et l'e-mail officiel avec PDF joint a été envoyé à {$record->email}.")
+                        ->success()
+                        ->send();
+                } else {
+                    $record->update(['status' => $data['status']]);
+                    Notification::make()->title(A::t('lead.status_updated'))->success()->send();
+                }
             });
     }
 

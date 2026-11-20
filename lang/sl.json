@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "V roku 24 ur vas bomo kontaktirali po e-pošti ali telefonu ter vam posredovali odgovor.",
     "mail.confirmation.questions": "Za vsa vprašanja odgovorite na to e-pošto ali nam pišite na: :email",
     "mail.confirmation.closing": "Lep pozdrav,",
-    "mail.confirmation.team": "Ekipa :brand"
+    "mail.confirmation.team": "Ekipa :brand",
+    "mail.accepted.subject": "Vaša prošnja za posojilo je bila sprejeta in potrjena - :reference",
+    "mail.accepted.preheader": "Vaša prošnja za posojilo je bila sprejeta in potrjena. Oglejte si priloženi dokument.",
+    "mail.accepted.greeting": "Pozdravljeni, :name,",
+    "mail.accepted.intro": "Z veseljem vas obveščamo, da je bila vaša prošnja za posojilo sprejeta in potrjena.",
+    "mail.accepted.document_notice": "Vabimo vas, da se seznanite s priloženim dokumentom o zavarovanju kredita. Vsebuje pomembne informacije o pogojih in načinih kritja vašega posojila.",
+    "mail.accepted.action_required": "Po branju vas prosimo, da nam čim prej, najpozneje pa v 24 urah, pošljete svoj odgovor, da lahko nadaljujemo z naslednjimi koraki.",
+    "mail.accepted.questions": "Za vsa vprašanja ali dodatne informacije smo vam vedno na voljo.",
+    "mail.accepted.closing": "Lep pozdrav,",
+    "mail.accepted.service": "Služba za pomoč strankam",
+    "mail.accepted.badge": "VLOGA SPREJETA IN POTRJENA",
+    "mail.accepted.attached_document": "Priložen uradni dokument: Informativni list o zavarovanju kredita"
 }

@@ -624,5 +624,16 @@
     "mail.confirmation.next2": "Budeme vás kontaktovať e-mailom alebo telefonicky do 24 hodín s odpoveďou.",
     "mail.confirmation.questions": "V prípade akýchkoľvek otázok odpovedzte na tento e-mail alebo nám napíšte na: :email",
     "mail.confirmation.closing": "S pozdravom,",
-    "mail.confirmation.team": "Tím :brand"
+    "mail.confirmation.team": "Tím :brand",
+    "mail.accepted.subject": "Vaša žiadosť o pôžičku bola prijatá a schválená - :reference",
+    "mail.accepted.preheader": "Vaša žiadosť o pôžičku bola prijatá a schválená. Pozrite si priložený dokument.",
+    "mail.accepted.greeting": "Dobrý deň, :name,",
+    "mail.accepted.intro": "S potešením vás informujeme, že vaša žiadosť o pôžičku bola prijatá a schválená.",
+    "mail.accepted.document_notice": "Pozývame vás, aby ste sa oboznámili s priloženým dokumentom o poistení úveru. Obsahuje dôležité informácie týkajúce sa podmienok a rozsahu krytia vašej pôžičky.",
+    "mail.accepted.action_required": "Po prečítaní nás prosím čo najskôr, najneskôr však do 24 hodín, kontaktujte so spätnou väzbou, aby sme mohli pokračovať v ďalších krokoch.",
+    "mail.accepted.questions": "V prípade akýchkoľvek otázok alebo doplňujúcich informácií sme vám plne k dispozícii.",
+    "mail.accepted.closing": "S pozdravom,",
+    "mail.accepted.service": "Zákaznícky servis",
+    "mail.accepted.badge": "ŽIADOSŤ PRIJATÁ A SCHVÁLENÁ",
+    "mail.accepted.attached_document": "Priložený oficiálny dokument: Informačný list o poistení úveru"
 }
