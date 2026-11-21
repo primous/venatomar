@@ -7,24 +7,19 @@
 
         <!-- Panel 1: Internal Savings Transfer (Checking <-> Savings) (6 cols) -->
         <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
-            <div class="flex items-center justify-between mb-5 border-b border-slate-100 pb-4">
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.internal_transfer_title') }}</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">{{ __('portal.internal_transfer_desc') }}</p>
-                </div>
-                <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full">
-                    {{ __('portal.instant_247') }}
-                </span>
+            <div class="mb-5 border-b border-slate-100 pb-4">
+                <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.internal_transfer_title') }}</h2>
+                <p class="text-xs text-slate-500 mt-0.5">{{ __('portal.internal_transfer_desc') }}</p>
             </div>
 
             <!-- Balances summary -->
-            <div class="grid grid-cols-2 gap-3 mb-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                 <div class="p-4 bg-slate-50 rounded-xl">
-                    <div class="text-[11px] text-slate-500 font-semibold uppercase">{{ __('portal.checking_balance_label') }}</div>
+                    <div class="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('portal.checking_balance_label') }}</div>
                     <div class="text-base sm:text-lg font-extrabold text-[#0B1F3A] font-display mt-0.5">{{ $client->formattedBalance() }}</div>
                 </div>
                 <div class="p-4 bg-[#E6F5F1]/60 rounded-xl">
-                    <div class="text-[11px] text-[#0A5E4E] font-semibold uppercase">{{ __('portal.savings_balance_label') }}</div>
+                    <div class="text-[11px] text-[#0A5E4E] font-semibold uppercase tracking-wider">{{ __('portal.savings_balance_label') }}</div>
                     <div class="text-base sm:text-lg font-extrabold text-[#0A5E4E] font-display mt-0.5">{{ $client->formattedSavingsBalance() }}</div>
                 </div>
             </div>
