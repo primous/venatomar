@@ -88,7 +88,7 @@
                         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                         x-transition:leave-end="opacity-0 scale-95 translate-y-1"
                         x-cloak
-                        class="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] border border-slate-200/90 py-2.5 z-50 text-[#24324A]">
+                        class="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] py-2.5 z-50 text-[#24324A]">
 
                         <div class="px-4 py-2 border-b border-slate-100">
                             <div class="text-xs font-bold text-[#0B1F3A] truncate">{{ auth('client')->user()?->fullName() }}</div>
@@ -175,7 +175,7 @@
                             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                             x-transition:leave-end="opacity-0 scale-95 translate-y-1"
                             x-cloak
-                            class="absolute right-0 top-10 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] border border-slate-200/90 py-2.5 z-50 text-[#24324A]">
+                            class="absolute right-0 top-10 w-64 bg-white rounded-2xl shadow-[0_12px_36px_rgba(11,31,58,0.22)] py-2.5 z-50 text-[#24324A]">
 
                             <div class="px-4 py-2 border-b border-slate-100">
                                 <div class="flex items-center gap-2.5">
@@ -188,7 +188,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 flex items-center justify-between">
-                                    <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2 py-0.5 rounded-full border border-[#0FA57E]/20">
+                                    <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2 py-0.5 rounded-full">
                                         {{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})
                                     </span>
                                     <span class="text-[10px] font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full">
@@ -269,21 +269,21 @@
         <div class="max-w-7xl mx-auto">
             
             @if(session('status'))
-                <div class="mb-5 p-4 bg-[#E6F5F1] border border-[#0FA57E]/30 rounded-xl text-[#0A5E4E] text-sm font-medium flex items-center gap-3 shadow-sm">
+                <div class="mb-5 p-4 bg-[#E6F5F1] rounded-xl text-[#0A5E4E] text-sm font-medium flex items-center gap-3 shadow-sm">
                     <svg class="size-5 text-[#0FA57E] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     <div>{{ session('status') }}</div>
                 </div>
             @endif
 
             @if(session('warning'))
-                <div class="mb-5 p-4 bg-[#FFF1E8] border border-[#F26B1D]/30 rounded-xl text-[#B23F08] text-sm font-medium flex items-center gap-3 shadow-sm">
+                <div class="mb-5 p-4 bg-[#FFF1E8] rounded-xl text-[#B23F08] text-sm font-medium flex items-center gap-3 shadow-sm">
                     <svg class="size-5 text-[#F26B1D] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     <div>{{ session('warning') }}</div>
                 </div>
             @endif
 
             @if(session('error') || $errors->any())
-                <div class="mb-5 p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-sm font-medium flex items-center gap-3 shadow-sm">
+                <div class="mb-5 p-4 bg-rose-50 rounded-xl text-rose-800 text-sm font-medium flex items-center gap-3 shadow-sm">
                     <svg class="size-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div>{{ session('error') ?? $errors->first() }}</div>
                 </div>
@@ -296,7 +296,7 @@
 
     <!-- Mobile Bottom Floating Navigation Dock (Fixed at bottom only on mobile screens < md) -->
     <nav class="md:hidden fixed bottom-3 inset-x-3 z-40">
-        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-[0_8px_30px_rgba(11,31,58,0.18)] border border-slate-200 px-3 py-2 flex items-center justify-between">
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-[0_8px_30px_rgba(11,31,58,0.18)] px-3 py-2 flex items-center justify-between">
             
             <!-- 1. Comptes -->
             <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">

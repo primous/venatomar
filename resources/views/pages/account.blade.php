@@ -18,17 +18,17 @@
             </div>
 
             <!-- Card matching reference image -->
-            <div class="rounded-2xl bg-white p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] border border-slate-200">
+            <div class="rounded-2xl bg-white p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 
                 @if (session('status'))
-                    <div role="status" class="mb-4 rounded-lg bg-[#E6F5F1] p-3 text-xs sm:text-sm font-medium text-[#0A5E4E] border border-[#0FA57E]/30 flex items-center gap-2">
+                    <div role="status" class="mb-4 rounded-lg bg-[#E6F5F1] p-3 text-xs sm:text-sm font-medium text-[#0A5E4E] flex items-center gap-2">
                         <svg class="size-4 shrink-0 text-[#0FA57E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
                 @endif
 
                 @if ($errors->any() || session('account_error'))
-                    <div role="alert" class="mb-4 rounded-lg bg-rose-50 p-3 text-xs sm:text-sm font-medium text-rose-700 border border-rose-200 flex items-center gap-2">
+                    <div role="alert" class="mb-4 rounded-lg bg-rose-50 p-3 text-xs sm:text-sm font-medium text-rose-700 flex items-center gap-2">
                         <svg class="size-4 shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>{{ $errors->first() ?: session('account_error') }}</span>
                     </div>

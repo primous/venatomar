@@ -3,7 +3,7 @@
     <x-slot name="pageHeading">{{ __('portal.profile_title') }}</x-slot>
 
     <!-- Top Identity Card -->
-    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 mb-8">
+    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <div class="size-16 rounded-2xl bg-gradient-to-br from-[#0B1F3A] to-[#0A5E4E] text-white font-extrabold text-xl flex items-center justify-center font-display shadow-md">
@@ -14,7 +14,7 @@
                         <h2 class="text-lg sm:text-xl font-extrabold text-[#0B1F3A] font-display">
                             {{ $client->fullName() }}
                         </h2>
-                        <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">
+                        <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900">
                             {{ strtoupper($client->tier) }}
                         </span>
                     </div>
@@ -37,7 +37,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-8">
 
         <!-- Left: Password Update Form (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <h3 class="text-base sm:text-lg font-bold text-[#0B1F3A] mb-1">
                 {{ __('portal.change_password_title') }}
             </h3>
@@ -82,7 +82,7 @@
         </div>
 
         <!-- Right: Personal Coordinates (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <h3 class="text-base sm:text-lg font-bold text-[#0B1F3A] mb-1">
                 {{ __('portal.contact_info_title') }}
             </h3>
@@ -131,13 +131,13 @@
     </div>
 
     <!-- Security Protocols Summary -->
-    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 mb-6">
+    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] mb-6">
         <h3 class="text-xs font-bold uppercase tracking-wider text-[#5B6B82] mb-4">
             {{ __('portal.security_settings') }}
         </h3>
 
         <div class="space-y-3">
-            <div class="flex items-center justify-between p-4 rounded-xl bg-[#F5F7FA] border border-slate-200/80">
+            <div class="flex items-center justify-between p-4 rounded-xl bg-[#F5F7FA]">
                 <div>
                     <div class="font-bold text-sm text-[#0B1F3A]">{{ __('portal.otp_transmission') }}</div>
                     <div class="text-xs text-slate-500 mt-0.5">
@@ -148,7 +148,7 @@
                         @endif
                     </div>
                 </div>
-                <span class="text-xs font-bold px-3 py-1 rounded-full {{ $client->can_receive_otp_email ? 'bg-[#E6F5F1] text-[#0A5E4E] border border-[#0FA57E]/20' : 'bg-amber-100 text-amber-800 border border-amber-200' }}">
+                <span class="text-xs font-bold px-3 py-1 rounded-full {{ $client->can_receive_otp_email ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'bg-amber-100 text-amber-800' }}">
                     {{ $client->can_receive_otp_email ? 'Email' : 'Admin OTP' }}
                 </span>
             </div>

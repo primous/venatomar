@@ -4,7 +4,7 @@
 
     <!-- OTP Verification Banner if transaction is currently pending -->
     @if($pendingTx)
-        <div class="mb-6 p-6 bg-white rounded-2xl shadow-md border-2 border-[#F26B1D] relative overflow-hidden">
+        <div class="mb-6 p-6 bg-white rounded-2xl shadow-md border-l-4 border-[#F26B1D] relative overflow-hidden">
             <div class="flex items-start gap-4">
                 <div class="size-11 rounded-xl bg-[#FFF1E8] text-[#F26B1D] flex items-center justify-center shrink-0">
                     <svg class="size-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -16,12 +16,12 @@
                         <h3 class="text-base font-extrabold text-[#0B1F3A]">
                             {{ __('portal.otp_pending_title') }} (Réf: {{ $pendingTx->reference }})
                         </h3>
-                        <span class="inline-block text-xs font-bold text-[#B23F08] bg-[#FFF1E8] px-3 py-1 rounded-full border border-[#F26B1D]/30 w-fit">
+                        <span class="inline-block text-xs font-bold text-[#B23F08] bg-[#FFF1E8] px-3 py-1 rounded-full w-fit">
                             {{ __('portal.otp_required_badge') }}
                         </span>
                     </div>
 
-                    <div class="mt-3 text-xs text-slate-600 space-y-1 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
+                    <div class="mt-3 text-xs text-slate-600 space-y-1 bg-slate-50 p-3.5 rounded-xl">
                         <div>{{ __('portal.amount_to_send') }} : <strong class="text-[#0B1F3A] font-bold text-sm">{{ $pendingTx->formattedAmount() }}</strong></div>
                         <div>{{ __('portal.destination_bank') }} : <strong class="text-[#0B1F3A]">{{ $pendingTx->target_bank_name }}</strong></div>
                         <div>{{ __('portal.beneficiary_name') }} : <strong>{{ $pendingTx->target_account_holder }}</strong> ({{ $pendingTx->target_account_number }})</div>
@@ -74,7 +74,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-8">
 
         <!-- Left / Main Form (7 cols) -->
-        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <div class="flex items-center justify-between mb-5 border-b border-slate-100 pb-4">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.initiate_transfer') }}</h2>
@@ -168,7 +168,7 @@
 
         <!-- Right Side: Security Standards (5 cols) -->
         <div class="lg:col-span-5 space-y-4">
-            <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-[0_2px_16px_rgba(11,31,58,0.05)]">
+            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-3 flex items-center gap-2">
                     <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     <span>{{ __('portal.security_standards') }}</span>
@@ -189,7 +189,7 @@
                 </ul>
             </div>
 
-            <div class="bg-[#E6F5F1] rounded-2xl p-4 border border-[#0FA57E]/20 text-xs text-[#0A5E4E]">
+            <div class="bg-[#E6F5F1] rounded-2xl p-4 text-xs text-[#0A5E4E]">
                 <strong class="font-bold">Venatomar Security :</strong> {{ __('portal.sec_advisor_note') }}
             </div>
         </div>
@@ -197,7 +197,7 @@
     </div>
 
     <!-- Section: Historique des Opérations (Envois, Reçus, Annulés) -->
-    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
             <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.recent_transactions') }}</h2>
 
@@ -248,9 +248,9 @@
                             </td>
                             <td class="p-3.5 whitespace-nowrap">
                                 @if($tx->isPending())
-                                    <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">{{ __('portal.tab_pending') }}</span>
+                                    <span class="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full">{{ __('portal.tab_pending') }}</span>
                                 @elseif($tx->isCancelled())
-                                    <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">{{ __('portal.tab_cancelled') }}</span>
+                                    <span class="text-[10px] font-bold text-rose-700 bg-rose-100/80 px-2.5 py-0.5 rounded-full">{{ __('portal.tab_cancelled') }}</span>
                                 @else
                                     <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2.5 py-0.5 rounded-full">{{ __('portal.status_paid') }}</span>
                                 @endif

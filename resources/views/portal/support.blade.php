@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-8">
 
         <!-- Form Column (7 cols) -->
-        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <div class="mb-5 border-b border-slate-100 pb-4">
                 <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.new_message_title') }}</h2>
                 <p class="text-xs text-slate-500 mt-0.5">{{ __('portal.new_message_desc') }}</p>
@@ -75,9 +75,9 @@
 
         <!-- Advisor Info Column (5 cols) -->
         <div class="lg:col-span-5 space-y-4">
-            <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-[0_2px_16px_rgba(11,31,58,0.05)]">
+            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <div class="flex items-center gap-3.5 mb-4">
-                    <div class="size-12 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-base flex items-center justify-center border border-[#0FA57E]/20">
+                    <div class="size-12 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-base flex items-center justify-center">
                         VM
                     </div>
                     <div>
@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="bg-[#FFF1E8] rounded-2xl p-5 border border-[#F26B1D]/20 text-xs text-[#B23F08] leading-relaxed">
+            <div class="bg-[#FFF1E8] rounded-2xl p-5 text-xs text-[#B23F08] leading-relaxed">
                 <strong class="font-bold">Venatomar Security :</strong> {{ __('portal.anti_fraud_notice') }}
             </div>
         </div>
@@ -111,14 +111,14 @@
     </div>
 
     <!-- Ticket History List -->
-    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
         <h3 class="text-base sm:text-lg font-bold text-[#0B1F3A] mb-5">
             {{ __('portal.support_history') }}
         </h3>
 
         <div class="space-y-4">
             @forelse($messages as $msg)
-                <div class="p-4 sm:p-5 rounded-2xl border border-slate-200/80 hover:border-slate-300 transition bg-slate-50/50">
+                <div class="p-4 sm:p-5 rounded-2xl transition bg-slate-50/70">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2.5">
                         <div class="flex items-center gap-2.5">
                             <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full {{ in_array($msg->category, ['fraud_alert', 'transaction_dispute']) ? 'bg-rose-100 text-rose-800' : 'bg-slate-200 text-slate-700' }}">
@@ -129,7 +129,7 @@
                         <span class="text-xs text-slate-400">{{ $msg->created_at->format('d/m/Y H:i') }}</span>
                     </div>
 
-                    <div class="text-xs sm:text-sm text-slate-700 bg-white p-3.5 rounded-xl border border-slate-100 leading-relaxed">
+                    <div class="text-xs sm:text-sm text-slate-700 bg-white p-3.5 rounded-xl leading-relaxed shadow-sm">
                         {{ $msg->message }}
                     </div>
 

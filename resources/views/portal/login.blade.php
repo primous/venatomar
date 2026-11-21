@@ -22,17 +22,17 @@
     </div>
 
     <!-- Login Card -->
-    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] border border-slate-200">
+    <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
         
         @if(session('status'))
-            <div class="mb-4 p-3 bg-[#E6F5F1] border border-[#0FA57E]/30 rounded-xl text-[#0A5E4E] text-xs font-medium flex items-center gap-2">
+            <div class="mb-4 p-3 bg-[#E6F5F1] rounded-xl text-[#0A5E4E] text-xs font-medium flex items-center gap-2">
                 <svg class="size-4 shrink-0 text-[#0FA57E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 <span>{{ session('status') }}</span>
             </div>
         @endif
 
         @if($errors->any() || session('account_error'))
-            <div class="mb-4 p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs font-medium flex items-center gap-2">
+            <div class="mb-4 p-3 bg-rose-50 rounded-xl text-rose-700 text-xs font-medium flex items-center gap-2">
                 <svg class="size-4 shrink-0 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <span>{{ $errors->first() ?: session('account_error') }}</span>
             </div>

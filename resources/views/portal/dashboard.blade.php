@@ -13,7 +13,7 @@
             <input type="text" name="q" value="{{ $search ?? '' }}"
                 placeholder="{{ __('portal.search_placeholder') }}"
                 style="font-size: 16px !important;"
-                class="w-full pl-11 pr-10 py-2.5 bg-white border border-slate-200 rounded-full text-sm text-[#0B1F3A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0FA57E] shadow-sm transition">
+                class="w-full pl-11 pr-10 py-2.5 bg-white rounded-full text-sm text-[#0B1F3A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0FA57E] shadow-sm transition">
             @if(!empty($search))
                 <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -34,13 +34,13 @@
                     <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A] tracking-tight">
                         {{ __('portal.checking_accounts') }}
                     </h2>
-                    <span class="text-xs font-semibold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20">
+                    <span class="text-xs font-semibold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full">
                         {{ $client->country }} · {{ $client->currency }}
                     </span>
                 </div>
 
                 <!-- Card 1: Compte principal -->
-                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 hover:shadow-md transition">
+                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] hover:shadow-md transition">
                     <!-- Numéro de compte et IBAN avec le style de "SALDO DISPONIBLE", pleine largeur et sans bordure -->
                     <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold text-[#5B6B82] uppercase tracking-wider">
                         <span>N° {{ $client->account_number }}</span>
@@ -68,7 +68,7 @@
                         </a>
 
                         <a href="{{ route('portal.documents.rib', ['locale' => app()->getLocale()]) }}"
-                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E6F5F1] hover:bg-[#d4ede6] text-[#0A5E4E] font-bold text-xs sm:text-sm border border-[#0FA57E]/20 transition">
+                            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E6F5F1] hover:bg-[#d4ede6] text-[#0A5E4E] font-bold text-xs sm:text-sm transition">
                             <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                             <span>{{ __('portal.download_rib') }}</span>
                         </a>
@@ -76,7 +76,7 @@
                 </div>
 
                 <!-- Card 2: Compte joint & Réserve / Cuenta de ahorro -->
-                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 hover:shadow-md transition">
+                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] hover:shadow-md transition">
                     <div class="flex items-start justify-between gap-3">
                         <div>
                             <div class="text-sm sm:text-base font-bold text-[#0B1F3A]">{{ __('portal.savings_account') }}</div>
@@ -84,7 +84,7 @@
                                 {{ $client->account_number }}-EP
                             </div>
                         </div>
-                        <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20 whitespace-nowrap shrink-0">
+                        <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full whitespace-nowrap shrink-0">
                             {{ __('portal.immediate_availability') }}
                         </span>
                     </div>
@@ -114,7 +114,7 @@
                     </h2>
                 </div>
 
-                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 hover:shadow-md transition">
+                <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] hover:shadow-md transition">
                     @if($loan)
                         <div class="flex items-start justify-between gap-3">
                             <div>
@@ -123,19 +123,19 @@
                                     Ref. {{ $loan->reference }} · {{ $loan->term_months }} {{ trans('admin.months', [], app()->getLocale()) ?: 'meses' }}
                                 </div>
                             </div>
-                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20 whitespace-nowrap shrink-0">
+                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full whitespace-nowrap shrink-0">
                                 {{ __('portal.active_loan') }}
                             </span>
                         </div>
 
                         <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/60">
+                            <div class="p-3.5 bg-slate-50 rounded-xl">
                                 <div class="text-xs text-[#5B6B82] font-semibold uppercase">{{ __('portal.remaining_capital') }}</div>
                                 <div class="text-2xl sm:text-3xl font-extrabold text-[#0B1F3A] tracking-tight font-display mt-0.5">
                                     {{ $loan->formattedRemaining() }}
                                 </div>
                             </div>
-                            <div class="p-3.5 bg-[#E6F5F1]/50 rounded-xl border border-[#0FA57E]/20">
+                            <div class="p-3.5 bg-[#E6F5F1]/60 rounded-xl">
                                 <div class="text-xs text-[#0A5E4E] font-semibold uppercase">{{ __('portal.monthly_payment') }}</div>
                                 <div class="text-2xl sm:text-3xl font-extrabold text-[#0A5E4E] tracking-tight font-display mt-0.5">
                                     {{ $loan->formattedMonthly() }} <span class="text-xs font-normal text-slate-500">{{ __('portal.per_month') }}</span>
@@ -160,7 +160,7 @@
                                     {{ __('portal.preapproved_credit') }}
                                 </div>
                             </div>
-                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20">
+                            <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full">
                                 {{ __('portal.immediate_availability') }}
                             </span>
                         </div>
@@ -195,7 +195,7 @@
                     </a>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 divide-y divide-slate-100 overflow-hidden">
+                <div class="bg-white rounded-2xl shadow-[0_2px_16px_rgba(11,31,58,0.06)] divide-y divide-slate-100 overflow-hidden">
                     @forelse($transactions as $tx)
                         <div class="p-4 sm:p-5 flex items-center justify-between hover:bg-slate-50/70 transition">
                             <div class="flex items-center gap-3.5">
@@ -222,11 +222,11 @@
                                 </div>
                                 <div class="mt-0.5">
                                     @if($tx->isPending())
-                                        <span class="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                                        <span class="text-[10px] font-bold text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full">
                                             {{ __('portal.tab_pending') }}
                                         </span>
                                     @elseif($tx->isCancelled())
-                                        <span class="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">
+                                        <span class="text-[10px] font-bold text-rose-700 bg-rose-100/80 px-2 py-0.5 rounded-full">
                                             {{ __('portal.tab_cancelled') }}
                                         </span>
                                     @else
@@ -251,7 +251,7 @@
         <div class="lg:col-span-4 space-y-6">
 
             <!-- Quick Action Shortcuts -->
-            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#5B6B82] mb-3">
                     {{ __('portal.quick_access') }}
                 </h3>
@@ -292,9 +292,9 @@
             </div>
 
             <!-- Dedicated Advisor Card (Clean White with Emerald Accent) -->
-            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border-l-4 border-[#0FA57E] border-y border-r border-slate-200/80">
+            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)] border-l-4 border-[#0FA57E]">
                 <div class="flex items-center gap-3.5 mb-4">
-                    <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-sm flex items-center justify-center border border-[#0FA57E]/20">
+                    <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-sm flex items-center justify-center">
                         VM
                     </div>
                     <div>
@@ -315,13 +315,13 @@
                     </div>
                 </div>
 
-                <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}" class="w-full py-2.5 bg-[#E6F5F1] hover:bg-[#d4ede6] text-[#0A5E4E] font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 border border-[#0FA57E]/20">
+                <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}" class="w-full py-2.5 bg-[#E6F5F1] hover:bg-[#d4ede6] text-[#0A5E4E] font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5">
                     <span>{{ __('portal.write_advisor') }}</span>
                 </a>
             </div>
 
             <!-- Guarantee Box -->
-            <div class="bg-white rounded-2xl p-4 border border-slate-200/80 text-xs text-slate-500 flex items-start gap-3 shadow-sm">
+            <div class="bg-white rounded-2xl p-4 shadow-[0_2px_16px_rgba(11,31,58,0.06)] text-xs text-slate-500 flex items-start gap-3">
                 <svg class="size-5 text-[#0FA57E] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 <div>
                     <strong class="text-[#0B1F3A] font-semibold">{{ __('portal.deposit_guarantee') }} :</strong> {{ __('portal.deposit_guarantee_text') }}

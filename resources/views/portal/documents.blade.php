@@ -6,13 +6,13 @@
 
         <!-- Left / Bank Card Showcase (5 cols) -->
         <div class="lg:col-span-5">
-            <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+            <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <h2 class="hidden sm:block text-xs font-bold uppercase tracking-wider text-[#5B6B82] mb-4">
                     {{ __('portal.virtual_card') }}
                 </h2>
 
                 <!-- Premium Venatomar Debit Card -->
-                <div class="relative w-full min-h-[215px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 pb-5 sm:pb-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden border border-white/20">
+                <div class="relative w-full min-h-[215px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 pb-5 sm:pb-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
                     <div class="relative z-10 flex flex-col justify-between h-full min-h-[190px] sm:min-h-0">
@@ -28,7 +28,7 @@
 
                         <!-- Chip -->
                         <div class="flex items-center gap-3 my-2 sm:my-auto">
-                            <div class="w-9 sm:w-10 h-6 sm:h-7 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 border border-amber-300 shadow-sm relative overflow-hidden flex items-center justify-center shrink-0">
+                            <div class="w-9 sm:w-10 h-6 sm:h-7 rounded-md bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-sm relative overflow-hidden flex items-center justify-center shrink-0">
                                 <div class="w-full h-[1px] bg-amber-700/40 absolute top-2"></div>
                                 <div class="w-full h-[1px] bg-amber-700/40 absolute bottom-2"></div>
                                 <div class="h-full w-[1px] bg-amber-700/40 absolute left-3"></div>
@@ -66,7 +66,7 @@
         </div>
 
         <!-- Right / Official Downloads (7 cols) -->
-        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A] mb-1">
                 {{ __('portal.download_official_docs') }}
             </h2>
@@ -75,9 +75,9 @@
             <div class="space-y-3">
                 <!-- 1. RIB / IBAN PDF -->
                 <a href="{{ route('portal.documents.rib', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl border border-slate-200 hover:border-[#0FA57E] hover:bg-[#E6F5F1]/30 transition group">
+                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
                     <div class="flex items-center gap-3.5">
-                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0 border border-[#0FA57E]/20">
+                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
                         <div>
@@ -95,9 +95,9 @@
 
                 <!-- 2. Relevé de Compte Mensuel PDF -->
                 <a href="{{ route('portal.documents.statement', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl border border-slate-200 hover:border-[#0FA57E] hover:bg-[#E6F5F1]/30 transition group">
+                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
                     <div class="flex items-center gap-3.5">
-                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0 border border-[#0FA57E]/20">
+                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
                         <div>
@@ -115,9 +115,9 @@
 
                 <!-- 3. Attestation de Solde Bancaire PDF -->
                 <a href="{{ route('portal.documents.attestation', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl border border-slate-200 hover:border-[#0FA57E] hover:bg-[#E6F5F1]/30 transition group">
+                    class="flex items-center justify-between p-4 sm:p-4.5 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
                     <div class="flex items-center gap-3.5">
-                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0 border border-[#0FA57E]/20">
+                        <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                         </div>
                         <div>

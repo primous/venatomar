@@ -6,24 +6,24 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-8">
 
         <!-- Panel 1: Internal Savings Transfer (Checking <-> Savings) (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <div class="flex items-center justify-between mb-5 border-b border-slate-100 pb-4">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.internal_transfer_title') }}</h2>
                     <p class="text-xs text-slate-500 mt-0.5">{{ __('portal.internal_transfer_desc') }}</p>
                 </div>
-                <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20">
+                <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full">
                     {{ __('portal.instant_247') }}
                 </span>
             </div>
 
             <!-- Balances summary -->
             <div class="grid grid-cols-2 gap-3 mb-5">
-                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/70">
+                <div class="p-4 bg-slate-50 rounded-xl">
                     <div class="text-[11px] text-slate-500 font-semibold uppercase">{{ __('portal.checking_balance_label') }}</div>
                     <div class="text-base sm:text-lg font-extrabold text-[#0B1F3A] font-display mt-0.5">{{ $client->formattedBalance() }}</div>
                 </div>
-                <div class="p-4 bg-[#E6F5F1]/60 rounded-xl border border-[#0FA57E]/20">
+                <div class="p-4 bg-[#E6F5F1]/60 rounded-xl">
                     <div class="text-[11px] text-[#0A5E4E] font-semibold uppercase">{{ __('portal.savings_balance_label') }}</div>
                     <div class="text-base sm:text-lg font-extrabold text-[#0A5E4E] font-display mt-0.5">{{ $client->formattedSavingsBalance() }}</div>
                 </div>
@@ -57,7 +57,7 @@
         </div>
 
         <!-- Panel 2: Demande de Financement Express (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80">
+        <div class="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
             <div class="mb-5 border-b border-slate-100 pb-4">
                 <h2 class="text-base sm:text-lg font-bold text-[#0B1F3A]">{{ __('portal.request_loan_title') }}</h2>
                 <p class="text-xs text-slate-500 mt-0.5">{{ __('portal.request_loan_desc') }}</p>
@@ -122,10 +122,10 @@
 
     <!-- Active Loan & Amortization Schedule Table (Échéancier) -->
     @if($activeLoan)
-        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.05)] border border-slate-200/80 mb-8">
+        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 mb-5 gap-3">
                 <div>
-                    <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full border border-[#0FA57E]/20 uppercase tracking-wide">
+                    <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full uppercase tracking-wide">
                         {{ __('portal.active_loan') }}
                     </span>
                     <h2 class="text-lg sm:text-xl font-extrabold text-[#0B1F3A] font-display mt-2">
@@ -137,11 +137,11 @@
                 </div>
 
                 <div class="flex items-center gap-3 text-right">
-                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/70">
+                    <div class="p-3.5 bg-slate-50 rounded-xl">
                         <div class="text-[10px] font-bold text-slate-500 uppercase">{{ __('portal.remaining_capital') }}</div>
                         <div class="text-base sm:text-lg font-extrabold text-[#0B1F3A] font-display mt-0.5">{{ $activeLoan->formattedRemaining() }}</div>
                     </div>
-                    <div class="p-3.5 bg-[#E6F5F1]/60 rounded-xl border border-[#0FA57E]/20">
+                    <div class="p-3.5 bg-[#E6F5F1]/60 rounded-xl">
                         <div class="text-[10px] font-bold text-[#0A5E4E] uppercase">{{ __('portal.monthly_payment') }}</div>
                         <div class="text-base sm:text-lg font-extrabold text-[#0A5E4E] font-display mt-0.5">{{ $activeLoan->formattedMonthly() }}</div>
                     </div>
