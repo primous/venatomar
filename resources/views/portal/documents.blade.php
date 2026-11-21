@@ -128,25 +128,25 @@
                     {{ __('portal.bank_coordinates') }}
                 </h3>
 
-                <div class="space-y-2.5 text-xs sm:text-sm">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <span class="text-slate-500">{{ __('portal.iban_label') }}</span>
-                        <span class="font-mono font-bold text-[#0B1F3A]">{{ $client->iban }}</span>
+                <div class="space-y-4 text-xs sm:text-sm">
+                    <div class="pb-3 border-b border-slate-100">
+                        <div class="text-xs text-slate-500 mb-1">{{ __('portal.iban_label') }}</div>
+                        <div class="font-mono font-bold text-sm sm:text-base text-[#0B1F3A] tracking-wide select-all break-all sm:break-normal">{{ $client->iban }}</div>
                     </div>
 
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <span class="text-slate-500">{{ __('portal.bic_label') }}</span>
-                        <span class="font-mono font-bold text-[#0B1F3A]">{{ $client->bic }}</span>
+                    <div class="pb-3 border-b border-slate-100">
+                        <div class="text-xs text-slate-500 mb-1">{{ __('portal.bic_label') }}</div>
+                        <div class="font-mono font-bold text-sm sm:text-base text-[#0B1F3A] tracking-wider select-all">{{ $client->bic }}</div>
                     </div>
 
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <span class="text-slate-500">{{ __('portal.card_holder') }}</span>
-                        <span class="font-bold text-[#0B1F3A]">{{ $client->fullName() }}</span>
+                    <div class="pb-3 border-b border-slate-100">
+                        <div class="text-xs text-slate-500 mb-1">{{ __('portal.card_holder') }}</div>
+                        <div class="font-bold text-sm sm:text-base text-[#0B1F3A]">{{ $client->fullName() }}</div>
                     </div>
 
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500">{{ __('portal.agency_label') }}</span>
-                        <span class="font-bold text-[#0B1F3A]">Venatomar Financial Services (Europe)</span>
+                    <div class="pt-0.5">
+                        <div class="text-xs text-slate-500 mb-1">{{ __('portal.agency_label') }}</div>
+                        <div class="font-bold text-sm sm:text-base text-[#0B1F3A]">Venatomar Financial Services (Europe)</div>
                     </div>
                 </div>
             </div>
