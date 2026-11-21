@@ -76,15 +76,10 @@
         <!-- Advisor Info Column (5 cols) -->
         <div class="lg:col-span-5 space-y-4">
             <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
-                <div class="flex items-center gap-3.5 mb-4">
-                    <div class="size-12 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-base flex items-center justify-center">
-                        VM
-                    </div>
-                    <div>
-                        <div class="text-[10px] uppercase font-bold text-[#0FA57E] tracking-wider">{{ __('portal.customer_service_dept') }}</div>
-                        <div class="text-base font-extrabold text-[#0B1F3A]">{{ __('portal.management_firm') }}</div>
-                        <div class="text-xs text-slate-400">{{ __('portal.madrid_central') }}</div>
-                    </div>
+                <div class="mb-4">
+                    <div class="text-[10px] uppercase font-bold text-[#0FA57E] tracking-wider">{{ __('portal.customer_service_dept') }}</div>
+                    <div class="text-base font-extrabold text-[#0B1F3A]">{{ __('portal.management_firm') }}</div>
+                    <div class="text-xs text-slate-400">{{ __('portal.madrid_central') }}</div>
                 </div>
 
                 <div class="text-xs text-slate-600 space-y-2.5 border-t border-slate-100 pt-4 leading-relaxed">

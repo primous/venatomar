@@ -291,17 +291,12 @@
                 </div>
             </div>
 
-            <!-- Dedicated Advisor Card (Clean White with Emerald Accent) -->
-            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)] border-l-4 border-[#0FA57E]">
-                <div class="flex items-center gap-3.5 mb-4">
-                    <div class="size-11 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] font-extrabold text-sm flex items-center justify-center">
-                        VM
-                    </div>
-                    <div>
-                        <div class="text-[10px] uppercase font-bold text-[#0FA57E] tracking-wider">{{ __('portal.dedicated_advisor') }}</div>
-                        <div class="text-sm font-bold text-[#0B1F3A]">{{ __('portal.management_firm') }}</div>
-                        <div class="text-xs text-slate-400">{{ __('portal.madrid_central') }}</div>
-                    </div>
+            <!-- Dedicated Advisor Card (Clean White) -->
+            <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
+                <div class="mb-4">
+                    <div class="text-[10px] uppercase font-bold text-[#0FA57E] tracking-wider">{{ __('portal.dedicated_advisor') }}</div>
+                    <div class="text-sm font-bold text-[#0B1F3A]">{{ __('portal.management_firm') }}</div>
+                    <div class="text-xs text-slate-400">{{ __('portal.madrid_central') }}</div>
                 </div>
 
                 <div class="space-y-2 text-xs text-slate-600 mb-4">
