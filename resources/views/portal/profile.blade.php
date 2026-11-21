@@ -5,24 +5,19 @@
     <!-- Top Identity Card -->
     <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="size-16 rounded-2xl bg-gradient-to-br from-[#0B1F3A] to-[#0A5E4E] text-white font-extrabold text-xl flex items-center justify-center font-display shadow-md">
-                    {{ strtoupper(substr($client->first_name, 0, 1) . substr($client->last_name, 0, 1)) }}
+            <div>
+                <div class="flex items-center gap-2.5">
+                    <h2 class="text-lg sm:text-xl font-extrabold text-[#0B1F3A] font-display">
+                        {{ $client->fullName() }}
+                    </h2>
+                    <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900">
+                        {{ strtoupper($client->tier) }}
+                    </span>
                 </div>
-                <div>
-                    <div class="flex items-center gap-2.5">
-                        <h2 class="text-lg sm:text-xl font-extrabold text-[#0B1F3A] font-display">
-                            {{ $client->fullName() }}
-                        </h2>
-                        <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900">
-                            {{ strtoupper($client->tier) }}
-                        </span>
-                    </div>
-                    <div class="text-xs text-slate-500 font-mono mt-0.5">{{ $client->account_number }} · {{ $client->email }}</div>
-                    <div class="text-xs text-[#0FA57E] font-semibold mt-1 flex items-center gap-1.5">
-                        <span class="size-2 rounded-full bg-[#0FA57E]"></span>
-                        <span>{{ __('portal.verified_account') }} ({{ $client->country }})</span>
-                    </div>
+                <div class="text-xs text-slate-500 font-mono mt-0.5 break-all sm:break-normal">{{ $client->account_number }} · {{ $client->email }}</div>
+                <div class="text-xs text-[#0FA57E] font-semibold mt-1 flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-[#0FA57E]"></span>
+                    <span>{{ __('portal.verified_account') }} ({{ $client->country }})</span>
                 </div>
             </div>
 
@@ -137,20 +132,15 @@
         </h3>
 
         <div class="space-y-3">
-            <div class="flex items-center justify-between p-4 rounded-xl bg-[#F5F7FA]">
-                <div>
-                    <div class="font-bold text-sm text-[#0B1F3A]">{{ __('portal.otp_transmission') }}</div>
-                    <div class="text-xs text-slate-500 mt-0.5">
-                        @if($client->can_receive_otp_email)
-                            {{ __('portal.otp_email_active') }} ({{ $client->email }})
-                        @else
-                            {{ __('portal.otp_admin_active') }}
-                        @endif
-                    </div>
+            <div class="p-4 rounded-xl bg-[#F5F7FA]">
+                <div class="font-bold text-sm text-[#0B1F3A]">{{ __('portal.otp_transmission') }}</div>
+                <div class="text-xs text-slate-500 mt-1 leading-relaxed">
+                    @if($client->can_receive_otp_email)
+                        {{ __('portal.otp_email_active') }} ({{ $client->email }})
+                    @else
+                        {{ __('portal.otp_admin_active') }}
+                    @endif
                 </div>
-                <span class="text-xs font-bold px-3 py-1 rounded-full {{ $client->can_receive_otp_email ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'bg-amber-100 text-amber-800' }}">
-                    {{ $client->can_receive_otp_email ? 'Email' : 'Admin OTP' }}
-                </span>
             </div>
         </div>
     </div>
