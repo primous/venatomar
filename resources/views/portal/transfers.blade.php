@@ -30,8 +30,8 @@
                     <!-- Security Notice -->
                     <div class="mt-3 text-xs leading-relaxed">
                         @if($client->can_receive_otp_email)
-                            <div class="text-[#0A5E4E] font-semibold flex items-center gap-1.5">
-                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <div class="text-[#B23F08] font-semibold flex items-center gap-1.5">
+                                <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 <span>{{ __('portal.otp_email_notice') }} {{ $client->email }}</span>
                             </div>
                         @else
@@ -48,7 +48,7 @@
                         <input type="text" name="otp_code" maxlength="6" pattern="[0-9]{6}" required
                             placeholder="Code (ex: 492810)"
                             style="font-size: 16px !important;"
-                            class="w-full sm:w-64 px-4 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-center font-mono text-base font-bold tracking-widest text-[#0B1F3A] focus:outline-none focus:border-[#0FA57E]">
+                            class="w-full sm:w-64 px-4 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-center font-mono text-base font-bold tracking-widest text-[#0B1F3A] focus:outline-none focus:border-[#F26B1D]">
                         
                         <button type="submit"
                             class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-[#F26B1D] to-[#D04A0A] hover:from-[#E05B0D] hover:to-[#B93E07] text-white font-bold text-xs sm:text-sm rounded-xl transition shadow-sm">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="text-right">
                     <span class="text-xs text-[#5B6B82] uppercase font-semibold">{{ __('portal.available_balance') }}</span>
-                    <div class="text-base sm:text-lg font-extrabold text-[#0FA57E] font-display">{{ $client->formattedBalance() }}</div>
+                    <div class="text-base sm:text-lg font-extrabold text-[#F26B1D] font-display">{{ $client->formattedBalance() }}</div>
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
                     </label>
                     <select id="target_bank_name" name="target_bank_name" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E] transition">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D] transition">
                         <option value="">{{ __('portal.select_bank') }}</option>
                         @foreach($banks as $b)
                             <option value="{{ $b }}" {{ old('target_bank_name') === $b ? 'selected' : '' }}>
@@ -115,7 +115,7 @@
                         <input id="target_account_holder" type="text" name="target_account_holder" value="{{ old('target_account_holder') }}" required
                             placeholder="Ex: Carlos Mendoza / Marie Laurent"
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E] transition">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D] transition">
                     </div>
 
                     <div>
@@ -125,7 +125,7 @@
                         <input id="target_account_number" type="text" name="target_account_number" value="{{ old('target_account_number') }}" required
                             placeholder="IBAN / CLABE / N°"
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-mono text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E] transition">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-mono text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D] transition">
                     </div>
                 </div>
 
@@ -138,7 +138,7 @@
                             <input id="amount" type="number" step="0.01" min="1" name="amount" value="{{ old('amount') }}" required
                                 placeholder="0.00"
                                 style="font-size: 16px !important;"
-                                class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E] transition">
+                                class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D] transition">
                             <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-xs font-bold text-slate-400">
                                 {{ $client->currency }}
                             </div>
@@ -152,7 +152,7 @@
                         <input id="description" type="text" name="description" value="{{ old('description') }}"
                             placeholder="Ex: Factura, Nómina, Ahorro"
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E] transition">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D] transition">
                     </div>
                 </div>
 
@@ -170,26 +170,26 @@
         <div class="lg:col-span-5 space-y-4">
             <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <h3 class="text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-3 flex items-center gap-2">
-                    <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     <span>{{ __('portal.security_standards') }}</span>
                 </h3>
                 <ul class="text-xs text-slate-600 space-y-2.5 leading-relaxed">
                     <li class="flex items-start gap-2">
-                        <span class="text-[#0FA57E] font-bold">✓</span>
+                        <span class="text-[#F26B1D] font-bold">✓</span>
                         <span>{{ __('portal.sec_double_factor') }}</span>
                     </li>
                     <li class="flex items-start gap-2">
-                        <span class="text-[#0FA57E] font-bold">✓</span>
+                        <span class="text-[#F26B1D] font-bold">✓</span>
                         <span>{{ __('portal.sec_network', ['country' => $client->country]) }}</span>
                     </li>
                     <li class="flex items-start gap-2">
-                        <span class="text-[#0FA57E] font-bold">✓</span>
+                        <span class="text-[#F26B1D] font-bold">✓</span>
                         <span>{{ __('portal.sec_limit', ['tier' => strtoupper($client->tier)]) }}</span>
                     </li>
                 </ul>
             </div>
 
-            <div class="bg-[#E6F5F1] rounded-2xl p-4 text-xs text-[#0A5E4E]">
+            <div class="bg-[#FFF1E8] rounded-2xl p-4 text-xs text-[#B23F08]">
                 <strong class="font-bold">Venatomar Security :</strong> {{ __('portal.sec_advisor_note') }}
             </div>
         </div>
@@ -252,10 +252,10 @@
                                 @elseif($tx->isCancelled())
                                     <span class="text-[10px] font-bold text-rose-700 bg-rose-100/80 px-2.5 py-0.5 rounded-full">{{ __('portal.tab_cancelled') }}</span>
                                 @else
-                                    <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2.5 py-0.5 rounded-full">{{ __('portal.status_paid') }}</span>
+                                    <span class="text-[10px] font-bold text-[#B23F08] bg-[#FFF1E8] px-2.5 py-0.5 rounded-full">{{ __('portal.status_paid') }}</span>
                                 @endif
                             </td>
-                            <td class="p-3.5 text-right whitespace-nowrap font-extrabold font-display {{ in_array($tx->type, ['transfer_out', 'fee']) ? 'text-[#0B1F3A]' : 'text-[#0FA57E]' }}">
+                            <td class="p-3.5 text-right whitespace-nowrap font-extrabold font-display {{ in_array($tx->type, ['transfer_out', 'fee']) ? 'text-[#0B1F3A]' : 'text-[#F26B1D]' }}">
                                 {{ $tx->formattedAmount() }}
                             </td>
                         </tr>

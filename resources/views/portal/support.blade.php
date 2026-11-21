@@ -20,7 +20,7 @@
                     </label>
                     <select id="category" name="category" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                         <option value="general">{{ __('portal.cat_general') }}</option>
                         <option value="fraud_alert">{{ __('portal.cat_fraud') }}</option>
                         <option value="transaction_dispute">{{ __('portal.cat_dispute') }}</option>
@@ -35,7 +35,7 @@
                     </label>
                     <select id="bank_transaction_id" name="bank_transaction_id"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                         <option value="">{{ __('portal.no_related_tx') }}</option>
                         @foreach($transactions as $t)
                             <option value="{{ $t->id }}">
@@ -52,7 +52,7 @@
                     <input id="subject" type="text" name="subject" value="{{ old('subject') }}" required
                         placeholder="{{ __('portal.subject_placeholder') }}"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div>
@@ -62,11 +62,11 @@
                     <textarea id="message" name="message" rows="4" required
                         placeholder="{{ __('portal.message_placeholder') }}"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">{{ old('message') }}</textarea>
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">{{ old('message') }}</textarea>
                 </div>
 
                 <button type="submit"
-                    class="w-full py-3.5 bg-[#0FA57E] hover:bg-[#0E7C66] text-white font-bold text-sm sm:text-base rounded-xl transition shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 active:scale-[0.99]">
+                    class="w-full py-3.5 bg-gradient-to-r from-[#F26B1D] to-[#D04A0A] hover:from-[#E05B0D] hover:to-[#B93E07] text-white font-bold text-sm sm:text-base rounded-xl transition shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 active:scale-[0.99]">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                     <span>{{ __('portal.btn_send_message') }}</span>
                 </button>
@@ -77,7 +77,7 @@
         <div class="lg:col-span-5 space-y-4">
             <div class="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 <div class="mb-4">
-                    <div class="text-[10px] uppercase font-bold text-[#0FA57E] tracking-wider">{{ __('portal.customer_service_dept') }}</div>
+                    <div class="text-[10px] uppercase font-bold text-[#F26B1D] tracking-wider">{{ __('portal.customer_service_dept') }}</div>
                     <div class="text-base font-extrabold text-[#0B1F3A]">{{ __('portal.management_firm') }}</div>
                     <div class="text-xs text-slate-400">{{ __('portal.madrid_central') }}</div>
                 </div>
@@ -129,9 +129,9 @@
                     </div>
 
                     @if($msg->admin_reply)
-                        <div class="mt-3.5 pl-4 border-l-4 border-[#0FA57E] bg-[#E6F5F1]/60 p-4 rounded-r-xl">
-                            <div class="text-xs font-bold text-[#0A5E4E] flex items-center gap-1.5 mb-1.5">
-                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div class="mt-3.5 pl-4 border-l-4 border-[#F26B1D] bg-[#FFF1E8]/70 p-4 rounded-r-xl">
+                            <div class="text-xs font-bold text-[#B23F08] flex items-center gap-1.5 mb-1.5">
+                                <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span>{{ __('portal.official_reply') }} · {{ $msg->replied_at ? $msg->replied_at->format('d/m/Y') : '' }}</span>
                             </div>
                             <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">

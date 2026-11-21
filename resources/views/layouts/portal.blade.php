@@ -11,7 +11,7 @@
 
     <style>
         .header-venatomar {
-            background: linear-gradient(135deg, #0B1F3A 0%, #0E3638 55%, #0A5E4E 100%);
+            background: linear-gradient(135deg, #F26B1D 0%, #E05B0D 50%, #D04A0A 100%);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -27,7 +27,7 @@
                 <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="flex items-center gap-2.5">
                     <img src="{{ asset('images/logo.svg') }}" alt="Venatomar" class="size-8">
                     <span class="font-display font-extrabold text-lg text-white tracking-tight">VENATOMAR</span>
-                    <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#0FA57E] text-white">{{ __('portal.online_banking') }}</span>
+                    <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-[#F26B1D] text-white">{{ __('portal.online_banking') }}</span>
                 </a>
 
                 <!-- Nav links with dynamic translations -->
@@ -66,11 +66,11 @@
 
                 <div x-data="{ desktopUserMenu: false }" class="relative flex items-center gap-3 pl-3 border-l border-white/15">
                     <button type="button" @click="desktopUserMenu = !desktopUserMenu" class="flex items-center gap-2.5 text-left group focus:outline-none">
-                        <div class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center">
+                        <div class="size-8 rounded-full bg-[#F26B1D] text-white font-bold text-xs flex items-center justify-center">
                             {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1) . substr(auth('client')->user()?->last_name ?? 'L', 0, 1)) }}
                         </div>
                         <div class="text-xs">
-                            <div class="font-bold text-white group-hover:text-[#1CCB9E] transition flex items-center gap-1">
+                            <div class="font-bold text-white group-hover:text-amber-200 transition flex items-center gap-1">
                                 <span>{{ auth('client')->user()?->fullName() }}</span>
                                 <svg class="size-3 text-slate-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                             </div>
@@ -97,15 +97,15 @@
 
                         <div class="py-1.5 px-2">
                             <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}"
-                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
-                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#FFF1E8] hover:text-[#B23F08] transition">
+                                <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                                 <span>{{ __('portal.profile_title') }}</span>
                             </a>
                             <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}"
-                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
-                                <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#FFF1E8] hover:text-[#B23F08] transition">
+                                <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                                 </svg>
                                 <span>{{ __('portal.nav_help') }}</span>
@@ -161,7 +161,7 @@
                     <!-- Mobile User Avatar Button & Dropdown Menu -->
                     <div x-data="{ mobileUserMenu: false }" class="relative">
                         <button type="button" @click="mobileUserMenu = !mobileUserMenu"
-                            class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/40 shadow-sm transition active:scale-95"
+                            class="size-8 rounded-full bg-white text-[#F26B1D] font-extrabold text-xs flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/40 shadow-sm transition active:scale-95"
                             aria-label="Menu utilisateur">
                             {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1)) }}
                         </button>
@@ -179,7 +179,7 @@
 
                             <div class="px-4 py-2 border-b border-slate-100">
                                 <div class="flex items-center gap-2.5">
-                                    <div class="size-8 rounded-full bg-[#0FA57E] text-white font-bold text-xs flex items-center justify-center shrink-0">
+                                    <div class="size-8 rounded-full bg-[#F26B1D] text-white font-bold text-xs flex items-center justify-center shrink-0">
                                         {{ strtoupper(substr(auth('client')->user()?->first_name ?: (auth('client')->user()?->email ?? 'C'), 0, 1)) }}
                                     </div>
                                     <div class="min-w-0 flex-1">
@@ -188,7 +188,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-2 flex items-center justify-between">
-                                    <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2 py-0.5 rounded-full">
+                                    <span class="text-[10px] font-bold text-[#B23F08] bg-[#FFF1E8] px-2 py-0.5 rounded-full">
                                         {{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})
                                     </span>
                                     <span class="text-[10px] font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full">
@@ -199,16 +199,16 @@
 
                             <div class="py-1.5 px-2">
                                 <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}"
-                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
-                                    <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#FFF1E8] hover:text-[#B23F08] transition">
+                                    <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
                                     <span>{{ __('portal.profile_title') }}</span>
                                 </a>
 
                                 <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}"
-                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#E6F5F1] hover:text-[#0A5E4E] transition">
-                                    <svg class="size-4 text-[#0FA57E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-[#FFF1E8] hover:text-[#B23F08] transition">
+                                    <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                                     </svg>
                                     <span>{{ __('portal.nav_help') }}</span>
@@ -236,7 +236,7 @@
             <!-- Header Titles & Tabs -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <div class="text-xs uppercase font-bold tracking-wider text-[#1CCB9E] mb-1">
+                    <div class="text-xs uppercase font-bold tracking-wider text-amber-100 mb-1">
                         {{ __('portal.secure_portal') }} · {{ auth('client')->user()?->country }} ({{ strtoupper(app()->getLocale()) }})
                     </div>
                     <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
@@ -249,13 +249,13 @@
                     <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="relative pb-2 text-white font-bold transition">
                         {{ __('portal.all') }}
                         @if(request()->routeIs('portal.dashboard'))
-                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1CCB9E] rounded-full"></span>
+                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full"></span>
                         @endif
                     </a>
-                    <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="relative pb-2 text-slate-300 hover:text-white transition">
+                    <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="relative pb-2 text-white/75 hover:text-white transition">
                         {{ __('portal.customize') }}
                         @if(request()->routeIs('portal.profile*'))
-                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#1CCB9E] rounded-full"></span>
+                            <span class="absolute bottom-0 left-0 right-0 h-0.5 bg-white rounded-full"></span>
                         @endif
                     </a>
                 </div>
@@ -269,8 +269,8 @@
         <div class="max-w-7xl mx-auto">
             
             @if(session('status'))
-                <div class="mb-5 p-4 bg-[#E6F5F1] rounded-xl text-[#0A5E4E] text-sm font-medium flex items-center gap-3 shadow-sm">
-                    <svg class="size-5 text-[#0FA57E] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <div class="mb-5 p-4 bg-[#FFF1E8] rounded-xl text-[#B23F08] text-sm font-medium flex items-center gap-3 shadow-sm">
+                    <svg class="size-5 text-[#F26B1D] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     <div>{{ session('status') }}</div>
                 </div>
             @endif
@@ -300,57 +300,57 @@
             
             <!-- 1. Comptes -->
             <a href="{{ route('portal.dashboard', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">
-                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.dashboard') ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'text-slate-500 group-hover:text-slate-900' }}">
+                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.dashboard') ? 'bg-[#FFF1E8] text-[#F26B1D]' : 'text-slate-500 group-hover:text-slate-900' }}">
                     €
                 </div>
-                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.dashboard') ? 'text-[#0A5E4E] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_accounts') }}</span>
+                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.dashboard') ? 'text-[#F26B1D] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_accounts') }}</span>
             </a>
 
             <!-- 2. Virements -->
             <a href="{{ route('portal.transfers', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">
-                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.transfers*') ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'text-slate-500 group-hover:text-slate-900' }}">
+                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.transfers*') ? 'bg-[#FFF1E8] text-[#F26B1D]' : 'text-slate-500 group-hover:text-slate-900' }}">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
                 </div>
-                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.transfers*') ? 'text-[#0A5E4E] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_transfers') }}</span>
+                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.transfers*') ? 'text-[#F26B1D] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_transfers') }}</span>
             </a>
 
             <!-- 3. Cartes / RIB -->
             <a href="{{ route('portal.documents', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">
-                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.documents*') ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'text-slate-500 group-hover:text-slate-900' }}">
+                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.documents*') ? 'bg-[#FFF1E8] text-[#F26B1D]' : 'text-slate-500 group-hover:text-slate-900' }}">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <rect x="2" y="5" width="20" height="14" rx="2"/>
                         <line x1="2" y1="10" x2="22" y2="10"/>
                     </svg>
                 </div>
-                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.documents*') ? 'text-[#0A5E4E] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_cards') }}</span>
+                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.documents*') ? 'text-[#F26B1D] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_cards') }}</span>
             </a>
 
             <!-- 4. Souscrire -->
             <a href="{{ route('portal.loans', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">
-                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.loans*') ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'text-slate-500 group-hover:text-slate-900' }}">
+                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.loans*') ? 'bg-[#FFF1E8] text-[#F26B1D]' : 'text-slate-500 group-hover:text-slate-900' }}">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>
                 </div>
-                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.loans*') ? 'text-[#0A5E4E] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_loans') }}</span>
+                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.loans*') ? 'text-[#F26B1D] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_loans') }}</span>
             </a>
 
             <!-- 5. Plus / Profil -->
             <a href="{{ route('portal.profile', ['locale' => app()->getLocale()]) }}" class="flex flex-col items-center justify-center flex-1 py-1 group transition">
-                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.profile*') ? 'bg-[#E6F5F1] text-[#0A5E4E]' : 'text-slate-500 group-hover:text-slate-900' }}">
+                <div class="size-8 rounded-full flex items-center justify-center text-sm font-bold {{ request()->routeIs('portal.profile*') ? 'bg-[#FFF1E8] text-[#F26B1D]' : 'text-slate-500 group-hover:text-slate-900' }}">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <line x1="4" y1="6" x2="20" y2="6"/>
                         <line x1="4" y1="12" x2="20" y2="12"/>
                         <line x1="4" y1="18" x2="20" y2="18"/>
                     </svg>
                 </div>
-                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.profile*') ? 'text-[#0A5E4E] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_more') }}</span>
+                <span class="text-[10px] font-semibold mt-0.5 {{ request()->routeIs('portal.profile*') ? 'text-[#F26B1D] font-bold' : 'text-slate-500' }}">{{ __('portal.nav_more') }}</span>
             </a>
 
             <!-- Floating Assistance button -->
-            <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}" class="ml-1 shrink-0 p-2 rounded-xl bg-gradient-to-r from-[#0FA57E] to-[#0A5E4E] text-white shadow-sm flex flex-col items-center justify-center size-9" title="{{ __('portal.nav_help') }}">
+            <a href="{{ route('portal.support', ['locale' => app()->getLocale()]) }}" class="ml-1 shrink-0 p-2 rounded-xl bg-gradient-to-r from-[#F26B1D] to-[#D04A0A] text-white shadow-sm flex flex-col items-center justify-center size-9" title="{{ __('portal.nav_help') }}">
                 <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
                 </svg>

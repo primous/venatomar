@@ -12,7 +12,7 @@
                 </h2>
 
                 <!-- Premium Venatomar Debit Card -->
-                <div class="relative w-full min-h-[215px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#0A4B40] to-[#0FA57E] p-4 sm:p-6 pb-5 sm:pb-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden">
+                <div class="relative w-full min-h-[215px] sm:min-h-0 sm:aspect-[1.586/1] rounded-2xl bg-gradient-to-tr from-[#0B1F3A] via-[#92380A] to-[#F26B1D] p-4 sm:p-6 pb-5 sm:pb-6 text-white shadow-xl shadow-slate-900/15 overflow-hidden">
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
                     <div class="relative z-10 flex flex-col justify-between h-full min-h-[190px] sm:min-h-0">
@@ -21,7 +21,7 @@
                                 <img src="{{ asset('images/logo.svg') }}" alt="Venatomar" class="size-6 brightness-200">
                                 <span class="font-display font-extrabold text-sm tracking-tight">VENATOMAR</span>
                             </div>
-                            <span class="text-[9px] uppercase font-bold tracking-widest text-[#E6F5F1] px-2 py-0.5 rounded bg-white/20">
+                            <span class="text-[9px] uppercase font-bold tracking-widest text-amber-100 px-2 py-0.5 rounded bg-white/20">
                                 {{ __('portal.platinum_card') }}
                             </span>
                         </div>
@@ -34,7 +34,7 @@
                                 <div class="h-full w-[1px] bg-amber-700/40 absolute left-3"></div>
                             </div>
                             <!-- Contactless wave -->
-                            <svg class="size-4 sm:size-5 text-emerald-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="size-4 sm:size-5 text-amber-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 010-7.778M11.646 19.94a10.5 10.5 0 000-14.85M15.182 23.475a15.5 15.5 0 000-21.95"/>
                             </svg>
                         </div>
@@ -46,11 +46,11 @@
 
                             <div class="flex items-end justify-between gap-3 text-xs pt-0.5">
                                 <div class="min-w-0 flex-1">
-                                    <div class="text-[8.5px] uppercase tracking-wider text-emerald-200 font-semibold">{{ __('portal.card_holder') }}</div>
+                                    <div class="text-[8.5px] uppercase tracking-wider text-amber-200 font-semibold">{{ __('portal.card_holder') }}</div>
                                     <div class="font-bold tracking-wide uppercase truncate text-xs sm:text-sm">{{ $client->fullName() }}</div>
                                 </div>
                                 <div class="text-right shrink-0">
-                                    <div class="text-[8.5px] uppercase tracking-wider text-emerald-200 font-semibold">{{ __('portal.card_expires') }}</div>
+                                    <div class="text-[8.5px] uppercase tracking-wider text-amber-200 font-semibold">{{ __('portal.card_expires') }}</div>
                                     <div class="font-bold font-mono text-xs sm:text-sm">12/28</div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="hidden sm:flex mt-4 pt-3 border-t border-slate-100 items-center justify-between text-xs text-slate-500">
-                    <span>{{ __('portal.card_status_prefix') }} <strong class="text-[#0FA57E]">{{ __('portal.card_active') }}</strong></span>
+                    <span>{{ __('portal.card_status_prefix') }} <strong class="text-[#F26B1D]">{{ __('portal.card_active') }}</strong></span>
                     <span>{{ __('portal.card_contactless') }}</span>
                 </div>
             </div>
@@ -75,48 +75,48 @@
             <div class="space-y-3">
                 <!-- 1. RIB / IBAN PDF -->
                 <a href="{{ route('portal.documents.rib', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
+                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#FFF1E8]/60 transition group">
                     <div class="flex items-center gap-3 min-w-0">
-                        <div class="size-10 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
+                        <div class="size-10 rounded-xl bg-[#FFF1E8] text-[#F26B1D] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
-                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#0FA57E] transition leading-snug">
+                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#F26B1D] transition leading-snug">
                             {{ __('portal.doc_rib_title') }}
                         </div>
                     </div>
-                    <div class="size-9 rounded-lg bg-[#E6F5F1] group-hover:bg-[#0FA57E] text-[#0A5E4E] group-hover:text-white flex items-center justify-center shrink-0 transition">
+                    <div class="size-9 rounded-lg bg-[#FFF1E8] group-hover:bg-[#F26B1D] text-[#F26B1D] group-hover:text-white flex items-center justify-center shrink-0 transition">
                         <svg class="size-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                     </div>
                 </a>
 
                 <!-- 2. Relevé de Compte Mensuel PDF -->
                 <a href="{{ route('portal.documents.statement', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
+                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#FFF1E8]/60 transition group">
                     <div class="flex items-center gap-3 min-w-0">
-                        <div class="size-10 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
+                        <div class="size-10 rounded-xl bg-[#FFF1E8] text-[#F26B1D] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
-                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#0FA57E] transition leading-snug">
+                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#F26B1D] transition leading-snug">
                             {{ __('portal.doc_statement_title') }}
                         </div>
                     </div>
-                    <div class="size-9 rounded-lg bg-[#E6F5F1] group-hover:bg-[#0FA57E] text-[#0A5E4E] group-hover:text-white flex items-center justify-center shrink-0 transition">
+                    <div class="size-9 rounded-lg bg-[#FFF1E8] group-hover:bg-[#F26B1D] text-[#F26B1D] group-hover:text-white flex items-center justify-center shrink-0 transition">
                         <svg class="size-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                     </div>
                 </a>
 
                 <!-- 3. Attestation de Solde Bancaire PDF -->
                 <a href="{{ route('portal.documents.attestation', ['locale' => app()->getLocale()]) }}"
-                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#E6F5F1]/50 transition group">
+                    class="flex items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl bg-slate-50 hover:bg-[#FFF1E8]/60 transition group">
                     <div class="flex items-center gap-3 min-w-0">
-                        <div class="size-10 rounded-xl bg-[#E6F5F1] text-[#0A5E4E] flex items-center justify-center shrink-0">
+                        <div class="size-10 rounded-xl bg-[#FFF1E8] text-[#F26B1D] flex items-center justify-center shrink-0">
                             <svg class="size-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                         </div>
-                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#0FA57E] transition leading-snug">
+                        <div class="text-sm font-bold text-[#0B1F3A] group-hover:text-[#F26B1D] transition leading-snug">
                             {{ __('portal.doc_certificate_title') }}
                         </div>
                     </div>
-                    <div class="size-9 rounded-lg bg-[#E6F5F1] group-hover:bg-[#0FA57E] text-[#0A5E4E] group-hover:text-white flex items-center justify-center shrink-0 transition">
+                    <div class="size-9 rounded-lg bg-[#FFF1E8] group-hover:bg-[#F26B1D] text-[#F26B1D] group-hover:text-white flex items-center justify-center shrink-0 transition">
                         <svg class="size-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                     </div>
                 </a>

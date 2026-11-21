@@ -18,9 +18,9 @@
                     <div class="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">{{ __('portal.checking_balance_label') }}</div>
                     <div class="text-base sm:text-lg font-extrabold text-[#0B1F3A] font-display mt-0.5">{{ $client->formattedBalance() }}</div>
                 </div>
-                <div class="p-4 bg-[#E6F5F1]/60 rounded-xl">
-                    <div class="text-[11px] text-[#0A5E4E] font-semibold uppercase tracking-wider">{{ __('portal.savings_balance_label') }}</div>
-                    <div class="text-base sm:text-lg font-extrabold text-[#0A5E4E] font-display mt-0.5">{{ $client->formattedSavingsBalance() }}</div>
+                <div class="p-4 bg-[#FFF1E8] rounded-xl">
+                    <div class="text-[11px] text-[#B23F08] font-semibold uppercase tracking-wider">{{ __('portal.savings_balance_label') }}</div>
+                    <div class="text-base sm:text-lg font-extrabold text-[#F26B1D] font-display mt-0.5">{{ $client->formattedSavingsBalance() }}</div>
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                     <label class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.transfer_direction') }}</label>
                     <select name="direction" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                         <option value="to_savings">{{ __('portal.checking_to_savings') }}</option>
                         <option value="from_savings">{{ __('portal.savings_to_checking') }}</option>
                     </select>
@@ -40,11 +40,11 @@
                     <label class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.amount_to_transfer') }} ({{ $client->currency }})</label>
                     <input type="number" step="0.01" min="1" name="amount" required placeholder="0.00"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <button type="submit"
-                    class="w-full py-3 bg-[#0FA57E] hover:bg-[#0E7C66] text-white font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 shadow-sm active:scale-[0.99]">
+                    class="w-full py-3 bg-[#F26B1D] hover:bg-[#D04A0A] text-white font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 shadow-sm active:scale-[0.99]">
                     <svg class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                     <span>{{ __('portal.btn_internal_transfer') }}</span>
                 </button>
@@ -67,7 +67,7 @@
                     </label>
                     <input id="title" type="text" name="title" value="{{ old('title', __('portal.loan_title_default')) }}" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3.5">
@@ -77,7 +77,7 @@
                         </label>
                         <input id="amount" type="number" step="100" min="500" max="500000" name="amount" value="{{ old('amount', 5000) }}" required
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-base font-bold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                     </div>
 
                     <div>
@@ -86,7 +86,7 @@
                         </label>
                         <select id="term_months" name="term_months" required
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm font-semibold text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                             <option value="12">12 {{ __('portal.loan_term_months') }}</option>
                             <option value="24" selected>24 {{ __('portal.loan_term_months') }}</option>
                             <option value="36">36 {{ __('portal.loan_term_months') }}</option>
@@ -102,7 +102,7 @@
                     </label>
                     <textarea id="project_description" name="project_description" rows="2"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">{{ old('project_description') }}</textarea>
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">{{ old('project_description') }}</textarea>
                 </div>
 
                 <button type="submit"
@@ -120,7 +120,7 @@
         <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)] mb-8">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 mb-5 gap-3">
                 <div>
-                    <span class="text-xs font-bold text-[#0A5E4E] bg-[#E6F5F1] px-3 py-1 rounded-full uppercase tracking-wide">
+                    <span class="text-xs font-bold text-[#B23F08] bg-[#FFF1E8] px-3 py-1 rounded-full uppercase tracking-wide">
                         {{ __('portal.active_loan') }}
                     </span>
                     <h2 class="text-lg sm:text-xl font-extrabold text-[#0B1F3A] font-display mt-2">
@@ -136,9 +136,9 @@
                         <div class="text-[10px] font-bold text-slate-500 uppercase">{{ __('portal.remaining_capital') }}</div>
                         <div class="text-base sm:text-lg font-extrabold text-[#0B1F3A] font-display mt-0.5">{{ $activeLoan->formattedRemaining() }}</div>
                     </div>
-                    <div class="p-3.5 bg-[#E6F5F1]/60 rounded-xl">
-                        <div class="text-[10px] font-bold text-[#0A5E4E] uppercase">{{ __('portal.monthly_payment') }}</div>
-                        <div class="text-base sm:text-lg font-extrabold text-[#0A5E4E] font-display mt-0.5">{{ $activeLoan->formattedMonthly() }}</div>
+                    <div class="p-3.5 bg-[#FFF1E8] rounded-xl">
+                        <div class="text-[10px] font-bold text-[#B23F08] uppercase">{{ __('portal.monthly_payment') }}</div>
+                        <div class="text-base sm:text-lg font-extrabold text-[#F26B1D] font-display mt-0.5">{{ $activeLoan->formattedMonthly() }}</div>
                     </div>
                 </div>
             </div>
@@ -174,7 +174,7 @@
                                     <td class="p-3.5 text-slate-400">{{ $client->formatMoney($sch->interest_amount ?? 0) }}</td>
                                     <td class="p-3.5 text-right whitespace-nowrap">
                                         @if(($sch->status ?? '') === 'paid')
-                                            <span class="text-[10px] font-bold text-[#0A5E4E] bg-[#E6F5F1] px-2.5 py-0.5 rounded-full">
+                                            <span class="text-[10px] font-bold text-[#B23F08] bg-[#FFF1E8] px-2.5 py-0.5 rounded-full">
                                                 {{ __('portal.status_paid') }}
                                             </span>
                                         @else

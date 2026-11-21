@@ -25,8 +25,8 @@
     <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
         
         @if(session('status'))
-            <div class="mb-4 p-3 bg-[#E6F5F1] rounded-xl text-[#0A5E4E] text-xs font-medium flex items-center gap-2">
-                <svg class="size-4 shrink-0 text-[#0FA57E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            <div class="mb-4 p-3 bg-[#FFF1E8] rounded-xl text-[#B23F08] text-xs font-medium flex items-center gap-2">
+                <svg class="size-4 shrink-0 text-[#F26B1D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 <span>{{ session('status') }}</span>
             </div>
         @endif
@@ -46,14 +46,14 @@
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                     placeholder="Correo electrónico"
                     style="font-size: 16px !important;"
-                    class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#0FA57E] focus:ring-1 focus:ring-[#0FA57E] focus:outline-none transition-colors">
+                    class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#F26B1D] focus:ring-1 focus:ring-[#F26B1D] focus:outline-none transition-colors">
             </div>
 
             <div>
                 <input id="password" type="password" name="password" required
                     placeholder="Contraseña"
                     style="font-size: 16px !important;"
-                    class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#0FA57E] focus:ring-1 focus:ring-[#0FA57E] focus:outline-none transition-colors">
+                    class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#F26B1D] focus:ring-1 focus:ring-[#F26B1D] focus:outline-none transition-colors">
             </div>
 
             <button type="submit"

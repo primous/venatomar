@@ -15,8 +15,8 @@
                     </span>
                 </div>
                 <div class="text-xs text-slate-500 font-mono mt-0.5 break-all sm:break-normal">{{ $client->account_number }} · {{ $client->email }}</div>
-                <div class="text-xs text-[#0FA57E] font-semibold mt-1 flex items-center gap-1.5">
-                    <span class="size-2 rounded-full bg-[#0FA57E]"></span>
+                <div class="text-xs text-[#F26B1D] font-semibold mt-1 flex items-center gap-1.5">
+                    <span class="size-2 rounded-full bg-[#F26B1D]"></span>
                     <span>{{ __('portal.verified_account') }} ({{ $client->country }})</span>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     </label>
                     <input id="current_password" type="password" name="current_password" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div>
@@ -57,7 +57,7 @@
                     </label>
                     <input id="new_password" type="password" name="password" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div>
@@ -66,7 +66,7 @@
                     </label>
                     <input id="password_confirmation" type="password" name="password_confirmation" required
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <button type="submit"
@@ -91,14 +91,14 @@
                     <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.phone_field') }}</label>
                     <input id="phone" type="tel" name="phone" value="{{ old('phone', $client->phone) }}"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div>
                     <label for="address" class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.address_field') }}</label>
                     <input id="address" type="text" name="address" value="{{ old('address', $client->address) }}"
                         style="font-size: 16px !important;"
-                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                        class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3.5">
@@ -106,18 +106,18 @@
                         <label for="postal_code" class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.postal_code_field') }}</label>
                         <input id="postal_code" type="text" name="postal_code" value="{{ old('postal_code', $client->postal_code) }}"
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                     </div>
                     <div>
                         <label for="city" class="block text-xs font-bold uppercase tracking-wider text-[#0B1F3A] mb-1.5">{{ __('portal.city_field') }}</label>
                         <input id="city" type="text" name="city" value="{{ old('city', $client->city) }}"
                             style="font-size: 16px !important;"
-                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0FA57E]">
+                            class="w-full px-4 py-2.5 bg-[#F5F7FA] border border-slate-200 rounded-xl text-sm text-[#0B1F3A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#F26B1D]">
                     </div>
                 </div>
 
                 <button type="submit"
-                    class="w-full py-3 bg-[#0FA57E] hover:bg-[#0E7C66] text-white font-bold text-sm rounded-xl transition shadow-sm active:scale-[0.99]">
+                    class="w-full py-3 bg-gradient-to-r from-[#F26B1D] to-[#D04A0A] hover:from-[#E05B0D] hover:to-[#B93E07] text-white font-bold text-sm rounded-xl transition shadow-sm active:scale-[0.99]">
                     {{ __('portal.btn_save_coords') }}
                 </button>
             </form>

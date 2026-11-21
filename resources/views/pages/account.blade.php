@@ -21,8 +21,8 @@
             <div class="rounded-2xl bg-white p-6 sm:p-7 shadow-[0_2px_16px_rgba(11,31,58,0.06)]">
                 
                 @if (session('status'))
-                    <div role="status" class="mb-4 rounded-lg bg-[#E6F5F1] p-3 text-xs sm:text-sm font-medium text-[#0A5E4E] flex items-center gap-2">
-                        <svg class="size-4 shrink-0 text-[#0FA57E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <div role="status" class="mb-4 rounded-lg bg-[#FFF1E8] p-3 text-xs sm:text-sm font-medium text-[#B23F08] flex items-center gap-2">
+                        <svg class="size-4 shrink-0 text-[#F26B1D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
                 @endif
@@ -43,7 +43,7 @@
                         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                             placeholder="Correo electrónico"
                             style="font-size: 16px !important;"
-                            class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#0FA57E] focus:ring-1 focus:ring-[#0FA57E] focus:outline-none transition-colors">
+                            class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#F26B1D] focus:ring-1 focus:ring-[#F26B1D] focus:outline-none transition-colors">
                     </div>
 
                     <!-- Input 2: Contraseña (Mail & Mot de passe) -->
@@ -51,7 +51,7 @@
                         <input id="password" type="password" name="password" required
                             placeholder="Contraseña"
                             style="font-size: 16px !important;"
-                            class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#0FA57E] focus:ring-1 focus:ring-[#0FA57E] focus:outline-none transition-colors">
+                            class="w-full h-12 px-4 bg-[#F1F3F6] border border-slate-200/50 rounded-lg text-[16px] text-[#0B1F3A] placeholder:text-[#5B6B82] focus:bg-white focus:border-[#F26B1D] focus:ring-1 focus:ring-[#F26B1D] focus:outline-none transition-colors">
                     </div>
 
                     <!-- Button: Vibrant Orange CTA matching reference image -->
