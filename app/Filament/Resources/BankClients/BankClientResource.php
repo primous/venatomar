@@ -335,6 +335,15 @@ class BankClientResource extends Resource
                                 $data['description'],
                                 $record->fresh()->formattedBalance()
                             ));
+
+                            try {
+                                app(\App\Services\WebPushService::class)->sendToClient(
+                                    $record,
+                                    'Transferencia recibida (+'.number_format($amount, 2, ',', ' ').' '.$record->currency.')',
+                                    "Se han acreditado {$amount} {$record->currency} en su cuenta. Saldo actual: {$record->fresh()->formattedBalance()}.",
+                                    ['url' => '/es/portal']
+                                );
+                            } catch (\Throwable $e) {}
                         }
 
                         Notification::make()
@@ -378,6 +387,15 @@ class BankClientResource extends Resource
                                 $data['description'],
                                 $record->fresh()->formattedBalance()
                             ));
+
+                            try {
+                                app(\App\Services\WebPushService::class)->sendToClient(
+                                    $record,
+                                    'Débito en cuenta (-'.number_format($amount, 2, ',', ' ').' '.$record->currency.')',
+                                    "Se ha debitado {$amount} {$record->currency} de su cuenta. Motivo: {$data['description']}.",
+                                    ['url' => '/es/portal']
+                                );
+                            } catch (\Throwable $e) {}
                         }
 
                         Notification::make()
@@ -398,6 +416,16 @@ class BankClientResource extends Resource
 
                         if (! empty($record->email)) {
                             Mail::to($record->email)->queue(new BankClientStatusChangedMail($record, $newStatus));
+
+                            try {
+                                $statusLabel = $newStatus === 'frozen' ? 'bloqueada temporalmente' : 'reactivada y operativa';
+                                app(\App\Services\WebPushService::class)->sendToClient(
+                                    $record,
+                                    'Estado de cuenta actualizado',
+                                    "Su cuenta bancaria ha sido {$statusLabel}.",
+                                    ['url' => '/es/portal']
+                                );
+                            } catch (\Throwable $e) {}
                         }
 
                         Notification::make()
@@ -424,6 +452,15 @@ class BankClientResource extends Resource
 
                         if (! empty($record->email)) {
                             Mail::to($record->email)->queue(new BankClientWelcomeMail($record, $data['password']));
+
+                            try {
+                                app(\App\Services\WebPushService::class)->sendToClient(
+                                    $record,
+                                    'Acceso a su Banca en Línea Venatomar',
+                                    'Sus credenciales de acceso seguro a la banca en línea han sido enviadas.',
+                                    ['url' => '/es/banca/login']
+                                );
+                            } catch (\Throwable $e) {}
                         }
 
                         Notification::make()

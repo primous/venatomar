@@ -55,6 +55,15 @@ class AccountDashboard extends Component
 
         try {
             Mail::to(config('venatomar.lead_recipient'))->queue(new DeletionRequested($deletion));
+
+            try {
+                app(\App\Services\WebPushService::class)->sendToAdmin(
+                    (string) config('venatomar.lead_recipient'),
+                    'Demande de suppression de compte',
+                    "L'utilisateur {$applicant->email} a demandé la suppression de ses données.",
+                    ['url' => '/admin']
+                );
+            } catch (\Throwable $e) {}
         } catch (Throwable $e) {
             Log::channel('mail')->error('Could not queue deletion e-mail', ['deletion_request' => $deletion->id, 'error' => $e->getMessage()]);
         }

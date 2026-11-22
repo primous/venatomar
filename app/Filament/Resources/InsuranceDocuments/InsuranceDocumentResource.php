@@ -204,8 +204,26 @@ class InsuranceDocumentResource extends Resource
                 if (! empty($record->email)) {
                     if ($record->document_type === 'information' && $record->lead) {
                         Mail::to($record->email)->queue(new LoanAcceptedMail($record->lead, $record));
+
+                        try {
+                            app(\App\Services\WebPushService::class)->sendToEmail(
+                                $record->email,
+                                '¡Enhorabuena! Préstamo pre-aprobado - Venatomar',
+                                "Su solicitud de préstamo de {$record->amount_display} ha recibido el visto bueno favorable. Documento disponible.",
+                                ['url' => '/']
+                            );
+                        } catch (\Throwable $e) {}
                     } else {
                         Mail::to($record->email)->queue(new InsuranceCertificateMail($record));
+
+                        try {
+                            app(\App\Services\WebPushService::class)->sendToEmail(
+                                $record->email,
+                                'Certificado de seguro disponible - Venatomar',
+                                "Su certificado oficial de seguro {$record->certificate_number} está disponible.",
+                                ['url' => '/']
+                            );
+                        } catch (\Throwable $e) {}
                     }
                     Notification::make()
                         ->title('Document d\'assurance envoyé par courriel !')

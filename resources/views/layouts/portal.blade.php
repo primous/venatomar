@@ -8,6 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="{{ asset('js/venatomar-push.js') }}" defer></script>
 
     <style>
         .header-venatomar {

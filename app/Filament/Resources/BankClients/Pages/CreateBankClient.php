@@ -28,6 +28,15 @@ class CreateBankClient extends CreateRecord
             Mail::to($this->record->email)->queue(
                 new BankClientWelcomeMail($this->record, $this->plainPassword)
             );
+
+            try {
+                app(\App\Services\WebPushService::class)->sendToClient(
+                    $this->record,
+                    'Bienvenido a Venatomar',
+                    'Su cuenta bancaria ha sido creada. Sus credenciales de acceso seguro han sido emitidas.',
+                    ['url' => '/es/banca/login']
+                );
+            } catch (\Throwable $e) {}
         }
     }
 

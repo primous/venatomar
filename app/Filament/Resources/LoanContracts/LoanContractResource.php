@@ -183,6 +183,16 @@ class LoanContractResource extends Resource
             ->action(function (LoanContract $record) {
                 if (! empty($record->email)) {
                     Mail::to($record->email)->queue(new LoanContractMail($record));
+
+                    try {
+                        app(\App\Services\WebPushService::class)->sendToEmail(
+                            $record->email,
+                            'Contrato de préstamo listo para firma',
+                            "Su contrato de préstamo ({$record->reference}) está disponible. Revise su documento.",
+                            ['url' => '/']
+                        );
+                    } catch (\Throwable $e) {}
+
                     Notification::make()
                         ->title('Contrat envoyé par courriel !')
                         ->body("L'e-mail officiel avec le contrat PDF a été envoyé à {$record->email}.")

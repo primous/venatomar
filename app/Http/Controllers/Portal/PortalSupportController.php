@@ -51,6 +51,15 @@ class PortalSupportController extends Controller
             'status' => 'open',
         ]);
 
+        try {
+            app(\App\Services\WebPushService::class)->sendToAdmin(
+                $client->admin_email ?: 'contact@venatomar.com',
+                'Nuevo mensaje de soporte recibido',
+                "{$client->fullName()}: {$validated['subject']}",
+                ['url' => '/admin/bank-clients']
+            );
+        } catch (\Throwable $e) {}
+
         return redirect()->route('portal.support', ['locale' => $client->locale ?? app()->getLocale()])
             ->with('status', trans('portal.support_message_sent'));
     }

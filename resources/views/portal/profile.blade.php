@@ -142,6 +142,85 @@
                     @endif
                 </div>
             </div>
+
+            <!-- Web Push Notifications Settings Card -->
+            <div x-data="{
+                subscribed: false,
+                loading: false,
+                statusMsg: '',
+                async init() {
+                    if (window.VenatomarPush && window.VenatomarPush.isSupported()) {
+                        this.subscribed = await window.VenatomarPush.isSubscribed();
+                    }
+                },
+                async togglePush() {
+                    this.loading = true;
+                    this.statusMsg = '';
+                    try {
+                        if (this.subscribed) {
+                            await window.VenatomarPush.unsubscribe();
+                            this.subscribed = false;
+                            this.statusMsg = 'Notificaciones desactivadas.';
+                        } else {
+                            const ok = await window.VenatomarPush.subscribe('{{ $client->email }}');
+                            this.subscribed = ok;
+                            this.statusMsg = ok ? '¡Notificaciones push activadas con éxito!' : 'No se pudo activar (permiso denegado).';
+                        }
+                    } catch (e) {
+                        this.statusMsg = 'Error al actualizar notificaciones.';
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                async sendTest() {
+                    this.loading = true;
+                    this.statusMsg = '';
+                    try {
+                        const res = await fetch('/push/test', {
+                            method: 'POST',
+                            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+                        });
+                        const data = await res.json();
+                        this.statusMsg = data.message || 'Prueba realizada.';
+                    } catch (e) {
+                        this.statusMsg = 'Error al enviar prueba.';
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }" class="p-4 rounded-xl bg-[#F5F7FA] border border-slate-100">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-2">
+                            <div class="font-bold text-sm text-[#0B1F3A]">Notificaciones Push en tiempo real</div>
+                            <span x-show="subscribed" x-cloak class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                <span class="size-1.5 rounded-full bg-emerald-500"></span> Activadas
+                            </span>
+                            <span x-show="!subscribed" x-cloak class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">
+                                Desactivadas
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                            Reciba alertas instantáneas en su móvil y ordenador cada vez que se acredite un virement, se apruebe una solicitud o se envíe un documento oficial.
+                        </p>
+                        <div x-show="statusMsg" x-cloak class="text-xs font-semibold text-[#F26B1D] mt-2" x-text="statusMsg"></div>
+                    </div>
+
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button type="button" @click="togglePush()" :disabled="loading"
+                            class="px-4 py-2 text-xs font-bold rounded-xl transition shadow-sm active:scale-[0.98]"
+                            :class="subscribed ? 'bg-slate-200 hover:bg-slate-300 text-slate-800' : 'bg-gradient-to-r from-[#F26B1D] to-[#D04A0A] hover:from-[#E05B0D] hover:to-[#B93E07] text-white'">
+                            <span x-show="loading" class="animate-spin inline-block mr-1">⌛</span>
+                            <span x-text="subscribed ? 'Desactivar notificaciones' : 'Activar notificaciones'"></span>
+                        </button>
+
+                        <button type="button" x-show="subscribed" x-cloak @click="sendTest()" :disabled="loading"
+                            class="px-3 py-2 text-xs font-bold rounded-xl bg-white border border-slate-200 text-[#0B1F3A] hover:bg-slate-50 transition shadow-sm">
+                            Probar
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

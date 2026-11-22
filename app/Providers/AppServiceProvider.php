@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Fallback when resolved outside a localized route (console, mail jobs).
         $this->app->bind(Country::class, fn () => Country::current());
+        $this->app->singleton(\App\Services\WebPushService::class);
     }
 
     public function boot(): void

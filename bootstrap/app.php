@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // The consent cookie is written and read by the browser script.
         $middleware->encryptCookies(except: ['pf_consent']);
+        $middleware->validateCsrfTokens(except: ['push/*']);
 
         // Guests hitting /{locale}/my-account/dashboard go to the login form.
         $middleware->redirectGuestsTo(function (Request $request) {

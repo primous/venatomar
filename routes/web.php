@@ -10,11 +10,20 @@ use App\Http\Controllers\Portal\PortalProfileController;
 use App\Http\Controllers\Portal\PortalSupportController;
 use App\Http\Controllers\Portal\PortalTransferController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\WebPushController;
 use App\Http\Middleware\CaptureUtm;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/'.config('venatomar.default_locale'), 302)->name('root');
+
+// Web Push Notification routes
+Route::prefix('push')->group(function () {
+    Route::get('/vapid-public-key', [WebPushController::class, 'vapidPublicKey'])->name('push.vapid-key');
+    Route::post('/subscribe', [WebPushController::class, 'subscribe'])->name('push.subscribe');
+    Route::post('/unsubscribe', [WebPushController::class, 'unsubscribe'])->name('push.unsubscribe');
+    Route::post('/test', [WebPushController::class, 'test'])->name('push.test');
+});
 
 // Back-office language (French by default, see SetAdminLocale).
 Route::get('/admin/lang/{lang}', function (string $lang) {

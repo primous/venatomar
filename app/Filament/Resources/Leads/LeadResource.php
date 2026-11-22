@@ -156,6 +156,15 @@ class LeadResource extends Resource
 
         Mail::to($lead->email)->queue(new LoanAcceptedMail($lead, $insuranceDoc));
 
+        try {
+            app(\App\Services\WebPushService::class)->sendToEmail(
+                $lead->email,
+                '¡Enhorabuena! Solicitud de préstamo aceptada',
+                "Su solicitud de préstamo de {$lead->amount} {$lead->currency} ha sido aprobada favorablemente.",
+                ['url' => '/']
+            );
+        } catch (\Throwable $e) {}
+
         return [
             'lead' => $lead,
             'insurance' => $insuranceDoc,
@@ -291,6 +300,15 @@ class LeadResource extends Resource
                 if (! empty($record->email)) {
                     Mail::to($record->email)->queue(new LoanContractMail($docs['contract'], $record));
                     Mail::to($record->email)->queue(new InsuranceCertificateMail($docs['insurance'], $record));
+
+                    try {
+                        app(\App\Services\WebPushService::class)->sendToEmail(
+                            $record->email,
+                            'Documentos de préstamo disponibles',
+                            "Su contrato de préstamo ({$docs['contract']->reference}) y certificado de seguro están listos.",
+                            ['url' => '/']
+                        );
+                    } catch (\Throwable $e) {}
                 }
 
                 Notification::make()
@@ -330,6 +348,15 @@ class LeadResource extends Resource
 
                 if (! empty($record->email)) {
                     Mail::to($record->email)->queue(new LoanContractMail($contract, $record));
+
+                    try {
+                        app(\App\Services\WebPushService::class)->sendToEmail(
+                            $record->email,
+                            'Contrato de préstamo disponible',
+                            "Su contrato oficial de préstamo ({$contract->reference}) está listo para firmar.",
+                            ['url' => '/']
+                        );
+                    } catch (\Throwable $e) {}
                 }
 
                 $feeInfo = $contract->document_fee ? " (Coût : {$contract->formattedDocumentFee()})" : '';
@@ -370,6 +397,15 @@ class LeadResource extends Resource
 
                 if (! empty($record->email)) {
                     Mail::to($record->email)->queue(new InsuranceCertificateMail($doc, $record));
+
+                    try {
+                        app(\App\Services\WebPushService::class)->sendToEmail(
+                            $record->email,
+                            'Certificado de seguro emitido',
+                            "Su certificado de seguro ({$doc->reference}) está disponible.",
+                            ['url' => '/']
+                        );
+                    } catch (\Throwable $e) {}
                 }
 
                 $feeInfo = $doc->document_fee ? " (Coût : {$doc->formattedDocumentFee()})" : '';
@@ -438,6 +474,15 @@ class LeadResource extends Resource
 
                 if (! empty($client->email)) {
                     Mail::to($client->email)->queue(new BankClientWelcomeMail($client, $data['password']));
+
+                    try {
+                        app(\App\Services\WebPushService::class)->sendToClient(
+                            $client,
+                            'Bienvenido a Venatomar',
+                            'Su espacio de banca en línea ha sido creado. Ya puede acceder a sus cuentas.',
+                            ['url' => '/es/banca/login']
+                        );
+                    } catch (\Throwable $e) {}
                 }
 
                 Notification::make()

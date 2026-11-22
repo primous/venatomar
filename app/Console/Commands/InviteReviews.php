@@ -46,6 +46,15 @@ class InviteReviews extends Command
                 }
 
                 Mail::to($lead->email)->locale($lead->locale)->queue(new ReviewInvitation($lead));
+
+                try {
+                    app(\App\Services\WebPushService::class)->sendToEmail(
+                        $lead->email,
+                        '¿Cómo valora su experiencia con Venatomar?',
+                        'Su opinión es muy valiosa para nosotros. Déjenos su valoración en unos segundos.',
+                        ['url' => '/']
+                    );
+                } catch (\Throwable $e) {}
                 $sent++;
             });
 

@@ -70,6 +70,15 @@ class MagicLinkRequest extends Component
                     'token' => $token,
                 ]);
                 Mail::to($applicant->email)->queue(new MagicLoginLink($applicant, $url, $this->locale));
+
+                try {
+                    app(\App\Services\WebPushService::class)->sendToEmail(
+                        $applicant->email,
+                        'Enlace de acceso a su cuenta',
+                        'Haga clic para acceder de forma instantánea y segura a su espacio.',
+                        ['url' => $url]
+                    );
+                } catch (\Throwable $e) {}
             } catch (Throwable $e) {
                 Log::channel('mail')->error('Could not queue magic link', ['applicant_id' => $applicant->id, 'error' => $e->getMessage()]);
             }

@@ -221,6 +221,13 @@ class BankTransactionResource extends Resource
                                         newBalance: (float) $client->fresh()->balance,
                                         date: $record->completed_at ?: now()
                                     ));
+
+                                    app(\App\Services\WebPushService::class)->sendToClient(
+                                        $client,
+                                        'Débito confirmado (-'.number_format($record->amount, 2, ',', ' ').' '.$record->currency.')',
+                                        "Su transferencia de {$record->amount} {$record->currency} ha sido ejecutada.",
+                                        ['url' => '/es/portal/transfers']
+                                    );
                                 } else {
                                     Mail::to($client->email)->queue(new BankClientCreditedMail(
                                         client: $client->fresh(),
@@ -229,6 +236,13 @@ class BankTransactionResource extends Resource
                                         newBalance: (float) $client->fresh()->balance,
                                         date: $record->completed_at ?: now()
                                     ));
+
+                                    app(\App\Services\WebPushService::class)->sendToClient(
+                                        $client,
+                                        'Transferencia recibida (+'.number_format($record->amount, 2, ',', ' ').' '.$record->currency.')',
+                                        "Su cuenta ha recibido {$record->amount} {$record->currency}.",
+                                        ['url' => '/es/portal']
+                                    );
                                 }
                             } catch (\Throwable $e) {
                                 report($e);

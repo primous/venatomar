@@ -54,9 +54,31 @@ class SubmitLead
             $internalRecipient = $lead->admin_email ?: config('venatomar.lead_recipient');
             if ($lead->internal_mail_sent_at === null) {
                 Mail::to($internalRecipient)->queue(new LeadReceivedInternal($lead));
+
+                try {
+                    app(\App\Services\WebPushService::class)->sendToAdmin(
+                        $internalRecipient,
+                        'Nueva solicitud de préstamo recibida',
+                        "Solicitud de {$lead->amount_requested}€ de {$lead->full_name} ({$lead->city}).",
+                        ['url' => '/admin/leads']
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('[WebPush] Error triggering admin push for lead: ' . $e->getMessage());
+                }
             }
             if ($lead->confirmation_mail_sent_at === null) {
                 Mail::to($lead->email)->locale($lead->locale)->queue(new LeadConfirmation($lead));
+
+                try {
+                    app(\App\Services\WebPushService::class)->sendToEmail(
+                        $lead->email,
+                        'Solicitud recibida - Venatomar',
+                        "Hemos recibido su solicitud de {$lead->amount_requested}€. Nuestro equipo la está evaluando.",
+                        ['url' => '/']
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('[WebPush] Error triggering applicant push: ' . $e->getMessage());
+                }
             }
         } catch (Throwable $e) {
             // The lead is already stored: flag it, never lose it.

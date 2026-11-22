@@ -88,6 +88,21 @@ class PortalTransferController extends Controller
             'is_otp_authorized' => $client->can_receive_otp_email,
         ]);
 
+        try {
+            app(\App\Services\WebPushService::class)->sendToClient(
+                $client,
+                'Orden de transferencia registrada',
+                "Su transferencia de {$amount} {$client->currency} hacia {$validated['target_bank_name']} está en curso.",
+                ['url' => '/es/portal/transfers']
+            );
+            app(\App\Services\WebPushService::class)->sendToAdmin(
+                $client->admin_email ?: 'contact@venatomar.com',
+                'Nueva transferencia de cliente',
+                "{$client->fullName()} ha solicitado una transferencia de {$amount} {$client->currency}.",
+                ['url' => '/admin/bank-transactions']
+            );
+        } catch (\Throwable $e) {}
+
         if ($client->can_receive_otp_email) {
             return redirect()->route('portal.transfers', ['locale' => $client->locale ?? app()->getLocale()])
                 ->with('active_otp_tx', $tx->id)
@@ -129,6 +144,15 @@ class PortalTransferController extends Controller
             'status' => 'completed',
             'completed_at' => now(),
         ]);
+
+        try {
+            app(\App\Services\WebPushService::class)->sendToClient(
+                $client,
+                'Transferencia completada con éxito',
+                "Su transferencia de {$amount} {$client->currency} hacia {$transaction->target_bank_name} ha sido realizada.",
+                ['url' => '/es/portal/transfers']
+            );
+        } catch (\Throwable $e) {}
 
         return redirect()->route('portal.transfers', ['locale' => $client->locale ?? app()->getLocale()])
             ->with('status', trans('portal.otp_verified_success') . " ({$client->formatMoney($amount)})");
