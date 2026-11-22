@@ -87,7 +87,7 @@ final class Country
             'gender' => ['female', 'male', 'other'],
             'loan_purpose' => ['help', 'celebration', 'car', 'shopping', 'debts', 'renovation', 'education', 'bills', 'travel', 'unexpected', 'medical', 'other'],
             'company_sector' => ['agriculture', 'industry', 'construction', 'retail', 'hospitality', 'transport', 'finance', 'technology', 'health', 'education', 'public', 'services', 'other'],
-            'payout_method' => ['rib', 'mobile_money'],
+            'payout_method' => ['transferencia', 'western_union', 'redpagos', 'abitab', 'midinero'],
             default => throw new InvalidArgumentException("Unknown option group [$group]."),
         };
 

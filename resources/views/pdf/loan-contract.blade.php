@@ -227,7 +227,7 @@
         <div class="article-body">
             {{ $t('art_1_body', [
                 'amount' => $amount,
-                'bank_account' => $contract->bank_account ? ' (IBAN : '.$contract->bank_account.')' : '',
+                'bank_account' => $contract->bank_account ? (preg_match('/^[A-Za-z]{2}\d/i', $contract->bank_account) ? ' (IBAN : '.$contract->bank_account.')' : ' ('.$contract->bank_account.')') : '',
             ]) }}
         </div>
     </div>

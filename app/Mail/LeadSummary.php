@@ -30,9 +30,32 @@ class LeadSummary
                 'Operador' => $c->get('mobile_money_operators.'.$l->mm_operator, (string) $l->mm_operator),
                 'Número Mobile Money' => (string) $l->mm_number,
             ],
+            'western_union' => [
+                'Método de cobro' => 'Western Union',
+                'Modalidad' => 'Retiro en efectivo en agencia',
+                'Preferencia / Agencia' => (string) ($l->bank_account ?: 'Cualquier sucursal Western Union'),
+            ],
+            'redpagos' => [
+                'Método de cobro' => 'REDPAGOS',
+                'Modalidad' => 'Cobro en sucursal / local',
+                'Detalle / Cuenta' => (string) ($l->bank_account ?: 'Retiro en sucursal Redpagos'),
+            ],
+            'abitab' => [
+                'Método de cobro' => 'ABITAB',
+                'Modalidad' => 'Cobro en sucursal / agencia',
+                'Detalle' => (string) ($l->bank_account ?: 'Retiro en sucursal Abitab'),
+            ],
+            'midinero' => [
+                'Método de cobro' => 'MIDINERO',
+                'Cuenta / Tarjeta' => (string) $l->bank_account,
+            ],
+            'transferencia' => [
+                'Método de cobro' => 'Transferencia bancaria',
+                'Cuenta / IBAN' => preg_match('/^[A-Za-z]{2}\d/i', (string) $l->bank_account) ? trim(chunk_split((string) $l->bank_account, 4, ' ')) : (string) $l->bank_account,
+            ],
             'rib' => ['Método de cobro' => 'RIB', 'RIB' => (string) $l->bank_account],
             'uk_account' => ['Método de cobro' => 'Sort code + account number', 'Cuenta' => (string) $l->bank_account],
-            default => ['Método de cobro' => 'IBAN', 'IBAN' => trim(chunk_split((string) $l->bank_account, 4, ' '))],
+            default => ['Método de cobro' => 'Transferencia bancaria / IBAN', 'Cuenta / IBAN' => preg_match('/^[A-Za-z]{2}\d/i', (string) $l->bank_account) ? trim(chunk_split((string) $l->bank_account, 4, ' ')) : (string) $l->bank_account],
         };
 
         return [

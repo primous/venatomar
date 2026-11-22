@@ -90,8 +90,8 @@ class ApplyLoan extends Component
     public string $home_number = '';
     public string $apartment_floor = '';
 
-    // Step 4 · Cuenta bancaria
-    public string $payout_method = 'iban';
+    // Step 4 · Cuenta bancaria / Método de pago
+    public string $payout_method = 'transferencia';
     public string $bank_account = '';
     public string $sort_code = '';
     public string $uk_account_number = '';
@@ -140,6 +140,8 @@ class ApplyLoan extends Component
         $country = $this->country();
         if ($country->isMobileMoneyCountry()) {
             $this->payout_method = 'rib';
+        } elseif (empty($this->payout_method) || in_array($this->payout_method, ['iban', 'account', 'rib'], true)) {
+            $this->payout_method = 'transferencia';
         }
 
         $this->prefillFromCalculator();
@@ -154,7 +156,7 @@ class ApplyLoan extends Component
             $this->amount = $calc['amount'];
             $this->term_months = $calc['term'];
             $this->geo_province = '';
-            $this->payout_method = $newCountry->isMobileMoneyCountry() ? 'rib' : (($newCountry->bank['type'] ?? 'iban') === 'account' ? 'account' : 'iban');
+            $this->payout_method = $newCountry->isMobileMoneyCountry() ? 'mobile_money' : 'transferencia';
             $this->saveDraft();
         }
     }
@@ -251,41 +253,75 @@ class ApplyLoan extends Component
         };
     }
 
-    private function payoutRules(Country $c): array
+    public function payoutOptions(): array
     {
+        $c = $this->country();
         if ($c->isMobileMoneyCountry()) {
-            $rules = ['payout_method' => ['required', Rule::in(['rib', 'mobile_money'])]];
-
-            return $rules + ($this->payout_method === 'mobile_money'
-                ? [
-                    'mm_operator' => ['required', Rule::in(array_keys($c->get('mobile_money_operators', [])))],
-                    'mm_number' => ['required', 'string', 'max:24', CountryFormat::phone($c)],
-                ]
-                : ['bank_account' => ['required', 'string', new MalagasyRib]]);
-        }
-
-        if ($c->code === 'gb') {
-            $rules = ['payout_method' => ['required', Rule::in(['iban', 'uk_account'])]];
-
-            return $rules + ($this->payout_method === 'uk_account'
-                ? [
-                    'sort_code' => ['required', 'regex:/^\d{2}-?\d{2}-?\d{2}$/'],
-                    'uk_account_number' => ['required', 'regex:/^\d{8}$/'],
-                ]
-                : ['bank_account' => ['required', 'string', new Iban('GB', 22)]]);
-        }
-
-        if (($c->bank['type'] ?? 'iban') === 'account') {
             return [
-                'payout_method' => ['required', Rule::in(['account', 'iban'])],
-                'bank_account' => ['required', 'string', 'min:6', 'max:34', 'regex:'.($c->bank['regex'] ?? '/^[A-Za-z0-9\- ]+$/')],
+                'transferencia' => __('opt.payout_method.transferencia'),
+                'mobile_money' => __('opt.payout_method.mobile_money'),
+                'western_union' => 'Western Union',
             ];
         }
 
         return [
-            'payout_method' => ['required', Rule::in(['iban'])],
-            'bank_account' => ['required', 'string', new Iban($c->bank['iban_country'], $c->bank['iban_length'])],
+            'transferencia' => __('opt.payout_method.transferencia'),
+            'western_union' => 'Western Union',
+            'redpagos' => 'REDPAGOS',
+            'abitab' => 'ABITAB',
+            'midinero' => 'MIDINERO',
         ];
+    }
+
+    private function payoutRules(Country $c): array
+    {
+        $allowed = [
+            'transferencia', 'western_union', 'redpagos', 'abitab', 'midinero',
+            'iban', 'account', 'rib', 'uk_account', 'mobile_money',
+        ];
+
+        if ($c->isMobileMoneyCountry() && $this->payout_method === 'mobile_money') {
+            return [
+                'payout_method' => ['required', Rule::in($allowed)],
+                'mm_operator' => ['required', Rule::in(array_keys($c->get('mobile_money_operators', [])))],
+                'mm_number' => ['required', 'string', 'max:24', CountryFormat::phone($c)],
+            ];
+        }
+
+        if ($c->code === 'gb' && $this->payout_method === 'uk_account') {
+            return [
+                'payout_method' => ['required', Rule::in($allowed)],
+                'sort_code' => ['required', 'regex:/^\d{2}-?\d{2}-?\d{2}$/'],
+                'uk_account_number' => ['required', 'regex:/^\d{8}$/'],
+            ];
+        }
+
+        $rules = [
+            'payout_method' => ['required', Rule::in($allowed)],
+        ];
+
+        if (in_array($this->payout_method, ['transferencia', 'iban', 'account', 'rib'], true)) {
+            $rules['bank_account'] = [
+                'required',
+                'string',
+                'min:6',
+                'max:50',
+                'regex:/^[A-Za-z0-9\-\s]+$/',
+            ];
+        } elseif ($this->payout_method === 'midinero') {
+            $rules['bank_account'] = [
+                'required',
+                'string',
+                'min:6',
+                'max:34',
+                'regex:/^[A-Za-z0-9\-\s]+$/',
+            ];
+        } else {
+            // western_union, redpagos, abitab: bank_account is optional (stores branch preference if provided)
+            $rules['bank_account'] = ['nullable', 'string', 'max:80'];
+        }
+
+        return $rules;
     }
 
     public function allRules(): array
@@ -343,9 +379,9 @@ class ApplyLoan extends Component
         $c = $this->country();
         match (explode('.', $property)[0]) {
             'document_number' => $this->document_number = NationalId::normalize($this->document_number),
-            'bank_account' => $this->bank_account = $c->isMobileMoneyCountry()
-                ? preg_replace('/\D/', '', $this->bank_account)
-                : Iban::format($this->bank_account),
+            'bank_account' => $this->bank_account = in_array($this->payout_method, ['transferencia', 'iban'], true) && preg_match('/^[A-Za-z]{2}\d/i', trim($this->bank_account))
+                ? Iban::format($this->bank_account)
+                : trim(preg_replace('/\s+/', ' ', (string) $this->bank_account)),
             'geo_zip' => $this->geo_zip = CountryFormat::normalizePostal($this->geo_zip),
             'car_number' => $this->car_number = CountryFormat::normalizePlate($this->car_number),
             'email' => $this->email = mb_strtolower(trim($this->email)),
@@ -452,10 +488,14 @@ class ApplyLoan extends Component
 
         $bank = match (true) {
             $isMm => null,
+            $this->payout_method === 'western_union' => !empty($this->bank_account) ? trim($this->bank_account) : 'Western Union (Retiro en agencia)',
+            $this->payout_method === 'redpagos' => !empty($this->bank_account) ? trim($this->bank_account) : 'REDPAGOS (Retiro en sucursal)',
+            $this->payout_method === 'abitab' => !empty($this->bank_account) ? trim($this->bank_account) : 'ABITAB (Retiro en sucursal)',
+            $this->payout_method === 'midinero' => 'MiDinero: '.trim($this->bank_account),
             $this->payout_method === 'uk_account' => 'SC '.preg_replace('/\D/', '', $this->sort_code).' / '.$this->uk_account_number,
             $c->isMobileMoneyCountry() => preg_replace('/\D/', '', $this->bank_account),
             ($c->bank['type'] ?? 'iban') === 'account' => trim($this->bank_account),
-            default => Iban::normalize($this->bank_account),
+            default => preg_match('/^[A-Za-z]{2}\d/i', trim($this->bank_account)) ? Iban::normalize($this->bank_account) : trim($this->bank_account),
         };
 
         return [

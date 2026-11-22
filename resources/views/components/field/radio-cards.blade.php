@@ -18,6 +18,7 @@
                 'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-600',
                 'ring-danger-600' => $hasError,
                 'ring-line hover:ring-ink-300' => ! $hasError,
+                'col-span-2' => $loop->last && count($options) % 2 === 1,
             ])>
                 <input type="radio" id="{{ $id }}-{{ $value }}" name="{{ $name }}" value="{{ $value }}" wire:model.live="{{ $name }}" class="peer sr-only">
                 <x-icon name="check-circle" class="hidden size-5 peer-checked:block" />

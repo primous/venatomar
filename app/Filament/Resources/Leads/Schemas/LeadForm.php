@@ -271,17 +271,21 @@ class LeadForm
                     Select::make('payout_method')
                         ->label('Mode de versement des fonds')
                         ->options([
-                            'iban' => 'Virement bancaire (IBAN / Compte bancaire)',
+                            'transferencia' => 'Transferencia bancaria',
+                            'western_union' => 'Western Union',
+                            'redpagos' => 'REDPAGOS',
+                            'abitab' => 'ABITAB',
+                            'midinero' => 'MIDINERO',
+                            'iban' => 'Virement bancaire (IBAN)',
                             'mobile_money' => 'Mobile Money (Orange, MVola, Airtel...)',
                         ])
-                        ->default('iban')
+                        ->default('transferencia')
                         ->required()
                         ->live(),
                     TextInput::make('bank_account')
-                        ->label('IBAN / Numéro de compte bancaire')
+                        ->label('Détail / Compte / IBAN / Agence')
                         ->maxLength(80)
-                        ->visible(fn ($get) => $get('payout_method') !== 'mobile_money')
-                        ->required(fn ($get) => $get('payout_method') !== 'mobile_money'),
+                        ->visible(fn ($get) => $get('payout_method') !== 'mobile_money'),
                     Select::make('mm_operator')
                         ->label('Opérateur Mobile Money')
                         ->options([
