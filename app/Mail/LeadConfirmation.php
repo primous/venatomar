@@ -24,7 +24,7 @@ class LeadConfirmation extends QueuedMail
 
     public function content(): Content
     {
-        $accountRoute = $this->lead->admin_email === 'contact@venatomar.com' ? 'solicitar.account' : 'account';
+        $accountRoute = in_array($this->lead->admin_email, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
 
         return new Content(
             view: 'mail.lead-confirmation',

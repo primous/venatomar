@@ -25,7 +25,7 @@ class BankClientDebitedMail extends QueuedMail
         $this->locale($locale);
 
         $adminEmail = $client->admin_email ?: config('venatomar.legal.contact_email');
-        $accountRoute = ($locale === 'es' || $adminEmail === 'contact@venatomar.com') ? 'solicitar.account' : 'account';
+        $accountRoute = ($locale === 'es' || in_array($adminEmail, ['contact@venatomar.com', 'ayuda@venatomar.com'])) ? 'solicitar.account' : 'account';
 
         $this->loginUrl = $loginUrl ?: route($accountRoute, ['locale' => $locale]);
     }

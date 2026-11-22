@@ -65,13 +65,27 @@ class LoanContractResource extends Resource
         return $schema->components([
             Section::make($i('section_contract'))->columns(2)->columnSpanFull()->schema([
                 Hidden::make('admin_email')
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
+                    ->default(fn () => auth()->user()?->email ?: 'info@venatomar.com'),
                 Select::make('locale')->label($i('contract_language'))->required()->default('es')
                     ->options(InsurancePdf::LOCALES)->in(array_keys(InsurancePdf::LOCALES)),
                 Select::make('lead_id')->label($i('lead'))->helperText($i('lead_help'))
                     ->searchable()->preload()->live()
-                    ->options(fn () => Lead::latest()->limit(300)->get()
-                        ->mapWithKeys(fn (Lead $l) => [$l->id => $l->reference.' · '.$l->first_name.' '.$l->last_name]))
+                    ->options(function () {
+                        $admin = auth()->user()?->email;
+
+                        return Lead::query()
+                            ->when(config('venatomar.features.admin_isolation', true), function ($q) use ($admin) {
+                                if ($admin === 'info@venatomar.com') {
+                                    $q->where(function ($sub) {
+                                        $sub->where('admin_email', 'info@venatomar.com')->orWhereNull('admin_email');
+                                    });
+                                } elseif ($admin) {
+                                    $q->where('admin_email', $admin);
+                                }
+                            })
+                            ->latest()->limit(300)->get()
+                            ->mapWithKeys(fn (Lead $l) => [$l->id => $l->reference.' · '.$l->first_name.' '.$l->last_name]);
+                    })
                     ->afterStateUpdated(function ($state, Set $set) {
                         if (! $state || ! ($lead = Lead::find($state))) {
                             return;
@@ -196,15 +210,15 @@ class LoanContractResource extends Resource
         $query = parent::getEloquentQuery();
         $admin = auth()->user()?->email;
 
-        if ($admin === 'contact@venatomar.com') {
-            return $query->where('admin_email', 'contact@venatomar.com');
-        }
-
         if ($admin === 'info@venatomar.com') {
             return $query->where(function ($q) {
                 $q->where('admin_email', 'info@venatomar.com')
                     ->orWhereNull('admin_email');
             });
+        }
+
+        if ($admin) {
+            return $query->where('admin_email', $admin);
         }
 
         return $query;

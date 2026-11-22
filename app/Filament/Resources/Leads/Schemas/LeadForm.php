@@ -27,7 +27,7 @@ class LeadForm
                 ->columnSpanFull()
                 ->schema([
                     Hidden::make('admin_email')
-                        ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
+                        ->default(fn () => auth()->user()?->email ?: 'info@venatomar.com'),
                     Select::make('country')
                         ->label('Pays de résidence')
                         ->options(BankDirectory::countryOptions())

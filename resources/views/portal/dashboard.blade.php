@@ -302,7 +302,7 @@
                 <div class="space-y-2 text-xs text-slate-600 mb-4">
                     <div class="flex items-center gap-2">
                         <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span>contact@venatomar.com</span>
+                        <span>{{ $client->admin_email ?: 'contact@venatomar.com' }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <svg class="size-4 text-[#F26B1D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

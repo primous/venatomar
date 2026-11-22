@@ -55,6 +55,12 @@ Route::prefix('{locale}')
         Route::get('/solicitar-prestamo/gracias', [PageController::class, 'solicitarThanks'])->name('solicitar.thanks');
         Route::get('/solicitar/gracias', [PageController::class, 'solicitarThanks'])->name('solicitar.short.thanks');
 
+        // Emprestimo routes (associated with ayuda@venatomar.com)
+        Route::get('/solicitar-emprestimo', [PageController::class, 'solicitarEmprestimo'])->name('solicitar.emprestimo');
+        Route::get('/emprestimo', [PageController::class, 'solicitarEmprestimo'])->name('solicitar.emprestimo.short');
+        Route::get('/solicitar-emprestimo/gracias', [PageController::class, 'solicitarEmprestimoThanks'])->name('solicitar.emprestimo.thanks');
+        Route::get('/emprestimo/gracias', [PageController::class, 'solicitarEmprestimoThanks'])->name('solicitar.emprestimo.short.thanks');
+
         Route::get('/my-account', [AccountController::class, 'show'])->name('account');
         Route::post('/my-account', [PortalAuthController::class, 'login'])->name('account.client.login');
         Route::get('/my-account/login/{token}', [AccountController::class, 'login'])

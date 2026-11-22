@@ -34,6 +34,11 @@ class PageController extends Controller
         return view('pages.solicitar');
     }
 
+    public function solicitarEmprestimo(): View
+    {
+        return view('pages.solicitar-emprestimo');
+    }
+
     public function thanks(Request $request): View
     {
         $lead = Lead::find($request->session()->get('last_lead_id'));
@@ -51,6 +56,17 @@ class PageController extends Controller
         abort_if($lead === null, 404);
 
         return view('pages.solicitar-thanks', [
+            'reference' => $lead->reference,
+            'maskedEmail' => Venatomar::maskEmail($lead->email),
+        ]);
+    }
+
+    public function solicitarEmprestimoThanks(Request $request): View
+    {
+        $lead = Lead::find($request->session()->get('last_lead_id'));
+        abort_if($lead === null, 404);
+
+        return view('pages.solicitar-emprestimo-thanks', [
             'reference' => $lead->reference,
             'maskedEmail' => Venatomar::maskEmail($lead->email),
         ]);

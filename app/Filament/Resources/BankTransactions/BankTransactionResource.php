@@ -285,12 +285,12 @@ class BankTransactionResource extends Resource
         $query = parent::getEloquentQuery();
         $admin = auth()->user()?->email;
 
-        if ($admin === 'contact@venatomar.com') {
-            return $query->whereHas('client', fn ($q) => $q->where('admin_email', 'contact@venatomar.com'));
-        }
-
         if ($admin === 'info@venatomar.com') {
             return $query->whereHas('client', fn ($q) => $q->where('admin_email', 'info@venatomar.com')->orWhereNull('admin_email'));
+        }
+
+        if ($admin) {
+            return $query->whereHas('client', fn ($q) => $q->where('admin_email', $admin));
         }
 
         return $query;

@@ -85,7 +85,7 @@
                 <div class="text-xs text-slate-600 space-y-2.5 border-t border-slate-100 pt-4 leading-relaxed">
                     <div class="flex items-center gap-2">
                         <span class="text-base">📧</span>
-                        <span class="font-semibold text-[#0B1F3A]">contact@venatomar.com</span>
+                        <span class="font-semibold text-[#0B1F3A]">{{ $client->admin_email ?: 'contact@venatomar.com' }}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <span class="text-base">🛡️</span>

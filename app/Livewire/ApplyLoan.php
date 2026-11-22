@@ -120,6 +120,8 @@ class ApplyLoan extends Component
             $this->admin_email = $adminEmail;
         } elseif ($this->channel === 'contact') {
             $this->admin_email = 'contact@venatomar.com';
+        } elseif ($this->channel === 'ayuda') {
+            $this->admin_email = 'ayuda@venatomar.com';
         }
         if ($thanksRoute) {
             $this->thanks_route = $thanksRoute;

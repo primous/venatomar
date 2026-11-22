@@ -67,12 +67,12 @@ class LeadResource extends Resource
         $admin = auth()->user()?->email;
         $query = Lead::where('status', LeadStatus::Received);
 
-        if ($admin === 'contact@venatomar.com') {
-            $query->where('admin_email', 'contact@venatomar.com');
-        } elseif ($admin === 'info@venatomar.com') {
+        if ($admin === 'info@venatomar.com') {
             $query->where(function ($q) {
                 $q->where('admin_email', 'info@venatomar.com')->orWhereNull('admin_email');
             });
+        } elseif ($admin) {
+            $query->where('admin_email', $admin);
         }
 
         $new = $query->count();
@@ -85,15 +85,15 @@ class LeadResource extends Resource
         $query = parent::getEloquentQuery();
         $admin = auth()->user()?->email;
 
-        if ($admin === 'contact@venatomar.com') {
-            return $query->where('admin_email', 'contact@venatomar.com');
-        }
-
         if ($admin === 'info@venatomar.com') {
             return $query->where(function ($q) {
                 $q->where('admin_email', 'info@venatomar.com')
                     ->orWhereNull('admin_email');
             });
+        }
+
+        if ($admin) {
+            return $query->where('admin_email', $admin);
         }
 
         return $query;

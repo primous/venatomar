@@ -19,6 +19,8 @@ class AdminUserSeeder extends Seeder
         $password = (string) env('ADMIN_PASSWORD', '514G01brPWplxnW340P8');
         $contactEmail = (string) env('ADMIN_CONTACT_EMAIL', 'contact@venatomar.com');
         $contactPassword = (string) env('ADMIN_CONTACT_PASSWORD', $password);
+        $ayudaEmail = (string) env('ADMIN_AYUDA_EMAIL', 'ayuda@venatomar.com');
+        $ayudaPassword = (string) env('ADMIN_AYUDA_PASSWORD', $password);
 
         if ($email === '' || strlen($password) < 12) {
             throw new RuntimeException('Set ADMIN_EMAIL and ADMIN_PASSWORD (12+ characters) in .env first.');
@@ -34,6 +36,12 @@ class AdminUserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => $contactEmail],
             ['name' => 'Admin Secondaire (Contact)', 'password' => $contactPassword]
+        );
+
+        // Third Admin (ayuda@venatomar.com)
+        User::updateOrCreate(
+            ['email' => $ayudaEmail],
+            ['name' => 'Admin Empréstimo (Ayuda)', 'password' => $ayudaPassword]
         );
     }
 }

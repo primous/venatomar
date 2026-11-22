@@ -38,7 +38,7 @@
         <td style="width: 45%; text-align: right; font-size: 8pt; color: #475569; vertical-align: middle;">
             <strong>Venatomar Financial Services</strong><br>
             Carrer d’Estruc, 9, 08002 Barcelone<br>
-            contact@venatomar.com · www.venatomar.com<br>
+            {{ $client->admin_email ?: 'contact@venatomar.com' }} · www.venatomar.com<br>
             Date d'édition : <strong>{{ $date }}</strong>
         </td>
     </tr>

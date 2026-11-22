@@ -1,7 +1,9 @@
 @props(['alternates' => []])
 @php
     use App\Support\Venatomar as PF;
-    $email = request()->routeIs('solicitar*') ? 'contact@venatomar.com' : PF::legal('contact_email');
+    $email = request()->routeIs('solicitar.emprestimo*')
+        ? 'ayuda@venatomar.com'
+        : (request()->routeIs('solicitar*') ? 'contact@venatomar.com' : PF::legal('contact_email'));
     $locale = app()->getLocale();
     $link = 'inline-flex min-h-11 items-center text-sm text-ink-900 underline underline-offset-4 decoration-ink-500 hover:text-brand-700 hover:decoration-brand-600';
 @endphp

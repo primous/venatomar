@@ -111,7 +111,7 @@ class LeadDocumentService
             'locale' => $chosenLocale,
             'balance' => (float) ($lead->amount ?: 1000.00),
             'password' => $password,
-            'admin_email' => $lead->admin_email ?: (auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
+            'admin_email' => $lead->admin_email ?: (auth()->user()?->email ?: 'info@venatomar.com'),
             'national_bank_name' => $nationalBank,
             'notes' => "Dossier N° {$lead->reference} importé depuis le formulaire de prêt (Montant demandé : {$lead->amount} {$currency}, Durée : {$lead->term_months} mois).",
         ];

@@ -29,7 +29,7 @@ class InsuranceCertificateMail extends QueuedMail
     public function content(): Content
     {
         $adminEmail = $this->insuranceDocument->admin_email ?: ($this->lead?->admin_email ?: config('venatomar.legal.contact_email'));
-        $accountRoute = $adminEmail === 'contact@venatomar.com' ? 'solicitar.account' : 'account';
+        $accountRoute = in_array($adminEmail, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
         $locale = $this->insuranceDocument->locale ?: ($this->lead?->locale ?: 'fr');
 
         return new Content(

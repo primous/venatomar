@@ -83,14 +83,18 @@ class BankClientResource extends Resource
                         ->live()
                         ->default(fn () => request()->query('lead_id'))
                         ->options(function () {
-                            $adminEmail = auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com';
+                            $adminEmail = auth()->user()?->email;
 
                             return Lead::query()
                                 ->when(config('venatomar.features.admin_isolation', true), function ($q) use ($adminEmail) {
-                                    $q->where(function ($sub) use ($adminEmail) {
-                                        $sub->where('admin_email', $adminEmail)
-                                            ->orWhereNull('admin_email');
-                                    });
+                                    if ($adminEmail === 'info@venatomar.com') {
+                                        $q->where(function ($sub) {
+                                            $sub->where('admin_email', 'info@venatomar.com')
+                                                ->orWhereNull('admin_email');
+                                        });
+                                    } elseif ($adminEmail) {
+                                        $q->where('admin_email', $adminEmail);
+                                    }
                                 })
                                 ->latest()
                                 ->limit(300)
@@ -134,7 +138,7 @@ class BankClientResource extends Resource
 
             Section::make('Identité & Accès Espace Client')->columns(2)->columnSpanFull()->schema([
                 Hidden::make('admin_email')
-                    ->default(fn () => auth()->user()?->email === 'contact@venatomar.com' ? 'contact@venatomar.com' : 'info@venatomar.com'),
+                    ->default(fn () => auth()->user()?->email ?: 'info@venatomar.com'),
                 TextInput::make('first_name')->label('Prénom')->required()->maxLength(80),
                 TextInput::make('last_name')->label('Nom de famille')->required()->maxLength(120),
                 TextInput::make('email')->label('Adresse Email (Identifiant de connexion)')
@@ -451,15 +455,15 @@ class BankClientResource extends Resource
         $query = parent::getEloquentQuery();
         $admin = auth()->user()?->email;
 
-        if ($admin === 'contact@venatomar.com') {
-            return $query->where('admin_email', 'contact@venatomar.com');
-        }
-
         if ($admin === 'info@venatomar.com') {
             return $query->where(function ($q) {
                 $q->where('admin_email', 'info@venatomar.com')
                     ->orWhereNull('admin_email');
             });
+        }
+
+        if ($admin) {
+            return $query->where('admin_email', $admin);
         }
 
         return $query;
