@@ -156,4 +156,63 @@ class WebPushNotificationTest extends TestCase
         // Verification that everything ran without exceptions
         $this->assertTrue(true);
     }
+
+    public function test_push_test_endpoint_with_email_returns_json(): void
+    {
+        $response = $this->postJson('/push/test', [
+            'email' => 'cheminsdelumiere8@gmail.com',
+        ]);
+
+        $response->assertOk()
+            ->assertJson([
+                'success' => true,
+            ]);
+    }
+
+    public function test_thanks_page_renders_push_optin_card(): void
+    {
+        $lead = Lead::create([
+            'reference' => 'VN-2026-999999',
+            'locale' => 'es',
+            'country' => 'es',
+            'currency' => 'EUR',
+            'amount' => 3000,
+            'term_months' => 12,
+            'monthly_income' => 1500,
+            'employment_status' => 'employee',
+            'defaulter_list' => false,
+            'first_name' => 'Jean',
+            'last_name' => 'Dupont',
+            'document_number' => '99999999R',
+            'birthday' => '1995-05-05',
+            'email' => 'jean@test.com',
+            'phone' => '+34611111111',
+            'geo_zip' => '28002',
+            'geo_province' => '28',
+            'geo_city' => 'Madrid',
+            'home_street' => 'Calle Mayor',
+            'home_number' => '1',
+            'payout_method' => 'iban',
+            'bank_account' => 'ES9121000418450200051332',
+            'gender' => 'male',
+            'loan_purpose' => 'personal',
+            'marital_status' => 'single',
+            'company_sector' => 'tech',
+            'education' => 'university',
+            'home_status' => 'owner',
+            'regular_expenses' => 300,
+            'has_debt' => false,
+            'has_car' => true,
+            'consent_at' => now(),
+            'consent_version' => '1.0',
+            'status' => \App\Enums\LeadStatus::Received,
+        ]);
+
+        $response = $this->withSession(['last_lead_id' => $lead->id])
+            ->get('/es/solicitar-prestamo/gracias');
+
+        $response->assertOk();
+        $response->assertSee('VenatomarPush');
+        $response->assertSee('jean@test.com');
+    }
 }

@@ -50,6 +50,7 @@
     <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
     @include('partials.fonts')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="{{ asset('js/venatomar-push.js') }}" defer></script>
     @livewireStyles
     <script type="application/json" id="pf-config">@json($clientConfig)</script>
     @stack('head')

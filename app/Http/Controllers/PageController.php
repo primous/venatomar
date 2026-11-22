@@ -47,6 +47,7 @@ class PageController extends Controller
         return view('pages.thanks', [
             'reference' => $lead->reference,
             'maskedEmail' => Venatomar::maskEmail($lead->email),
+            'leadEmail' => $lead->email,
         ]);
     }
 
@@ -58,6 +59,7 @@ class PageController extends Controller
         return view('pages.solicitar-thanks', [
             'reference' => $lead->reference,
             'maskedEmail' => Venatomar::maskEmail($lead->email),
+            'leadEmail' => $lead->email,
         ]);
     }
 
@@ -69,6 +71,7 @@ class PageController extends Controller
         return view('pages.solicitar-emprestimo-thanks', [
             'reference' => $lead->reference,
             'maskedEmail' => Venatomar::maskEmail($lead->email),
+            'leadEmail' => $lead->email,
         ]);
     }
 

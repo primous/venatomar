@@ -146,6 +146,25 @@ class WebPushController extends Controller
             ]);
         }
 
+        $email = $request->input('email');
+        if (!empty($email) && is_string($email)) {
+            $cleanEmail = strtolower(trim($email));
+            $count = $webPush->sendToEmail(
+                $cleanEmail,
+                '🔔 Venatomar · Alertas activadas',
+                '¡Las notificaciones están activas en este dispositivo! Le avisaremos en tiempo real de cualquier actualización.',
+                ['url' => '/']
+            );
+
+            return response()->json([
+                'success' => true,
+                'sent' => $count,
+                'message' => $count > 0
+                    ? 'Notificación enviada correctamente a su pantalla.'
+                    : 'Aún no se ha completado la suscripción de este navegador.'
+            ]);
+        }
+
         return response()->json(['error' => 'Non authentifié'], 401);
     }
 }
