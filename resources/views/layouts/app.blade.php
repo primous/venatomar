@@ -68,6 +68,7 @@
 
     <x-footer :alternates="$alternates" />
     <x-cookie-banner />
+    <x-push-modal />
 
     @livewireScriptConfig
 </body>

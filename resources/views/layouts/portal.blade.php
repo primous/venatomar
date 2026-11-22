@@ -360,5 +360,6 @@
         </div>
     </nav>
 
+    <x-push-modal />
 </body>
 </html>

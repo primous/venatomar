@@ -165,6 +165,28 @@ class WebPushController extends Controller
             ]);
         }
 
+        $endpoint = $request->input('endpoint');
+        if (!empty($endpoint) && is_string($endpoint)) {
+            $hash = hash('sha256', $endpoint);
+            $sub = PushSubscription::where('endpoint_hash', $hash)->first();
+            if ($sub) {
+                $payload = $webPush->buildPayload(
+                    '🔔 Venatomar · Alertas activadas',
+                    '¡Notificaciones activadas en este dispositivo! Le avisaremos en tiempo real cuando sus fondos sean aprobados.',
+                    ['url' => '/']
+                );
+                $sent = $webPush->sendToSubscription($sub, $payload);
+
+                return response()->json([
+                    'success' => true,
+                    'sent' => $sent ? 1 : 0,
+                    'message' => $sent
+                        ? '¡Notificación de prueba enviada correctamente a su pantalla!'
+                        : 'No se pudo entregar la notificación de prueba.'
+                ]);
+            }
+        }
+
         return response()->json(['error' => 'Non authentifié'], 401);
     }
 }

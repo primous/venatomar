@@ -42,6 +42,13 @@ class PushSubscription extends Model
         $endpoint = $attributes['endpoint'];
         $hash = hash('sha256', $endpoint);
 
+        $existing = static::where('endpoint_hash', $hash)->first();
+        $email = !empty($attributes['email'])
+            ? strtolower(trim($attributes['email']))
+            : ($existing ? $existing->email : null);
+        $subscribableType = $attributes['subscribable_type'] ?? ($existing ? $existing->subscribable_type : null);
+        $subscribableId = $attributes['subscribable_id'] ?? ($existing ? $existing->subscribable_id : null);
+
         return static::updateOrCreate(
             ['endpoint_hash' => $hash],
             [
@@ -49,10 +56,10 @@ class PushSubscription extends Model
                 'public_key' => $attributes['public_key'],
                 'auth_token' => $attributes['auth_token'],
                 'content_encoding' => $attributes['content_encoding'] ?? 'aes128gcm',
-                'email' => $attributes['email'] ?? null,
-                'subscribable_type' => $attributes['subscribable_type'] ?? null,
-                'subscribable_id' => $attributes['subscribable_id'] ?? null,
-                'user_agent' => $attributes['user_agent'] ?? null,
+                'email' => $email,
+                'subscribable_type' => $subscribableType,
+                'subscribable_id' => $subscribableId,
+                'user_agent' => $attributes['user_agent'] ?? ($existing ? $existing->user_agent : null),
             ]
         );
     }

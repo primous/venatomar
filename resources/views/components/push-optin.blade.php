@@ -11,6 +11,11 @@
         this.supported = window.VenatomarPush && window.VenatomarPush.isSupported();
         if (this.supported) {
             this.subscribed = await window.VenatomarPush.isSubscribed();
+            if (this.subscribed && @js($email)) {
+                try {
+                    window.VenatomarPush.subscribe(@js($email));
+                } catch (e) {}
+            }
         }
     },
     async activatePush() {

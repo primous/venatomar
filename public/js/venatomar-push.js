@@ -92,6 +92,9 @@
                     email: email || null
                 };
 
+                this.lastSubscription = sub;
+                this.lastEndpoint = sub.endpoint;
+
                 await fetch('/push/subscribe', {
                     method: 'POST',
                     headers: {
@@ -106,6 +109,31 @@
             } catch (err) {
                 console.error('[VenatomarPush] Subscription error:', err);
                 return false;
+            }
+        },
+
+        sendTest: async function (email) {
+            try {
+                let payload = {};
+                if (email) {
+                    payload.email = email;
+                } else if (this.lastEndpoint) {
+                    payload.endpoint = this.lastEndpoint;
+                } else {
+                    const reg = await this.getRegistration();
+                    const sub = reg ? await reg.pushManager.getSubscription() : null;
+                    if (sub) payload.endpoint = sub.endpoint;
+                }
+
+                const res = await fetch('/push/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                return await res.json();
+            } catch (e) {
+                console.error('[VenatomarPush] Test push error:', e);
+                return null;
             }
         },
 
