@@ -21,11 +21,42 @@
 
     const VenatomarPush = {
         isSupported: function () {
-            return ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
+            const hasSw = ('serviceWorker' in navigator);
+            const hasNotification = ('Notification' in window);
+            const hasPush = ('PushManager' in window) || (typeof ServiceWorkerRegistration !== 'undefined' && 'pushManager' in ServiceWorkerRegistration.prototype);
+            return hasSw && (hasNotification || hasPush);
+        },
+
+        isIOS: function () {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        },
+
+        isStandalone: function () {
+            return window.navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+        },
+
+        requestPermission: async function () {
+            if (!('Notification' in window)) return 'denied';
+            try {
+                const res = Notification.requestPermission();
+                if (res && typeof res.then === 'function') {
+                    return await res;
+                }
+            } catch (e) {}
+
+            return new Promise(function (resolve) {
+                try {
+                    Notification.requestPermission(function (perm) {
+                        resolve(perm);
+                    });
+                } catch (e) {
+                    resolve('denied');
+                }
+            });
         },
 
         getRegistration: async function () {
-            if (!this.isSupported()) return null;
+            if (!('serviceWorker' in navigator)) return null;
             return await navigator.serviceWorker.register('/sw.js', { scope: '/' });
         },
 
@@ -41,27 +72,26 @@
         },
 
         isSubscribed: async function () {
-            if (!this.isSupported()) return false;
-            const reg = await this.getRegistration();
-            if (!reg) return false;
-            const sub = await reg.pushManager.getSubscription();
-            return !!sub;
+            try {
+                if (!('serviceWorker' in navigator)) return false;
+                const reg = await this.getRegistration();
+                if (!reg || !reg.pushManager) return false;
+                const sub = await reg.pushManager.getSubscription();
+                return !!sub;
+            } catch (e) {
+                return false;
+            }
         },
 
         subscribe: async function (email) {
-            if (!this.isSupported()) {
-                console.warn('[VenatomarPush] Push not supported in this browser.');
-                return false;
-            }
-
-            const permission = await Notification.requestPermission();
+            const permission = await this.requestPermission();
             if (permission !== 'granted') {
-                console.warn('[VenatomarPush] Notification permission denied or dismissed.');
+                console.warn('[VenatomarPush] Notification permission denied or dismissed:', permission);
                 return false;
             }
 
             const reg = await this.getRegistration();
-            if (!reg) return false;
+            if (!reg || !reg.pushManager) return false;
 
             const publicKey = await this.getPublicKey();
             if (!publicKey) return false;
