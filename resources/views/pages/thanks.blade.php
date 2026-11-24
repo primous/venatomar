@@ -10,8 +10,6 @@
                 <p class="mt-1 font-display text-2xl font-extrabold tracking-wide text-ink-900 tabular-nums">{{ $reference }}</p>
                 <p class="mt-6">{{ __('thanks.email_sent', ['email' => $maskedEmail]) }}</p>
 
-                <x-push-optin :email="$leadEmail ?? null" />
-
                 <div class="mt-8 rounded-lg bg-surface-2 p-5 text-left">
                     <h2 class="font-display text-lg font-bold text-ink-900">{{ __('thanks.next_title') }}</h2>
                     <ol class="mt-3 space-y-3">

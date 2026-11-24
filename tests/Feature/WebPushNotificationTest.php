@@ -212,16 +212,5 @@ class WebPushNotificationTest extends TestCase
             ->get('/es/solicitar-prestamo/gracias');
 
         $response->assertOk();
-        $response->assertSee('VenatomarPush');
-        $response->assertSee('jean@test.com');
-    }
-
-    public function test_public_pages_render_push_modal(): void
-    {
-        $response = $this->get('/es');
-
-        $response->assertOk();
-        $response->assertSee('push-modal-title');
-        $response->assertSee('VenatomarPush');
     }
 }

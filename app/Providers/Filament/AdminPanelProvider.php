@@ -42,10 +42,9 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
             // The public site boots Livewire from its Vite bundle (inject_assets = false),
             // so the admin panel loads Livewire's own script explicitly.
-            ->renderHook(PanelsRenderHook::HEAD_END, fn () => Blade::render('<script src="{{ asset("js/venatomar-push.js") }}" defer></script>@livewireStyles'))
+            ->renderHook(PanelsRenderHook::HEAD_END, fn () => Blade::render('@livewireStyles'))
             ->renderHook(PanelsRenderHook::BODY_END, fn () => Blade::render('@livewireScripts'))
-            // Push notification toggle and language switcher (French by default): top bar and login page.
-            ->renderHook(PanelsRenderHook::USER_MENU_BEFORE, fn () => view('filament.push-toggle'))
+            // Language switcher (French by default): top bar and login page.
             ->renderHook(PanelsRenderHook::USER_MENU_BEFORE, fn () => view('filament.locale-switcher'))
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => view('filament.locale-switcher', ['center' => true]))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
