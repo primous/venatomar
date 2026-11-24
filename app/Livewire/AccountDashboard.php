@@ -53,12 +53,14 @@ class AccountDashboard extends Component
             'status' => 'pending',
         ]);
 
+        $adminRecipient = $applicant->leads()->latest()->value('admin_email') ?: config('venatomar.lead_recipient');
+
         try {
-            Mail::to(config('venatomar.lead_recipient'))->queue(new DeletionRequested($deletion));
+            Mail::to($adminRecipient)->queue(new DeletionRequested($deletion));
 
             try {
                 app(\App\Services\WebPushService::class)->sendToAdmin(
-                    (string) config('venatomar.lead_recipient'),
+                    (string) $adminRecipient,
                     'Demande de suppression de compte',
                     "L'utilisateur {$applicant->email} a demandé la suppression de ses données.",
                     ['url' => '/admin']

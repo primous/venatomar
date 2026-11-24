@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Hita sy noraisina',
     'sig_right_title' => 'Ny Mpindram-bola / Ny Voantoka',
     'fee_notice' => 'Saram-pamokarana : Ny fanaovana ity taratasy ity dia mitentina : :amount',
+    'page2_subtitle' => 'Taratasy ofisialy mialoha ny fifanarahana (Pejy 2 / 2)',
+    'legal_notice_label' => 'Fanamarihana ara-dalàna :',
+    'register_note' => 'Voasoratra ao amin\'ny rejisitra ofisialin\'ny fiantohana :brand.',
   ),
 );

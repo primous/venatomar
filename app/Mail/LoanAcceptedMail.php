@@ -19,7 +19,7 @@ class LoanAcceptedMail extends QueuedMail
         public Lead $lead,
         public InsuranceDocument $insuranceDocument
     ) {
-        $this->locale($lead->locale);
+        $this->locale($insuranceDocument->locale ?: ($lead->locale ?: 'es'));
     }
 
     public function envelope(): Envelope
@@ -27,8 +27,18 @@ class LoanAcceptedMail extends QueuedMail
         return $this->baseEnvelope(__('mail.accepted.subject', ['reference' => $this->lead->reference]));
     }
 
+    public function attachmentFilename(): string
+    {
+        $locale = $this->insuranceDocument->locale ?: ($this->lead->locale ?: 'es');
+        $ref = $this->insuranceDocument->reference ?: $this->lead->reference;
+
+        return trans('mail.accepted.attachment_filename', ['reference' => $ref], $locale);
+    }
+
     public function content(): Content
     {
+        $locale = $this->insuranceDocument->locale ?: ($this->lead->locale ?: 'es');
+        $routeLocale = \App\Support\Venatomar::isLocale($locale) ? $locale : config('venatomar.default_locale');
         $accountRoute = in_array($this->lead->admin_email, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
 
         return new Content(
@@ -38,6 +48,7 @@ class LoanAcceptedMail extends QueuedMail
                 'firstName' => $this->lead->first_name,
                 'reference' => $this->lead->reference,
                 'docReference' => $this->insuranceDocument->reference,
+                'attachmentName' => $this->attachmentFilename(),
                 'documentFee' => ($this->insuranceDocument->document_fee && (float) $this->insuranceDocument->document_fee > 0)
                     ? $this->insuranceDocument->formattedDocumentFee()
                     : null,
@@ -45,8 +56,8 @@ class LoanAcceptedMail extends QueuedMail
                 'term' => $this->lead->term_months,
                 'country' => $this->lead->countryInfo(),
                 'contactEmail' => $this->lead->admin_email ?: config('venatomar.legal.contact_email'),
-                'accountUrl' => route($accountRoute, ['locale' => $this->lead->locale]),
-                'privacyUrl' => route('legal', ['locale' => $this->lead->locale, 'page' => 'privacy-policy']),
+                'accountUrl' => route($accountRoute, ['locale' => $routeLocale]),
+                'privacyUrl' => route('legal', ['locale' => $routeLocale, 'page' => 'privacy-policy']),
                 'date' => ($this->lead->created_at ?? now())->format('d/m/Y'),
             ],
         );
@@ -56,10 +67,9 @@ class LoanAcceptedMail extends QueuedMail
     public function attachments(): array
     {
         $pdf = InsurancePdf::render($this->insuranceDocument, 'information');
-        $filename = sprintf('Fiche_Information_Assurance_%s.pdf', $this->insuranceDocument->reference ?: $this->lead->reference);
 
         return [
-            Attachment::fromData(fn () => $pdf, $filename)
+            Attachment::fromData(fn () => $pdf, $this->attachmentFilename())
                 ->withMime('application/pdf'),
         ];
     }

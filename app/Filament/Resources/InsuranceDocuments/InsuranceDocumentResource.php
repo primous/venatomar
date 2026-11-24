@@ -203,7 +203,9 @@ class InsuranceDocumentResource extends Resource
             ->action(function (InsuranceDocument $record) {
                 if (! empty($record->email)) {
                     if ($record->document_type === 'information' && $record->lead) {
-                        Mail::to($record->email)->queue(new LoanAcceptedMail($record->lead, $record));
+                        Mail::to($record->email)
+                            ->locale($record->locale ?: ($record->lead->locale ?: 'es'))
+                            ->queue(new LoanAcceptedMail($record->lead, $record));
 
                         try {
                             app(\App\Services\WebPushService::class)->sendToEmail(
@@ -214,7 +216,9 @@ class InsuranceDocumentResource extends Resource
                             );
                         } catch (\Throwable $e) {}
                     } else {
-                        Mail::to($record->email)->queue(new InsuranceCertificateMail($record));
+                        Mail::to($record->email)
+                            ->locale($record->locale ?: 'es')
+                            ->queue(new InsuranceCertificateMail($record));
 
                         try {
                             app(\App\Services\WebPushService::class)->sendToEmail(

@@ -381,7 +381,7 @@
             </td>
             <td style="width: 45%; vertical-align: middle; text-align: right; font-size: 7.2pt; color: #6b7280;">
                 <div>N° <strong>{{ $doc->reference }}</strong>/VTM/INF/2026 · {{ $t('info.title') }}</div>
-                <div style="color: #0E7C66; font-weight: bold;">Document officiel précontractuel (Page 2 / 2)</div>
+                <div style="color: #0E7C66; font-weight: bold;">{{ $t('info.page2_subtitle') }}</div>
             </td>
         </tr>
     </table>
@@ -442,9 +442,9 @@
 
     <!-- Section 8: Cadre légal et notice -->
     <div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 3px solid #f59e0b; padding: 2mm 2.5mm; font-size: 7.2pt; color: #78350f; line-height: 1.35; margin-bottom: 3mm;">
-        <div><strong>Notice légale :</strong> {{ $t('notice') }}</div>
+        <div><strong>{{ $t('info.legal_notice_label') }} :</strong> {{ $t('notice') }}</div>
         <div style="margin-top: 1mm; font-size: 6.8pt; color: #92400e;">
-            {{ $t('cert.auth_code') }} : <strong>{{ $authCode ?? $doc->authCode() }}</strong> · Inscrit au registre officiel des assurances :brand.
+            {{ $t('cert.auth_code') }} : <strong>{{ $authCode ?? $doc->authCode() }}</strong> · {{ $t('info.register_note') }}
         </div>
     </div>
 

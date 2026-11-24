@@ -269,7 +269,7 @@
         <div class="article-title">{{ $t('art_5_title') }}</div>
         <div class="article-body">
             {{ $t('art_5_body', [
-                'notes' => $contract->notes ? ' (Conditions particulières : '.$contract->notes.')' : '',
+                'notes' => $contract->notes ? ' ('.$t('special_conditions').' : '.$contract->notes.')' : '',
             ]) }}
         </div>
     </div>

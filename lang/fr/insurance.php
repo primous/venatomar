@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Pour information et réception',
     'sig_right_title' => 'L’Emprunteur / L’Assuré(e)',
     'fee_notice' => 'Frais d’émission : La réalisation de cette fiche s’élève à : :amount',
+    'page2_subtitle' => 'Document officiel précontractuel (Page 2 / 2)',
+    'legal_notice_label' => 'Notice légale :',
+    'register_note' => 'Inscrit au registre officiel des assurances :brand.',
   ),
 );

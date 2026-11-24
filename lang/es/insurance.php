@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Para información y recepción',
     'sig_right_title' => 'El Prestatario / Asegurado',
     'fee_notice' => 'Gastos de emisión : La formalización de este documento tiene un coste de : :amount',
+    'page2_subtitle' => 'Documento oficial precontractual (Página 2 / 2)',
+    'legal_notice_label' => 'Aviso legal :',
+    'register_note' => 'Inscrito en el registro oficial de seguros :brand.',
   ),
 );

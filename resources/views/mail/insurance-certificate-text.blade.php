@@ -9,7 +9,7 @@
 @if(!empty($documentFee))
 - {!! __('mail.insurance_cert.document_fee') !!} : {!! $documentFee !!}
 @endif
-- {!! __('mail.insurance_cert.attached_document') !!} : Certificat_Assurance_{!! $reference !!}.pdf
+- {!! __('mail.insurance_cert.attached_document') !!} : {!! $attachmentName ?? __('mail.insurance_cert.attachment_filename', ['reference' => $reference]) !!}
 
 {!! __('mail.insurance_cert.notice') !!}
 

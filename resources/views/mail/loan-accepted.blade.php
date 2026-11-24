@@ -14,9 +14,9 @@
         '24 hodín', '24 ur', '24 timmar', '24 ώρες', '24 ora'
     ];
 
-    foreach ($highlightTerms as $term) {
-        $introText = str_ireplace($term, '<strong>' . $term . '</strong>', $introText);
-        $actionText = str_ireplace($term, '<strong>' . $term . '</strong>', $actionText);
+    foreach ($highlightTerms as $highlight) {
+        $introText = str_ireplace($highlight, '<strong>' . $highlight . '</strong>', $introText);
+        $actionText = str_ireplace($highlight, '<strong>' . $highlight . '</strong>', $actionText);
     }
 @endphp
 <x-mail-layout :message="$message ?? null" :title="__('mail.accepted.subject', ['reference' => $reference])" :preheader="__('mail.accepted.preheader', ['brand' => config('venatomar.brand')])">
@@ -56,7 +56,7 @@
         @endif
         <tr>
             <td style="padding:6px 20px 14px;color:#5B6B82;">- {{ __('mail.accepted.attached_document') }} :</td>
-            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">{{ $docReference ?: $reference }}.pdf</td>
+            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">{{ $attachmentName ?? (($docReference ?: $reference).'.pdf') }}</td>
         </tr>
     </table>
 

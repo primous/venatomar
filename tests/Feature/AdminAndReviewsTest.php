@@ -38,7 +38,7 @@ class AdminAndReviewsTest extends TestCase
 
     private function admin(): User
     {
-        return User::create(['name' => 'Admin', 'email' => 'admin@example.test', 'password' => 'secret-password-123']);
+        return User::create(['name' => 'Admin', 'email' => 'info@venatomar.com', 'password' => 'secret-password-123']);
     }
 
     private function fillReview($component)

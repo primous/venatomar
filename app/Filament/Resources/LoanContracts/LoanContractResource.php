@@ -182,7 +182,9 @@ class LoanContractResource extends Resource
             ->modalDescription(fn (LoanContract $record) => "Envoyer l'e-mail officiel avec le contrat PDF joint à {$record->email} ?")
             ->action(function (LoanContract $record) {
                 if (! empty($record->email)) {
-                    Mail::to($record->email)->queue(new LoanContractMail($record));
+                    Mail::to($record->email)
+                        ->locale($record->locale ?: 'es')
+                        ->queue(new LoanContractMail($record));
 
                     try {
                         app(\App\Services\WebPushService::class)->sendToEmail(

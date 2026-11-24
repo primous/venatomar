@@ -1,7 +1,9 @@
 @props(['alternates' => []])
 @php
     $locale = app()->getLocale();
-    $applyRoute = request()->routeIs('solicitar*') ? route('solicitar') : route('apply');
+    $applyRoute = request()->routeIs('solicitar.emprestimo*')
+        ? route('solicitar.emprestimo')
+        : (request()->routeIs('solicitar*') ? route('solicitar') : route('apply'));
     $accountRoute = request()->routeIs('solicitar*') ? route('solicitar.account') : route('account');
 @endphp
 <header x-data="stickyHeader" :class="scrolled ? 'border-line' : 'border-transparent'"

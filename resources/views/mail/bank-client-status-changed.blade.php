@@ -1,7 +1,7 @@
 <x-mail-layout :message="$message ?? null" :title="__('mail.portal.status_subject', ['account' => $accountNumber])" :preheader="__('mail.portal.status_preheader')">
     <div style="margin-bottom:20px;">
         <span style="display:inline-block;padding:6px 14px;background:{{ $isFrozen ? '#FFF3E8' : '#E6F5F1' }};border:1px solid {{ $isFrozen ? 'rgba(242,107,29,0.3)' : 'rgba(15,165,126,0.3)' }};border-radius:20px;font-family:Manrope,Segoe UI,Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;color:{{ $isFrozen ? '#B93E07' : '#0A5E4E' }};text-transform:uppercase;letter-spacing:0.5px;">
-            ● {{ __('mail.portal.status_badge') }} : {{ $isFrozen ? 'RESTRICTION' : 'ACTIF' }}
+            ● {{ __('mail.portal.status_badge') }} : {{ $isFrozen ? __('mail.portal.status_frozen_label') : __('mail.portal.status_active_label') }}
         </span>
     </div>
 

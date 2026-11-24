@@ -18,6 +18,7 @@ final class InsurancePdf
     public const NUMBER_LOCALES = [
         'fr' => 'fr_FR', 'es' => 'es_ES', 'en' => 'en_GB', 'de' => 'de_DE', 'it' => 'it_IT',
         'nl' => 'nl_NL', 'el' => 'el_GR', 'pt' => 'pt_PT', 'sk' => 'sk_SK', 'sl' => 'sl_SI', 'mg' => 'mg_MG',
+        'sv' => 'es_SV', 'uy' => 'es_UY',
     ];
 
     /** Suggestions for the currency field (any ISO 4217 code is accepted). */
@@ -25,7 +26,7 @@ final class InsurancePdf
 
     public static function render(InsuranceDocument $doc, ?string $type = null): string
     {
-        $locale = $doc->locale;
+        $locale = in_array($doc->locale, ['sv', 'uy'], true) ? 'es' : ($doc->locale ?: 'es');
         $t = fn (string $key, array $replace = []) => trans('insurance.'.$key, $replace + ['brand' => Venatomar::config('brand')], $locale);
 
         // dompdf does not render SVG gradients: use the solid brand green.
@@ -39,8 +40,11 @@ final class InsurancePdf
         $effectiveDate = $doc->effective_date ? Carbon::parse($doc->effective_date) : $createdAt;
         $expiryDate = $doc->expiryDate();
 
-        $guaranteeNames = trans('admin.insurance.guarantee_names');
-        $guaranteesList = implode(', ', array_map(fn ($k) => $guaranteeNames[$k] ?? ucfirst($k), $doc->guarantees ?? []));
+        $guaranteesList = implode(', ', array_map(function ($k) use ($t) {
+            $g = $t('guarantees.'.$k);
+
+            return is_array($g) ? ($g[0] ?? ucfirst($k)) : ucfirst($k);
+        }, $doc->guarantees ?? []));
 
         return Pdf::loadView($view, [
             'doc' => $doc,

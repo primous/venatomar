@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Na vedomie a prevzatie',
     'sig_right_title' => 'Dlžník / Poistený',
     'fee_notice' => 'Poplatok za vystavenie : Vystavenie tohto dokumentu stojí : :amount',
+    'page2_subtitle' => 'Úradný predzmluvný dokument (Strana 2 / 2)',
+    'legal_notice_label' => 'Právne upozornenie :',
+    'register_note' => 'Zapísané v úradnom registri poistenia :brand.',
   ),
 );

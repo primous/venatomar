@@ -11,7 +11,7 @@ final class LoanApprovalPdf
 {
     public static function render(LoanApprovalDocument $doc): string
     {
-        $locale = $doc->locale;
+        $locale = in_array($doc->locale, ['sv', 'uy'], true) ? 'es' : ($doc->locale ?: 'es');
         $t = fn (string $key, array $replace = []) => trans('loan_approval.'.$key, $replace + ['brand' => Venatomar::config('brand')], $locale);
 
         $svg = str_replace('url(#g)', '#0FA57E', (string) file_get_contents(public_path('images/logo.svg')));

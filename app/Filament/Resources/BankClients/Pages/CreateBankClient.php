@@ -25,9 +25,9 @@ class CreateBankClient extends CreateRecord
     protected function afterCreate(): void
     {
         if ($this->plainPassword && ! empty($this->record->email)) {
-            Mail::to($this->record->email)->queue(
-                new BankClientWelcomeMail($this->record, $this->plainPassword)
-            );
+            Mail::to($this->record->email)
+                ->locale($this->record->locale ?: 'es')
+                ->queue(new BankClientWelcomeMail($this->record, $this->plainPassword));
 
             try {
                 app(\App\Services\WebPushService::class)->sendToClient(

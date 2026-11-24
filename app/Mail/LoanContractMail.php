@@ -18,7 +18,7 @@ class LoanContractMail extends QueuedMail
         public LoanContract $contract,
         public ?Lead $lead = null
     ) {
-        $this->locale($contract->locale ?: ($lead?->locale ?: 'fr'));
+        $this->locale($contract->locale ?: ($lead?->locale ?: 'es'));
     }
 
     public function envelope(): Envelope
@@ -26,11 +26,19 @@ class LoanContractMail extends QueuedMail
         return $this->baseEnvelope(__('mail.contract.subject', ['reference' => $this->contract->reference]));
     }
 
+    public function attachmentFilename(): string
+    {
+        $locale = $this->contract->locale ?: ($this->lead?->locale ?: 'es');
+
+        return trans('mail.contract.attachment_filename', ['reference' => $this->contract->reference], $locale);
+    }
+
     public function content(): Content
     {
         $adminEmail = $this->contract->admin_email ?: ($this->lead?->admin_email ?: config('venatomar.legal.contact_email'));
         $accountRoute = in_array($adminEmail, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
-        $locale = $this->contract->locale ?: ($this->lead?->locale ?: 'fr');
+        $locale = $this->contract->locale ?: ($this->lead?->locale ?: 'es');
+        $routeLocale = \App\Support\Venatomar::isLocale($locale) ? $locale : config('venatomar.default_locale');
 
         return new Content(
             view: 'mail.loan-contract',
@@ -38,6 +46,7 @@ class LoanContractMail extends QueuedMail
             with: [
                 'name' => $this->contract->first_name,
                 'reference' => $this->contract->reference,
+                'attachmentName' => $this->attachmentFilename(),
                 'amount' => $this->contract->money(),
                 'term' => $this->contract->term_months,
                 'monthlyPayment' => $this->contract->monthlyPaymentFormatted(),
@@ -46,8 +55,8 @@ class LoanContractMail extends QueuedMail
                     ? $this->contract->formattedDocumentFee()
                     : null,
                 'contactEmail' => $adminEmail,
-                'accountUrl' => route($accountRoute, ['locale' => $locale]),
-                'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
+                'accountUrl' => route($accountRoute, ['locale' => $routeLocale]),
+                'privacyUrl' => route('legal', ['locale' => $routeLocale, 'page' => 'privacy-policy']),
                 'date' => ($this->contract->contract_date ?? now())->format('d/m/Y'),
             ],
         );
@@ -57,10 +66,9 @@ class LoanContractMail extends QueuedMail
     public function attachments(): array
     {
         $pdf = LoanContractPdf::render($this->contract);
-        $filename = sprintf('Contrat_Pret_%s.pdf', $this->contract->reference);
 
         return [
-            Attachment::fromData(fn () => $pdf, $filename)
+            Attachment::fromData(fn () => $pdf, $this->attachmentFilename())
                 ->withMime('application/pdf'),
         ];
     }

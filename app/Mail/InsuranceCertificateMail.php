@@ -18,7 +18,7 @@ class InsuranceCertificateMail extends QueuedMail
         public InsuranceDocument $insuranceDocument,
         public ?Lead $lead = null
     ) {
-        $this->locale($insuranceDocument->locale ?: ($lead?->locale ?: 'fr'));
+        $this->locale($insuranceDocument->locale ?: ($lead?->locale ?: 'es'));
     }
 
     public function envelope(): Envelope
@@ -26,11 +26,19 @@ class InsuranceCertificateMail extends QueuedMail
         return $this->baseEnvelope(__('mail.insurance_cert.subject', ['reference' => $this->insuranceDocument->reference]));
     }
 
+    public function attachmentFilename(): string
+    {
+        $locale = $this->insuranceDocument->locale ?: ($this->lead?->locale ?: 'es');
+
+        return trans('mail.insurance_cert.attachment_filename', ['reference' => $this->insuranceDocument->reference], $locale);
+    }
+
     public function content(): Content
     {
         $adminEmail = $this->insuranceDocument->admin_email ?: ($this->lead?->admin_email ?: config('venatomar.legal.contact_email'));
         $accountRoute = in_array($adminEmail, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
-        $locale = $this->insuranceDocument->locale ?: ($this->lead?->locale ?: 'fr');
+        $locale = $this->insuranceDocument->locale ?: ($this->lead?->locale ?: 'es');
+        $routeLocale = \App\Support\Venatomar::isLocale($locale) ? $locale : config('venatomar.default_locale');
 
         return new Content(
             view: 'mail.insurance-certificate',
@@ -38,6 +46,7 @@ class InsuranceCertificateMail extends QueuedMail
             with: [
                 'name' => $this->insuranceDocument->first_name,
                 'reference' => $this->insuranceDocument->reference,
+                'attachmentName' => $this->attachmentFilename(),
                 'amount' => $this->insuranceDocument->money(),
                 'term' => $this->insuranceDocument->term_months,
                 'coveragePercent' => $this->insuranceDocument->coverage_percent ?? 100,
@@ -45,8 +54,8 @@ class InsuranceCertificateMail extends QueuedMail
                     ? $this->insuranceDocument->formattedDocumentFee()
                     : null,
                 'contactEmail' => $adminEmail,
-                'accountUrl' => route($accountRoute, ['locale' => $locale]),
-                'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
+                'accountUrl' => route($accountRoute, ['locale' => $routeLocale]),
+                'privacyUrl' => route('legal', ['locale' => $routeLocale, 'page' => 'privacy-policy']),
                 'date' => ($this->insuranceDocument->effective_date ?? now())->format('d/m/Y'),
             ],
         );
@@ -57,10 +66,9 @@ class InsuranceCertificateMail extends QueuedMail
     {
         $type = $this->insuranceDocument->document_type ?: 'certificate';
         $pdf = InsurancePdf::render($this->insuranceDocument, $type);
-        $filename = sprintf('Certificat_Assurance_%s.pdf', $this->insuranceDocument->reference);
 
         return [
-            Attachment::fromData(fn () => $pdf, $filename)
+            Attachment::fromData(fn () => $pdf, $this->attachmentFilename())
                 ->withMime('application/pdf'),
         ];
     }

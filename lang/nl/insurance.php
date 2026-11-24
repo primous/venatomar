@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Voor ontvangst en akkoord',
     'sig_right_title' => 'De Kredietnemer / Verzekerde',
     'fee_notice' => 'Uitgiftekosten : De opmaak van dit document bedraagt : :amount',
+    'page2_subtitle' => 'Officieel precontractueel document (Pagina 2 / 2)',
+    'legal_notice_label' => 'Juridische kennisgeving :',
+    'register_note' => 'Ingeschreven in het officiële verzekeringsregister :brand.',
   ),
 );

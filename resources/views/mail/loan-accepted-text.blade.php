@@ -1,5 +1,5 @@
 @php use App\Support\Venatomar as PF; @endphp
-{!! __('mail.accepted.greeting') !!}
+{!! __('mail.accepted.greeting', ['name' => $firstName]) !!}
 
 {!! __('mail.accepted.intro') !!}
 
@@ -9,7 +9,7 @@
 @if(!empty($documentFee))
 - {!! __('mail.accepted.document_fee') !!} : {!! $documentFee !!}
 @endif
-- {!! __('mail.accepted.attached_document') !!} : {!! $docReference ?: $reference !!}.pdf
+- {!! __('mail.accepted.attached_document') !!} : {!! $attachmentName ?? (($docReference ?: $reference).'.pdf') !!}
 
 {!! __('mail.accepted.document_notice') !!}
 

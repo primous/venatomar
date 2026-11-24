@@ -14,7 +14,7 @@
 @if(!empty($documentFee))
 - {!! __('mail.contract.document_fee') !!} : {!! $documentFee !!}
 @endif
-- {!! __('mail.contract.attached_document') !!} : Contrat_Pret_{!! $reference !!}.pdf
+- {!! __('mail.contract.attached_document') !!} : {!! $attachmentName ?? __('mail.contract.attachment_filename', ['reference' => $reference]) !!}
 
 {!! __('mail.contract.instructions_title') !!}
 1. {!! __('mail.contract.step1') !!}

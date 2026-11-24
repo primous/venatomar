@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Per ricevuta e presa visione',
     'sig_right_title' => 'Il Mutuatario / Assicurato',
     'fee_notice' => 'Spese di emissione : La redazione di questo documento costa : :amount',
+    'page2_subtitle' => 'Documento ufficiale precontrattuale (Pagina 2 / 2)',
+    'legal_notice_label' => 'Nota legale :',
+    'register_note' => 'Iscritto al registro ufficiale delle assicurazioni :brand.',
   ),
 );

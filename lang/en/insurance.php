@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Acknowledged and Received',
     'sig_right_title' => 'The Borrower / Insured',
     'fee_notice' => 'Issuance fee : The issuance of this sheet costs : :amount',
+    'page2_subtitle' => 'Official pre-contractual document (Page 2 / 2)',
+    'legal_notice_label' => 'Legal notice :',
+    'register_note' => 'Registered in the official insurance register :brand.',
   ),
 );

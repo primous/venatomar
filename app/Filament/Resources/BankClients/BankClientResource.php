@@ -329,12 +329,14 @@ class BankClientResource extends Resource
                         ]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)->queue(new BankClientCreditedMail(
-                                $record,
-                                $amount,
-                                $data['description'],
-                                $record->fresh()->formattedBalance()
-                            ));
+                            Mail::to($record->email)
+                                ->locale($record->locale ?: 'es')
+                                ->queue(new BankClientCreditedMail(
+                                    $record,
+                                    $amount,
+                                    $data['description'],
+                                    $record->fresh()->formattedBalance()
+                                ));
 
                             try {
                                 app(\App\Services\WebPushService::class)->sendToClient(
@@ -381,12 +383,14 @@ class BankClientResource extends Resource
                         ]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)->queue(new BankClientDebitedMail(
-                                $record,
-                                $amount,
-                                $data['description'],
-                                $record->fresh()->formattedBalance()
-                            ));
+                            Mail::to($record->email)
+                                ->locale($record->locale ?: 'es')
+                                ->queue(new BankClientDebitedMail(
+                                    $record,
+                                    $amount,
+                                    $data['description'],
+                                    $record->fresh()->formattedBalance()
+                                ));
 
                             try {
                                 app(\App\Services\WebPushService::class)->sendToClient(
@@ -415,7 +419,9 @@ class BankClientResource extends Resource
                         $record->update(['status' => $newStatus]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)->queue(new BankClientStatusChangedMail($record, $newStatus));
+                            Mail::to($record->email)
+                                ->locale($record->locale ?: 'es')
+                                ->queue(new BankClientStatusChangedMail($record, $newStatus));
 
                             try {
                                 $statusLabel = $newStatus === 'frozen' ? 'bloqueada temporalmente' : 'reactivada y operativa';
@@ -451,7 +457,9 @@ class BankClientResource extends Resource
                         $record->update(['password' => $data['password']]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)->queue(new BankClientWelcomeMail($record, $data['password']));
+                            Mail::to($record->email)
+                                ->locale($record->locale ?: 'es')
+                                ->queue(new BankClientWelcomeMail($record, $data['password']));
 
                             try {
                                 app(\App\Services\WebPushService::class)->sendToClient(

@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Zur Kenntnis genommen',
     'sig_right_title' => 'Der Kreditnehmer / Versicherte',
     'fee_notice' => 'Ausstellungsgebühr : Die Erstellung dieses Dokuments kostet : :amount',
+    'page2_subtitle' => 'Amtliches vorvertragliches Dokument (Seite 2 / 2)',
+    'legal_notice_label' => 'Rechtlicher Hinweis :',
+    'register_note' => 'Eingetragen im amtlichen Versicherungsregister :brand.',
   ),
 );

@@ -4,8 +4,13 @@ namespace Tests\Feature;
 
 use App\Database\Seeders\AdminUserSeeder;
 use App\Livewire\ApplyLoan;
+use App\Mail\BankClientStatusChangedMail;
+use App\Mail\BankClientWelcomeMail;
+use App\Mail\InsuranceCertificateMail;
 use App\Mail\LeadConfirmation;
 use App\Mail\LeadReceivedInternal;
+use App\Mail\LoanAcceptedMail;
+use App\Mail\LoanContractMail;
 use App\Models\BankClient;
 use App\Models\BankClientLoan;
 use App\Models\BankTransaction;
@@ -15,8 +20,10 @@ use App\Models\LoanApprovalDocument;
 use App\Models\LoanContract;
 use App\Models\User;
 use App\Services\LeadDocumentService;
+use App\Support\InsurancePdf;
 use App\Support\LoanContractPdf;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
@@ -257,5 +264,124 @@ class AyudaEmprestimoAdminTest extends TestCase
         $pdfContent = LoanContractPdf::render($contract);
         $this->assertNotEmpty($pdfContent);
         $this->assertStringStartsWith('%PDF', $pdfContent);
+    }
+
+    public function test_header_cta_on_solicitar_emprestimo_keeps_ayuda_route(): void
+    {
+        $response = $this->get('/es/solicitar-emprestimo');
+        $response->assertStatus(200);
+        $response->assertSee(route('solicitar.emprestimo'), false);
+        $response->assertDontSee('href="'.route('solicitar').'"', false);
+    }
+
+    public function test_submitting_sv_country_on_es_solicitar_emprestimo_preserves_es_locale_and_routes_to_ayuda(): void
+    {
+        $this->travel(10)->seconds();
+
+        $steps = ApplyLoanTest::spanish([
+            1 => ['selected_country' => 'sv', 'amount' => 1000, 'term_months' => 12],
+            2 => ['email' => 'salvador.ayuda@example.com', 'phone' => '+50370001234', 'document_number' => '012345678'],
+            3 => ['geo_zip' => '1101', 'geo_province' => 'SS', 'geo_city' => 'San Salvador'],
+            4 => ['payout_method' => 'western_union'],
+            5 => ['has_car' => '1', 'car_number' => 'P123-456'],
+        ]);
+
+        $component = Livewire::test(ApplyLoan::class, [
+            'locale' => 'es',
+            'channel' => 'ayuda',
+            'adminEmail' => 'ayuda@venatomar.com',
+            'thanksRoute' => 'solicitar.emprestimo.thanks',
+        ]);
+
+        foreach ($steps as $step => $fields) {
+            foreach ($fields as $field => $value) {
+                $component->set($field, $value);
+            }
+            if ($step < 5) {
+                $component->call('next')->assertHasNoErrors()->assertSet('step', $step + 1);
+            }
+        }
+
+        $this->travel(10)->seconds();
+        $component->call('next')->assertHasNoErrors()->assertRedirect('/es/solicitar-emprestimo/gracias');
+
+        $lead = Lead::where('email', 'salvador.ayuda@example.com')->first();
+        $this->assertNotNull($lead);
+        $this->assertSame('es', $lead->locale);
+        $this->assertSame('sv', $lead->country);
+        $this->assertSame('ayuda@venatomar.com', $lead->admin_email);
+
+        Mail::assertQueued(LeadReceivedInternal::class, fn (LeadReceivedInternal $mail) => $mail->hasTo('ayuda@venatomar.com'));
+        Mail::assertQueued(LeadConfirmation::class, function (LeadConfirmation $mail) {
+            $html = $mail->render();
+
+            return $mail->hasTo('salvador.ayuda@example.com')
+                && str_contains($html, 'ayuda@venatomar.com')
+                && str_contains($html, 'Hemos recibido tu solicitud')
+                && ! str_contains($html, 'Vi har tagit emot');
+        });
+    }
+
+    public function test_emails_and_pdfs_never_mix_languages_even_when_admin_app_locale_is_fr(): void
+    {
+        App::setLocale('fr');
+
+        $svLead = $this->createLead('sv.client@example.com', 'Margarita', 'Ascencio', 'ayuda@venatomar.com', 'ayuda');
+        $svLead->forceFill(['locale' => 'sv', 'country' => 'sv', 'currency' => 'USD'])->save();
+
+        $insuranceDoc = LeadDocumentService::generateInsuranceDocument($svLead, [
+            'locale' => 'es',
+            'document_type' => 'information',
+            'document_fee' => 150,
+            'guarantees' => ['death', 'ptia'],
+        ]);
+        $contract = LeadDocumentService::generateLoanContract($svLead, ['locale' => 'es', 'document_fee' => 250]);
+
+        $svConfHtml = (new LeadConfirmation($svLead))->render();
+        $this->assertStringContainsString('Hemos recibido tu solicitud', $svConfHtml);
+        $this->assertStringNotContainsString('Vi har tagit emot', $svConfHtml);
+
+        $acceptedMail = new LoanAcceptedMail($svLead, $insuranceDoc);
+        $acceptedHtml = $acceptedMail->render();
+        $this->assertStringContainsString('Hola, Margarita', $acceptedHtml);
+        $this->assertStringContainsString('36 meses', $acceptedHtml);
+        $this->assertStringNotContainsString('Avgift för dokument', $acceptedHtml);
+        $this->assertStringNotContainsString('Contacter', $acceptedHtml);
+        $this->assertSame('Ficha_Informacion_Seguro_'.$insuranceDoc->reference.'.pdf', $acceptedMail->attachments()[0]->as);
+
+        $contractMail = new LoanContractMail($contract, $svLead);
+        $contractHtml = $contractMail->render();
+        $this->assertStringContainsString('contrato oficial de préstamo', $contractHtml);
+        $this->assertStringNotContainsString('Contrat_Pret_', $contractMail->attachments()[0]->as);
+        $this->assertSame('Contrato_Prestamo_'.$contract->reference.'.pdf', $contractMail->attachments()[0]->as);
+
+        // Ensure French Mailable does not break on legal route (no /fr/legal/...) and uses French text
+        $frContract = LeadDocumentService::generateLoanContract($svLead, ['locale' => 'fr', 'document_fee' => 200]);
+        $frContractMail = new LoanContractMail($frContract, $svLead);
+        $frHtml = $frContractMail->render();
+        $this->assertStringContainsString('Votre contrat de prêt officiel', $frHtml);
+        $this->assertStringNotContainsString('Tu contrato oficial de préstamo', $frHtml);
+        $this->assertStringNotContainsString('/fr/legal/', $frHtml);
+        $this->assertSame('Contrat_Pret_'.$frContract->reference.'.pdf', $frContractMail->attachments()[0]->as);
+
+        // Portal status mail in ES must not leak French 'RESTRICTION' / 'ACTIF'
+        $client = BankClient::create([
+            'first_name' => 'Margarita', 'last_name' => 'Ascencio',
+            'email' => 'sv.portal@example.com', 'password' => Hash::make('secret'),
+            'country' => 'El Salvador', 'currency' => 'USD', 'balance' => 1000,
+            'locale' => 'sv', 'admin_email' => 'ayuda@venatomar.com',
+        ]);
+        $frozenHtml = (new BankClientStatusChangedMail($client, 'frozen'))->render();
+        $this->assertStringContainsString('RESTRINGIDA', $frozenHtml);
+        $this->assertStringNotContainsString('RESTRICTION', $frozenHtml);
+        $this->assertStringNotContainsString('Kontostatus', $frozenHtml);
+
+        $welcomeHtml = (new BankClientWelcomeMail($client, 'TmpPass123'))->render();
+        $this->assertStringContainsString('Tu espacio de banca en línea', $welcomeHtml);
+        $this->assertStringNotContainsString('Ditt nätbanksutrymme', $welcomeHtml);
+
+        // Insurance PDF generation in ES works cleanly even with sv guarantees array
+        $pdf = InsurancePdf::render($insuranceDoc);
+        $this->assertStringStartsWith('%PDF', $pdf);
     }
 }

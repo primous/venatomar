@@ -11,7 +11,7 @@ final class LoanContractPdf
 {
     public static function render(LoanContract $contract): string
     {
-        $locale = $contract->locale;
+        $locale = in_array($contract->locale, ['sv', 'uy'], true) ? 'es' : ($contract->locale ?: 'es');
         $t = fn (string $key, array $replace = []) => trans('loan_contract.'.$key, $replace + ['brand' => Venatomar::config('brand')], $locale);
 
         $svg = str_replace('url(#g)', '#0FA57E', (string) file_get_contents(public_path('images/logo.svg')));

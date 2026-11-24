@@ -8,6 +8,7 @@ use App\Mail\LeadConfirmation;
 use App\Mail\LeadReceivedInternal;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -35,6 +36,14 @@ class AppServiceProvider extends ServiceProvider
             $lead = $event->data['lead'] ?? null;
             if ($column && $lead instanceof \App\Models\Lead) {
                 $lead->forceFill([$column => now()])->saveQuietly();
+            }
+
+            if (($event->data['__laravel_mailable'] ?? null) === LeadReceivedInternal::class) {
+                Log::channel('mail')->info('Internal lead mail dispatched', [
+                    'lead_id' => $lead instanceof \App\Models\Lead ? $lead->id : null,
+                    'channel' => $lead instanceof \App\Models\Lead ? $lead->channel : null,
+                    'admin_email' => $lead instanceof \App\Models\Lead ? $lead->admin_email : null,
+                ]);
             }
         });
     }

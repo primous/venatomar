@@ -41,6 +41,7 @@ class BankClientStatusChangedMail extends QueuedMail
     public function content(): Content
     {
         $locale = $this->client->locale ?: 'es';
+        $routeLocale = \App\Support\Venatomar::isLocale($locale) ? $locale : config('venatomar.default_locale');
         $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
 
         return new Content(
@@ -55,7 +56,7 @@ class BankClientStatusChangedMail extends QueuedMail
                 'reason' => $this->reason,
                 'loginUrl' => $this->loginUrl,
                 'contactEmail' => $adminEmail,
-                'privacyUrl' => route('legal', ['locale' => $locale, 'page' => 'privacy-policy']),
+                'privacyUrl' => route('legal', ['locale' => $routeLocale, 'page' => 'privacy-policy']),
             ],
         );
     }

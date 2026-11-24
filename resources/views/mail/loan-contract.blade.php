@@ -47,7 +47,7 @@
         @endif
         <tr>
             <td style="padding:6px 20px 14px;color:#5B6B82;">- {{ __('mail.contract.attached_document') }} :</td>
-            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">Contrat_Pret_{{ $reference }}.pdf</td>
+            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">{{ $attachmentName ?? __('mail.contract.attachment_filename', ['reference' => $reference]) }}</td>
         </tr>
     </table>
 

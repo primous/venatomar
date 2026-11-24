@@ -90,7 +90,8 @@ class BankClient extends Authenticatable
     public function formatMoney(float|int|string|null $amount): string
     {
         $val = (float) ($amount ?? 0);
-        $locale = app()->getLocale() === 'fr' ? 'fr_FR' : 'es_ES';
+        $locale = \App\Support\InsurancePdf::NUMBER_LOCALES[$this->locale ?? '']
+            ?? (app()->getLocale() === 'fr' ? 'fr_FR' : 'es_ES');
         $fmt = new NumberFormatter($locale, NumberFormatter::CURRENCY);
         $fmt->setAttribute(NumberFormatter::FRACTION_DIGITS, 2);
 

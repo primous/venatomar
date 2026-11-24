@@ -23,16 +23,18 @@ class SubmitLead
     public function handle(Country $country, array $data, array $meta): Lead
     {
         $lead = DB::transaction(function () use ($country, $data, $meta) {
+            $locale = $meta['locale'] ?? ($data['locale'] ?? $country->locale);
+
             $applicant = Applicant::firstOrNew(['email' => $data['email']]);
-            $applicant->fill(['phone' => $data['phone'], 'locale' => $country->locale])->save();
+            $applicant->fill(['phone' => $data['phone'], 'locale' => $locale])->save();
 
             return Lead::create($data + [
                 'applicant_id' => $applicant->id,
                 'status' => LeadStatus::Received,
-                'locale' => $country->locale,
+                'locale' => $locale,
                 'country' => $country->code,
                 'currency' => $country->currency,
-                'admin_email' => $meta['admin_email'] ?? ($data['admin_email'] ?? 'info@venatomar.com'),
+                'admin_email' => trim((string) ($meta['admin_email'] ?? ($data['admin_email'] ?? 'info@venatomar.com'))),
                 'channel' => $meta['channel'] ?? ($data['channel'] ?? 'info'),
                 'ip_address' => $meta['ip_address'] ?? null,
                 'user_agent' => $meta['user_agent'] ?? null,

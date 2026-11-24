@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'Para conhecimento e receção',
     'sig_right_title' => 'O Mutuário / Segurado',
     'fee_notice' => 'Custos de emissão : A emissão deste documento tem um custo de : :amount',
+    'page2_subtitle' => 'Documento oficial pré-contratual (Página 2 / 2)',
+    'legal_notice_label' => 'Aviso legal :',
+    'register_note' => 'Inscrito no registo oficial de seguros :brand.',
   ),
 );

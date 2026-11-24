@@ -39,7 +39,7 @@
         @endif
         <tr>
             <td style="padding:6px 20px 14px;color:#5B6B82;">- {{ __('mail.insurance_cert.attached_document') }} :</td>
-            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">Certificat_Assurance_{{ $reference }}.pdf</td>
+            <td style="padding:6px 20px 14px;text-align:right;font-weight:700;color:#0A5E4E;font-family:monospace;">{{ $attachmentName ?? __('mail.insurance_cert.attachment_filename', ['reference' => $reference]) }}</td>
         </tr>
     </table>
 

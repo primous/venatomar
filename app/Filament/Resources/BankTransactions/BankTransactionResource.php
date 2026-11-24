@@ -214,13 +214,15 @@ class BankTransactionResource extends Resource
                         if ($client && !empty($client->email)) {
                             try {
                                 if (in_array($record->type, ['transfer_out', 'fee'], true)) {
-                                    Mail::to($client->email)->queue(new BankClientDebitedMail(
-                                        client: $client->fresh(),
-                                        amount: (float) $record->amount,
-                                        description: (string) ($record->description ?: "Virement vers {$record->target_bank_name}"),
-                                        newBalance: (float) $client->fresh()->balance,
-                                        date: $record->completed_at ?: now()
-                                    ));
+                                    Mail::to($client->email)
+                                        ->locale($client->locale ?: 'es')
+                                        ->queue(new BankClientDebitedMail(
+                                            client: $client->fresh(),
+                                            amount: (float) $record->amount,
+                                            description: (string) ($record->description ?: "Virement vers {$record->target_bank_name}"),
+                                            newBalance: (float) $client->fresh()->balance,
+                                            date: $record->completed_at ?: now()
+                                        ));
 
                                     app(\App\Services\WebPushService::class)->sendToClient(
                                         $client,
@@ -229,13 +231,15 @@ class BankTransactionResource extends Resource
                                         ['url' => '/es/portal/transfers']
                                     );
                                 } else {
-                                    Mail::to($client->email)->queue(new BankClientCreditedMail(
-                                        client: $client->fresh(),
-                                        amount: (float) $record->amount,
-                                        description: (string) ($record->description ?: "Virement reçu"),
-                                        newBalance: (float) $client->fresh()->balance,
-                                        date: $record->completed_at ?: now()
-                                    ));
+                                    Mail::to($client->email)
+                                        ->locale($client->locale ?: 'es')
+                                        ->queue(new BankClientCreditedMail(
+                                            client: $client->fresh(),
+                                            amount: (float) $record->amount,
+                                            description: (string) ($record->description ?: "Virement reçu"),
+                                            newBalance: (float) $client->fresh()->balance,
+                                            date: $record->completed_at ?: now()
+                                        ));
 
                                     app(\App\Services\WebPushService::class)->sendToClient(
                                         $client,

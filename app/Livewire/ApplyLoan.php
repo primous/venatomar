@@ -463,6 +463,7 @@ class ApplyLoan extends Component
 
         // 4. Persist FIRST, then queue the e-mails (see SubmitLead).
         $lead = app(SubmitLead::class)->handle($this->country(), $this->payload(), [
+            'locale' => Venatomar::isLocale($this->locale) ? $this->locale : $this->country()->locale,
             'ip_address' => request()->ip(),
             'user_agent' => mb_substr((string) request()->userAgent(), 0, 500),
             'utm' => session('utm'),

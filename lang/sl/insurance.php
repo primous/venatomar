@@ -178,5 +178,8 @@ return array (
     'sig_right_role' => 'V vednost in prevzem',
     'sig_right_title' => 'Posojilojemalec / Zavarovanec',
     'fee_notice' => 'Stroški izdaje : Izdelava tega dokumenta stane : :amount',
+    'page2_subtitle' => 'Uradni predpogodbeni dokument (Stran 2 / 2)',
+    'legal_notice_label' => 'Pravno obvestilo :',
+    'register_note' => 'Vpisano v uradni register zavarovanj :brand.',
   ),
 );
