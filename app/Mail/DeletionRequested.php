@@ -9,9 +9,13 @@ use Illuminate\Mail\Mailables\Envelope;
 /** Internal (Spanish): an applicant asked for the erasure of their data (GDPR art. 17). */
 class DeletionRequested extends QueuedMail
 {
-    public function __construct(public DeletionRequest $deletion)
+    public function __construct(public DeletionRequest $deletion, ?string $adminEmail = null)
     {
         $this->locale('es');
+        $this->useAdminSender(
+            $adminEmail
+            ?: ($deletion->applicant?->leads()->latest()->value('admin_email') ?: config('venatomar.lead_recipient'))
+        );
     }
 
     public function envelope(): Envelope

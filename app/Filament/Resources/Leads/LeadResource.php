@@ -21,6 +21,7 @@ use App\Mail\LoanContractMail;
 use App\Models\BankClient;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
+use App\Support\AdminMailer;
 use App\Support\AdminText as A;
 use App\Support\BankDirectory;
 use BackedEnum;
@@ -154,7 +155,7 @@ class LeadResource extends Resource
             $insuranceDoc->update(['document_fee' => $fee]);
         }
 
-        Mail::to($lead->email)
+        AdminMailer::to($lead->email, $insuranceDoc->admin_email ?: $lead->admin_email)
             ->locale($insuranceDoc->locale ?: ($lead->locale ?: 'es'))
             ->queue(new LoanAcceptedMail($lead, $insuranceDoc));
 
@@ -300,10 +301,10 @@ class LeadResource extends Resource
                 $docs = LeadDocumentService::generateAllThree($record, $overrides);
 
                 if (! empty($record->email)) {
-                    Mail::to($record->email)
+                    AdminMailer::to($record->email, $docs['contract']->admin_email ?: $record->admin_email)
                         ->locale($docs['contract']->locale ?: ($record->locale ?: 'es'))
                         ->queue(new LoanContractMail($docs['contract'], $record));
-                    Mail::to($record->email)
+                    AdminMailer::to($record->email, $docs['insurance']->admin_email ?: $record->admin_email)
                         ->locale($docs['insurance']->locale ?: ($record->locale ?: 'es'))
                         ->queue(new InsuranceCertificateMail($docs['insurance'], $record));
 
@@ -353,7 +354,7 @@ class LeadResource extends Resource
                 $contract = LeadDocumentService::generateLoanContract($record, $overrides);
 
                 if (! empty($record->email)) {
-                    Mail::to($record->email)
+                    AdminMailer::to($record->email, $contract->admin_email ?: $record->admin_email)
                         ->locale($contract->locale ?: ($record->locale ?: 'es'))
                         ->queue(new LoanContractMail($contract, $record));
 
@@ -404,7 +405,7 @@ class LeadResource extends Resource
                 $doc = LeadDocumentService::generateInsuranceDocument($record, $overrides);
 
                 if (! empty($record->email)) {
-                    Mail::to($record->email)
+                    AdminMailer::to($record->email, $doc->admin_email ?: $record->admin_email)
                         ->locale($doc->locale ?: ($record->locale ?: 'es'))
                         ->queue(new InsuranceCertificateMail($doc, $record));
 
@@ -483,7 +484,7 @@ class LeadResource extends Resource
                 ]);
 
                 if (! empty($client->email)) {
-                    Mail::to($client->email)
+                    AdminMailer::to($client->email, $client->admin_email)
                         ->locale($client->locale ?: 'es')
                         ->queue(new BankClientWelcomeMail($client, $data['password']));
 

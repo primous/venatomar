@@ -13,6 +13,7 @@ use App\Models\BankClient;
 use App\Models\BankTransaction;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
+use App\Support\AdminMailer;
 use App\Support\BankDirectory;
 use BackedEnum;
 use UnitEnum;
@@ -329,7 +330,7 @@ class BankClientResource extends Resource
                         ]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)
+                            AdminMailer::to($record->email, $record->admin_email)
                                 ->locale($record->locale ?: 'es')
                                 ->queue(new BankClientCreditedMail(
                                     $record,
@@ -383,7 +384,7 @@ class BankClientResource extends Resource
                         ]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)
+                            AdminMailer::to($record->email, $record->admin_email)
                                 ->locale($record->locale ?: 'es')
                                 ->queue(new BankClientDebitedMail(
                                     $record,
@@ -419,7 +420,7 @@ class BankClientResource extends Resource
                         $record->update(['status' => $newStatus]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)
+                            AdminMailer::to($record->email, $record->admin_email)
                                 ->locale($record->locale ?: 'es')
                                 ->queue(new BankClientStatusChangedMail($record, $newStatus));
 
@@ -457,7 +458,7 @@ class BankClientResource extends Resource
                         $record->update(['password' => $data['password']]);
 
                         if (! empty($record->email)) {
-                            Mail::to($record->email)
+                            AdminMailer::to($record->email, $record->admin_email)
                                 ->locale($record->locale ?: 'es')
                                 ->queue(new BankClientWelcomeMail($record, $data['password']));
 

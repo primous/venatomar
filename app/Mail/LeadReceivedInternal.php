@@ -17,6 +17,7 @@ class LeadReceivedInternal extends QueuedMail
     public function __construct(public Lead $lead)
     {
         $this->locale('es');
+        $this->useAdminSender($lead->admin_email ?: config('venatomar.lead_recipient'));
     }
 
     public function envelope(): Envelope

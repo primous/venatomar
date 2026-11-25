@@ -4,8 +4,8 @@ namespace App\Filament\Resources\BankClients\Pages;
 
 use App\Filament\Resources\BankClients\BankClientResource;
 use App\Mail\BankClientWelcomeMail;
+use App\Support\AdminMailer;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Support\Facades\Mail;
 
 class CreateBankClient extends CreateRecord
 {
@@ -25,7 +25,7 @@ class CreateBankClient extends CreateRecord
     protected function afterCreate(): void
     {
         if ($this->plainPassword && ! empty($this->record->email)) {
-            Mail::to($this->record->email)
+            AdminMailer::to($this->record->email, $this->record->admin_email)
                 ->locale($this->record->locale ?: 'es')
                 ->queue(new BankClientWelcomeMail($this->record, $this->plainPassword));
 

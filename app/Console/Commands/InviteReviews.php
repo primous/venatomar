@@ -5,8 +5,8 @@ namespace App\Console\Commands;
 use App\Mail\ReviewInvitation;
 use App\Models\Lead;
 use App\Models\Review;
+use App\Support\AdminMailer;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * Queues ONE review invitation per applicant, `delay_days` after their request.
@@ -45,7 +45,7 @@ class InviteReviews extends Command
                     return;
                 }
 
-                Mail::to($lead->email)->locale($lead->locale)->queue(new ReviewInvitation($lead));
+                AdminMailer::to($lead->email, $lead->admin_email)->locale($lead->locale)->queue(new ReviewInvitation($lead));
 
                 try {
                     app(\App\Services\WebPushService::class)->sendToEmail(

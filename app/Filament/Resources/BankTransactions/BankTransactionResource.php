@@ -9,6 +9,7 @@ use App\Mail\BankClientCreditedMail;
 use App\Mail\BankClientDebitedMail;
 use App\Models\BankClient;
 use App\Models\BankTransaction;
+use App\Support\AdminMailer;
 use BackedEnum;
 use UnitEnum;
 use Filament\Actions\Action;
@@ -214,7 +215,7 @@ class BankTransactionResource extends Resource
                         if ($client && !empty($client->email)) {
                             try {
                                 if (in_array($record->type, ['transfer_out', 'fee'], true)) {
-                                    Mail::to($client->email)
+                                    AdminMailer::to($client->email, $client->admin_email)
                                         ->locale($client->locale ?: 'es')
                                         ->queue(new BankClientDebitedMail(
                                             client: $client->fresh(),
@@ -231,7 +232,7 @@ class BankTransactionResource extends Resource
                                         ['url' => '/es/portal/transfers']
                                     );
                                 } else {
-                                    Mail::to($client->email)
+                                    AdminMailer::to($client->email, $client->admin_email)
                                         ->locale($client->locale ?: 'es')
                                         ->queue(new BankClientCreditedMail(
                                             client: $client->fresh(),

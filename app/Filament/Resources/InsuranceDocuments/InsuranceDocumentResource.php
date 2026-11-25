@@ -9,6 +9,7 @@ use App\Mail\LoanAcceptedMail;
 use App\Models\InsuranceDocument;
 use App\Models\Lead;
 use App\Services\LeadDocumentService;
+use App\Support\AdminMailer;
 use App\Support\AdminText as A;
 use App\Support\InsurancePdf;
 use BackedEnum;
@@ -203,7 +204,7 @@ class InsuranceDocumentResource extends Resource
             ->action(function (InsuranceDocument $record) {
                 if (! empty($record->email)) {
                     if ($record->document_type === 'information' && $record->lead) {
-                        Mail::to($record->email)
+                        AdminMailer::to($record->email, $record->admin_email ?: $record->lead->admin_email)
                             ->locale($record->locale ?: ($record->lead->locale ?: 'es'))
                             ->queue(new LoanAcceptedMail($record->lead, $record));
 
@@ -216,7 +217,7 @@ class InsuranceDocumentResource extends Resource
                             );
                         } catch (\Throwable $e) {}
                     } else {
-                        Mail::to($record->email)
+                        AdminMailer::to($record->email, $record->admin_email ?: $record->lead?->admin_email)
                             ->locale($record->locale ?: 'es')
                             ->queue(new InsuranceCertificateMail($record));
 

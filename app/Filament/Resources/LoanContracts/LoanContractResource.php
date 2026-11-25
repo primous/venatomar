@@ -9,6 +9,7 @@ use App\Mail\LoanContractMail;
 use App\Models\Lead;
 use App\Models\LoanContract;
 use App\Services\LeadDocumentService;
+use App\Support\AdminMailer;
 use App\Support\AdminText as A;
 use App\Support\InsurancePdf;
 use App\Support\LoanContractPdf;
@@ -182,7 +183,7 @@ class LoanContractResource extends Resource
             ->modalDescription(fn (LoanContract $record) => "Envoyer l'e-mail officiel avec le contrat PDF joint à {$record->email} ?")
             ->action(function (LoanContract $record) {
                 if (! empty($record->email)) {
-                    Mail::to($record->email)
+                    AdminMailer::to($record->email, $record->admin_email ?: $record->lead?->admin_email)
                         ->locale($record->locale ?: 'es')
                         ->queue(new LoanContractMail($record));
 

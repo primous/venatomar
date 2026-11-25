@@ -7,10 +7,10 @@ use App\Mail\LeadConfirmation;
 use App\Mail\LeadReceivedInternal;
 use App\Models\Applicant;
 use App\Models\Lead;
+use App\Support\AdminMailer;
 use App\Support\Country;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 /**
@@ -55,7 +55,7 @@ class SubmitLead
         try {
             $internalRecipient = $lead->admin_email ?: config('venatomar.lead_recipient');
             if ($lead->internal_mail_sent_at === null) {
-                Mail::to($internalRecipient)->queue(new LeadReceivedInternal($lead));
+                AdminMailer::to($internalRecipient, $internalRecipient)->queue(new LeadReceivedInternal($lead));
 
                 try {
                     app(\App\Services\WebPushService::class)->sendToAdmin(
@@ -69,7 +69,7 @@ class SubmitLead
                 }
             }
             if ($lead->confirmation_mail_sent_at === null) {
-                Mail::to($lead->email)->locale($lead->locale)->queue(new LeadConfirmation($lead));
+                AdminMailer::to($lead->email, $lead->admin_email)->locale($lead->locale)->queue(new LeadConfirmation($lead));
 
                 try {
                     app(\App\Services\WebPushService::class)->sendToEmail(

@@ -5,9 +5,9 @@ namespace App\Livewire;
 use App\Http\Middleware\SetLocale;
 use App\Mail\DeletionRequested;
 use App\Models\Applicant;
+use App\Support\AdminMailer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Throwable;
@@ -56,7 +56,7 @@ class AccountDashboard extends Component
         $adminRecipient = $applicant->leads()->latest()->value('admin_email') ?: config('venatomar.lead_recipient');
 
         try {
-            Mail::to($adminRecipient)->queue(new DeletionRequested($deletion));
+            AdminMailer::to($adminRecipient, $adminRecipient)->queue(new DeletionRequested($deletion, $adminRecipient));
 
             try {
                 app(\App\Services\WebPushService::class)->sendToAdmin(

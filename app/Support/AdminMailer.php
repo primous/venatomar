@@ -2,6 +2,9 @@
 
 namespace App\Support;
 
+use Illuminate\Mail\PendingMail;
+use Illuminate\Support\Facades\Mail;
+
 /**
  * Resolves the dedicated SMTP mailer and From address for each admin inbox
  * (info@, contact@, ayuda@), falling back safely to the default mailer + Reply-To
@@ -34,5 +37,12 @@ final class AdminMailer
         }
 
         return (string) config('mail.from.address');
+    }
+
+    public static function to(mixed $recipient, ?string $adminEmail = null): PendingMail
+    {
+        $mailer = self::mailerName($adminEmail);
+
+        return $mailer ? Mail::mailer($mailer)->to($recipient) : Mail::to($recipient);
     }
 }

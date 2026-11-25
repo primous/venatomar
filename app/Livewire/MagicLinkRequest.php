@@ -7,9 +7,9 @@ use App\Mail\MagicLoginLink;
 use App\Models\Applicant;
 use App\Models\MagicLoginToken;
 use App\Rules\CountryFormat;
+use App\Support\AdminMailer;
 use App\Support\Country;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Livewire\Attributes\Locked;
@@ -69,7 +69,8 @@ class MagicLinkRequest extends Component
                     'locale' => $this->locale,
                     'token' => $token,
                 ]);
-                Mail::to($applicant->email)->queue(new MagicLoginLink($applicant, $url, $this->locale));
+                $adminEmail = $applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email');
+                AdminMailer::to($applicant->email, $adminEmail)->queue(new MagicLoginLink($applicant, $url, $this->locale));
 
                 try {
                     app(\App\Services\WebPushService::class)->sendToEmail(
