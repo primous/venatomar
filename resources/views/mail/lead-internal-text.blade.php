@@ -7,5 +7,4 @@ Monto: {!! $amountDisplay !!} - {!! $lead->term_months !!} meses
 Cobro: {!! $payoutLabel !!}
 Ubicacion: {!! $location !!}
 Contacto: {!! $lead->email !!} / {!! $lead->phone !!}
-Fecha: {!! $submittedAt !!}
 Canal: {!! $adminEmail !!}

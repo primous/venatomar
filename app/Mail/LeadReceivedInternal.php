@@ -22,12 +22,7 @@ class LeadReceivedInternal extends QueuedMail
     public function envelope(): Envelope
     {
         return $this->baseEnvelope(
-            sprintf(
-                'Ficha %s (%s - %s)',
-                $this->lead->reference,
-                strtoupper($this->lead->country),
-                $this->lead->adminChannelLabel()
-            )
+            sprintf('Ficha %s (%s)', $this->lead->reference, strtoupper($this->lead->country))
         );
     }
 
