@@ -14,6 +14,7 @@ use App\Filament\Resources\Leads\Schemas\LeadInfolist;
 use App\Filament\Resources\Leads\Tables\LeadsTable;
 use App\Filament\Resources\LoanApprovalDocuments\LoanApprovalDocumentResource;
 use App\Filament\Resources\LoanContracts\LoanContractResource;
+use App\Mail\AdminCustomMessageMail;
 use App\Mail\BankClientWelcomeMail;
 use App\Mail\InsuranceCertificateMail;
 use App\Mail\LoanAcceptedMail;
@@ -27,6 +28,7 @@ use App\Support\BankDirectory;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -245,6 +247,49 @@ class LeadResource extends Resource
                     $record->update(['status' => $data['status']]);
                     Notification::make()->title(A::t('lead.status_updated'))->success()->send();
                 }
+            });
+    }
+
+    /** Sends a direct authenticated e-mail from the assigned admin mailbox without webmail quote clutter. */
+    public static function sendMessageAction(): Action
+    {
+        return Action::make('sendMessage')
+            ->label('Envoyer un e-mail au client')
+            ->icon(Heroicon::OutlinedPaperAirplane)
+            ->color('info')
+            ->visible(fn (Lead $record) => ! empty($record->email))
+            ->modalHeading('Envoyer un message au client')
+            ->modalDescription(function (Lead $record): string {
+                $from = $record->admin_email ?: config('venatomar.legal.contact_email');
+
+                return "Le message sera envoyé directement depuis {$from} à {$record->email}.";
+            })
+            ->modalSubmitActionLabel('Envoyer l\'e-mail')
+            ->schema([
+                TextInput::make('subject')
+                    ->label('Objet du message')
+                    ->required()
+                    ->maxLength(180)
+                    ->default(fn (Lead $record) => "Seguimiento de su solicitud {$record->reference}"),
+                Textarea::make('body')
+                    ->label('Message')
+                    ->required()
+                    ->rows(6)
+                    ->maxLength(4000)
+                    ->placeholder('Rédigez votre réponse complète pour le client...'),
+            ])
+            ->action(function (Lead $record, array $data) {
+                $adminEmail = $record->admin_email ?: config('venatomar.legal.contact_email');
+
+                AdminMailer::to($record->email, $adminEmail)
+                    ->locale($record->locale ?: 'es')
+                    ->queue(new AdminCustomMessageMail($record, trim($data['subject']), trim($data['body'])));
+
+                Notification::make()
+                    ->title('Message envoyé avec succès !')
+                    ->body("L'e-mail a été transmis depuis {$adminEmail} à {$record->email}.")
+                    ->success()
+                    ->send();
             });
     }
 

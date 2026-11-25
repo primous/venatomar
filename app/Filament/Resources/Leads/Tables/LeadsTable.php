@@ -63,6 +63,7 @@ class LeadsTable
                 ViewAction::make(),
                 ActionGroup::make([
                     LeadResource::acceptLeadAction(),
+                    LeadResource::sendMessageAction(),
                     LeadResource::generateAllDocumentsAction(),
                     LeadResource::generateContractAction(),
                     LeadResource::generateInsuranceAction(),

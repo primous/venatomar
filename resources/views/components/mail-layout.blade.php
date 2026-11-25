@@ -2,8 +2,7 @@
 @php
     use App\Support\Venatomar as PF;
     $brand = config('venatomar.brand');
-    $logoPath = public_path('images/logo.png');
-    $logo = isset($message) && is_file($logoPath) ? $message->embed($logoPath) : null; // cid: inline attachment
+    $logo = is_file(public_path('images/logo.png')) ? asset('images/logo.png') : null;
 @endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">

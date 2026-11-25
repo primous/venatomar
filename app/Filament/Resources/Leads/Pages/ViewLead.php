@@ -21,6 +21,7 @@ class ViewLead extends ViewRecord
 
             ActionGroup::make([
                 LeadResource::acceptLeadAction(),
+                LeadResource::sendMessageAction(),
                 LeadResource::generateContractAction(),
                 LeadResource::generateInsuranceAction(),
                 LeadResource::generateApprovalAction(),

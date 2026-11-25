@@ -489,11 +489,16 @@ class AyudaEmprestimoAdminTest extends TestCase
             new BankClientDebitedMail($ayudaClient, 100, 'Cargo', 900),
             new BankClientStatusChangedMail($ayudaClient, 'frozen'),
             new \App\Mail\ReviewInvitation($ayudaLead),
+            new \App\Mail\AdminCustomMessageMail($ayudaLead, 'Seguimiento VN-2026', 'Estimado cliente, hemos revisado su expediente.'),
         ] as $mailable) {
             $this->assertTrue($mailable->usesMailer('smtp_ayuda'), get_class($mailable).' must use smtp_ayuda');
             $this->assertTrue($mailable->hasFrom('ayuda@venatomar.com'), get_class($mailable).' must send From ayuda@venatomar.com');
             $this->assertTrue($mailable->hasReplyTo('ayuda@venatomar.com'), get_class($mailable).' must Reply-To ayuda@venatomar.com');
         }
+
+        $customHtml = (new \App\Mail\AdminCustomMessageMail($ayudaLead, 'Seguimiento', 'Hola Luis, su dossier está listo.'))->render();
+        $this->assertStringContainsString('Hola Luis, su dossier está listo.', $customHtml);
+        $this->assertStringNotContainsString('cid:', $customHtml);
     }
 
     public function test_unprefixed_emprestimo_and_sv_emprestimo_preserve_ayuda_channel(): void
