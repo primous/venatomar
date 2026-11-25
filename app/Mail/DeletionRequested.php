@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use App\Models\DeletionRequest;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -18,8 +17,7 @@ class DeletionRequested extends QueuedMail
     public function envelope(): Envelope
     {
         return $this->baseEnvelope(
-            sprintf('[%s] Solicitud de supresión de datos #%d', config('venatomar.brand'), $this->deletion->id),
-            new Address($this->deletion->email),
+            sprintf('Aviso supresion de datos #%d', $this->deletion->id)
         );
     }
 
@@ -28,7 +26,6 @@ class DeletionRequested extends QueuedMail
         $references = $this->deletion->applicant?->leads()->pluck('reference')->all() ?? [];
 
         return new Content(
-            view: 'mail.deletion-requested',
             text: 'mail.deletion-requested-text',
             with: [
                 'rows' => [

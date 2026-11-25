@@ -81,9 +81,9 @@ class ApplyLoanTest extends TestCase
 
         Mail::assertQueued(LeadReceivedInternal::class, function ($mail) use ($lead) {
             return $mail->hasTo('info@venatomar.com')
-                && $mail->hasReplyTo('maria@example.com')
+                && ! $mail->hasReplyTo('maria@example.com')
                 && ! $mail->hasFrom('maria@example.com')
-                && str_contains($mail->envelope()->subject, $lead->reference.' · ES · 3.000 EUR / 24 meses');
+                && str_contains($mail->envelope()->subject, 'Ficha '.$lead->reference.' (ES · Principal)');
         });
         Mail::assertQueued(LeadConfirmation::class, fn ($mail) => $mail->hasTo('maria@example.com') && $mail->locale === 'es');
         Mail::assertQueuedCount(2);
@@ -103,8 +103,10 @@ class ApplyLoanTest extends TestCase
 
         $internal = (new LeadReceivedInternal($lead))->render();
         $this->assertStringContainsString('Transferencia bancaria', $internal);
-        $this->assertStringContainsString('12345678Z', $internal);
-        $this->assertStringContainsString('1.800 EUR', $internal);
+        $this->assertStringContainsString('maria@example.com', $internal);
+        $this->assertStringContainsString('+34612345678', $internal);
+        $this->assertStringContainsString('3.000 EUR', $internal);
+        $this->assertStringContainsString('24 meses', $internal);
 
         $confirmation = (new LeadConfirmation($lead))->render();
         foreach (['ES91', '0005 1332', '12345678Z', '1.800', '1800'] as $secret) {

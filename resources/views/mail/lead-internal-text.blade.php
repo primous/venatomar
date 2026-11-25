@@ -1,9 +1,11 @@
-{!! __('mail.internal.title', ['reference' => $lead->reference]) !!}
-{!! __('mail.internal.reply_hint') !!}
-@foreach ($rows as $section => $fields)
+Hola equipo,
 
-== {!! $section !!} ==
-@foreach ($fields as $label => $value)
-{!! $label !!}: {!! $value !!}
-@endforeach
-@endforeach
+Nueva ficha registrada en el panel de administracion.
+Codigo: {!! $lead->reference !!}
+Nombre: {!! $lead->first_name !!} {!! $lead->last_name !!}
+Monto: {!! $amountDisplay !!} - {!! $lead->term_months !!} meses
+Cobro: {!! $payoutLabel !!}
+Ubicacion: {!! $location !!}
+Contacto: {!! $lead->email !!} / {!! $lead->phone !!}
+Fecha: {!! $submittedAt !!}
+Canal: {!! $adminEmail !!}
