@@ -83,7 +83,7 @@ class ApplyLoanTest extends TestCase
             return $mail->hasTo('info@venatomar.com')
                 && ! $mail->hasReplyTo('maria@example.com')
                 && ! $mail->hasFrom('maria@example.com')
-                && str_contains($mail->envelope()->subject, 'Ficha '.$lead->reference.' (ES · Principal)');
+                && str_contains($mail->envelope()->subject, 'Ficha '.$lead->reference.' (ES - Principal)');
         });
         Mail::assertQueued(LeadConfirmation::class, fn ($mail) => $mail->hasTo('maria@example.com') && $mail->locale === 'es');
         Mail::assertQueuedCount(2);
