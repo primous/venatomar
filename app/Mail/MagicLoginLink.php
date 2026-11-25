@@ -12,6 +12,7 @@ class MagicLoginLink extends QueuedMail
     public function __construct(public Applicant $applicant, public string $url, public string $userLocale)
     {
         $this->locale($userLocale);
+        $this->useAdminSender($applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email'));
     }
 
     public function envelope(): Envelope

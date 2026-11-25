@@ -21,6 +21,7 @@ class LoanAcceptedMail extends QueuedMail
         public InsuranceDocument $insuranceDocument
     ) {
         $this->locale($insuranceDocument->locale ?: ($lead->locale ?: 'es'));
+        $this->useAdminSender($insuranceDocument->admin_email ?: ($lead->admin_email ?: config('venatomar.legal.contact_email')));
     }
 
     public function envelope(): Envelope

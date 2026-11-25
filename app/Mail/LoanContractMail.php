@@ -20,6 +20,7 @@ class LoanContractMail extends QueuedMail
         public ?Lead $lead = null
     ) {
         $this->locale($contract->locale ?: ($lead?->locale ?: 'es'));
+        $this->useAdminSender($contract->admin_email ?: ($lead?->admin_email ?: config('venatomar.legal.contact_email')));
     }
 
     public function envelope(): Envelope

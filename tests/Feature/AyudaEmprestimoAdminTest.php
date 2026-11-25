@@ -446,5 +446,24 @@ class AyudaEmprestimoAdminTest extends TestCase
             $this->assertTrue((new BankClientDebitedMail($client, 100, 'Cargo', 900))->hasReplyTo($adminEmail));
             $this->assertTrue((new BankClientStatusChangedMail($client, 'frozen'))->hasReplyTo($adminEmail));
         }
+
+        // When per-admin SMTP passwords are configured, From and mailer also isolate per admin
+        config([
+            'mail.mailers.smtp_contact.password' => 'contact-secret',
+            'mail.mailers.smtp_ayuda.password' => 'ayuda-secret',
+        ]);
+
+        $contactLead = $this->createLead('c.smtp@example.com', 'Ana', 'Perez', 'contact@venatomar.com', 'contact');
+        $ayudaLead = $this->createLead('a.smtp@example.com', 'Luis', 'Gomez', 'ayuda@venatomar.com', 'ayuda');
+
+        $contactMail = new LeadConfirmation($contactLead);
+        $this->assertTrue($contactMail->usesMailer('smtp_contact'));
+        $this->assertTrue($contactMail->hasFrom('contact@venatomar.com'));
+        $this->assertTrue($contactMail->hasReplyTo('contact@venatomar.com'));
+
+        $ayudaMail = new LeadConfirmation($ayudaLead);
+        $this->assertTrue($ayudaMail->usesMailer('smtp_ayuda'));
+        $this->assertTrue($ayudaMail->hasFrom('ayuda@venatomar.com'));
+        $this->assertTrue($ayudaMail->hasReplyTo('ayuda@venatomar.com'));
     }
 }

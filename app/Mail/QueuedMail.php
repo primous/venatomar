@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Support\AdminMailer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -14,7 +15,8 @@ use Throwable;
 /**
  * Base for every Venatomar e-mail: queued, 3 attempts with growing backoff,
  * definitive failures logged in storage/logs/mail.log.
- * "From" is ALWAYS the authenticated SMTP mailbox (MAIL_FROM_ADDRESS).
+ * Uses the assigned admin's dedicated SMTP account when configured in .env,
+ * otherwise uses the default authenticated mailbox with Reply-To set to the admin.
  */
 abstract class QueuedMail extends Mailable implements ShouldQueue
 {
@@ -25,17 +27,30 @@ abstract class QueuedMail extends Mailable implements ShouldQueue
     /** @var array<int,int> seconds */
     public array $backoff = [60, 300, 900];
 
+    public ?string $adminSenderEmail = null;
+
+    protected function useAdminSender(?string $adminEmail): void
+    {
+        $this->adminSenderEmail = $adminEmail ? strtolower(trim($adminEmail)) : null;
+
+        if ($mailer = AdminMailer::mailerName($this->adminSenderEmail)) {
+            $this->mailer($mailer);
+        }
+    }
+
     protected function baseEnvelope(string $subject, Address|string|null $replyTo = null): Envelope
     {
         $replyToArray = [];
         if ($replyTo instanceof Address) {
             $replyToArray = [$replyTo];
-        } elseif (is_string($replyTo) && !empty($replyTo)) {
+        } elseif (is_string($replyTo) && ! empty($replyTo)) {
             $replyToArray = [new Address($replyTo, config('mail.from.name'))];
         }
 
+        $fromAddress = AdminMailer::fromAddress($this->adminSenderEmail);
+
         return new Envelope(
-            from: new Address(config('mail.from.address'), config('mail.from.name')),
+            from: new Address($fromAddress, config('mail.from.name')),
             replyTo: $replyToArray,
             subject: $subject,
         );

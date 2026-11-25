@@ -26,6 +26,7 @@ class BankClientCreditedMail extends QueuedMail
         $this->locale($locale);
 
         $adminEmail = $client->admin_email ?: config('venatomar.legal.contact_email');
+        $this->useAdminSender($adminEmail);
         $accountRoute = ($locale === 'es' || in_array($adminEmail, ['contact@venatomar.com', 'ayuda@venatomar.com'])) ? 'solicitar.account' : 'account';
 
         $this->loginUrl = $loginUrl ?: route($accountRoute, ['locale' => $locale]);

@@ -16,6 +16,7 @@ class LeadConfirmation extends QueuedMail
     public function __construct(public Lead $lead)
     {
         $this->locale($lead->locale);
+        $this->useAdminSender($lead->admin_email ?: config('venatomar.legal.contact_email'));
     }
 
     public function envelope(): Envelope

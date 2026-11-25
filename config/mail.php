@@ -49,6 +49,28 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        'smtp_contact' => [
+            'transport' => 'smtp',
+            'scheme' => env('MAIL_SCHEME'),
+            'host' => env('MAIL_HOST', '127.0.0.1'),
+            'port' => env('MAIL_PORT', 465),
+            'username' => env('MAIL_CONTACT_USERNAME', 'contact@venatomar.com'),
+            'password' => env('MAIL_CONTACT_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+        ],
+
+        'smtp_ayuda' => [
+            'transport' => 'smtp',
+            'scheme' => env('MAIL_SCHEME'),
+            'host' => env('MAIL_HOST', '127.0.0.1'),
+            'port' => env('MAIL_PORT', 465),
+            'username' => env('MAIL_AYUDA_USERNAME', 'ayuda@venatomar.com'),
+            'password' => env('MAIL_AYUDA_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
