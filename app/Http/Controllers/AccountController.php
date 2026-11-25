@@ -10,7 +10,14 @@ use Illuminate\View\View;
 
 class AccountController extends Controller
 {
-    public function show(): View|RedirectResponse
+    private function accountRouteName(Request $request, string $suffix = ''): string
+    {
+        $prefix = $request->routeIs('solicitar*') ? 'solicitar.account' : 'account';
+
+        return $suffix === '' ? $prefix : $prefix.'.'.$suffix;
+    }
+
+    public function show(Request $request): View|RedirectResponse
     {
         if (Auth::guard('client')->check()) {
             $locale = Auth::guard('client')->user()->locale ?: app()->getLocale();
@@ -19,7 +26,7 @@ class AccountController extends Controller
         }
 
         if (Auth::guard('applicant')->check()) {
-            return redirect()->route('account.dashboard');
+            return redirect()->route($this->accountRouteName($request, 'dashboard'));
         }
 
         return view('pages.account');
@@ -31,14 +38,14 @@ class AccountController extends Controller
         $magic = MagicLoginToken::findValid($token);
 
         if ($magic === null || ! $magic->consume()) {
-            return redirect()->route('account')->with('account_error', __('account.link_invalid'));
+            return redirect()->route($this->accountRouteName($request))->with('account_error', __('account.link_invalid'));
         }
 
         Auth::guard('applicant')->login($magic->applicant);
         $request->session()->regenerate();
         $magic->applicant->forceFill(['last_login_at' => now()])->save();
 
-        return redirect()->route('account.dashboard');
+        return redirect()->route($this->accountRouteName($request, 'dashboard'));
     }
 
     public function dashboard(): View
@@ -48,10 +55,11 @@ class AccountController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        $target = $this->accountRouteName($request);
         Auth::guard('applicant')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('account')->with('account_status', __('account.logged_out'));
+        return redirect()->route($target)->with('account_status', __('account.logged_out'));
     }
 }

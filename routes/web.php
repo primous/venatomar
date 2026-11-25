@@ -16,6 +16,10 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/'.config('venatomar.default_locale'), 302)->name('root');
+Route::redirect('/solicitar-emprestimo', '/'.config('venatomar.default_locale').'/solicitar-emprestimo', 302);
+Route::redirect('/emprestimo', '/'.config('venatomar.default_locale').'/emprestimo', 302);
+Route::redirect('/solicitar-prestamo', '/'.config('venatomar.default_locale').'/solicitar-prestamo', 302);
+Route::redirect('/solicitar', '/'.config('venatomar.default_locale').'/solicitar', 302);
 
 // Web Push Notification routes
 Route::prefix('push')->group(function () {

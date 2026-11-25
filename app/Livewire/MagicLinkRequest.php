@@ -25,13 +25,17 @@ class MagicLinkRequest extends Component
     #[Locked]
     public string $locale = 'es';
 
+    #[Locked]
+    public string $loginRoute = 'account.login';
+
     public string $email = '';
     public string $phone = '';
     public bool $sent = false;
 
-    public function mount(?string $locale = null): void
+    public function mount(?string $locale = null, ?string $loginRoute = null): void
     {
         $this->locale = $locale ?? app()->getLocale();
+        $this->loginRoute = $loginRoute ?? (request()->routeIs('solicitar*') ? 'solicitar.account.login' : 'account.login');
     }
 
     public function hydrate(): void
@@ -65,11 +69,11 @@ class MagicLinkRequest extends Component
             try {
                 [, $token] = MagicLoginToken::issue($applicant);
                 $ttl = (int) config('venatomar.magic_link_ttl_minutes');
-                $url = URL::temporarySignedRoute('account.login', now()->addMinutes($ttl), [
+                $url = URL::temporarySignedRoute($this->loginRoute, now()->addMinutes($ttl), [
                     'locale' => $this->locale,
                     'token' => $token,
                 ]);
-                $adminEmail = $applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email');
+                $adminEmail = $applicant->leads()->latest('id')->value('admin_email') ?: config('venatomar.legal.contact_email');
                 AdminMailer::to($applicant->email, $adminEmail)->queue(new MagicLoginLink($applicant, $url, $this->locale));
 
                 try {

@@ -53,7 +53,7 @@ class AccountDashboard extends Component
             'status' => 'pending',
         ]);
 
-        $adminRecipient = $applicant->leads()->latest()->value('admin_email') ?: config('venatomar.lead_recipient');
+        $adminRecipient = $applicant->leads()->latest('id')->value('admin_email') ?: config('venatomar.lead_recipient');
 
         try {
             AdminMailer::to($adminRecipient, $adminRecipient)->queue(new DeletionRequested($deletion, $adminRecipient));

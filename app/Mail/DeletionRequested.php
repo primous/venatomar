@@ -14,7 +14,7 @@ class DeletionRequested extends QueuedMail
         $this->locale('es');
         $this->useAdminSender(
             $adminEmail
-            ?: ($deletion->applicant?->leads()->latest()->value('admin_email') ?: config('venatomar.lead_recipient'))
+            ?: ($deletion->applicant?->leads()->latest('id')->value('admin_email') ?: config('venatomar.lead_recipient'))
         );
     }
 

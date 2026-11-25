@@ -12,12 +12,12 @@ class MagicLoginLink extends QueuedMail
     public function __construct(public Applicant $applicant, public string $url, public string $userLocale)
     {
         $this->locale($userLocale);
-        $this->useAdminSender($applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email'));
+        $this->useAdminSender($applicant->leads()->latest('id')->value('admin_email') ?: config('venatomar.legal.contact_email'));
     }
 
     public function envelope(): Envelope
     {
-        $adminEmail = $this->applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email');
+        $adminEmail = $this->applicant->leads()->latest('id')->value('admin_email') ?: config('venatomar.legal.contact_email');
 
         return $this->baseEnvelope(
             __('mail.magic.subject', ['brand' => config('venatomar.brand')]),

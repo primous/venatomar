@@ -465,5 +465,41 @@ class AyudaEmprestimoAdminTest extends TestCase
         $this->assertTrue($ayudaMail->usesMailer('smtp_ayuda'));
         $this->assertTrue($ayudaMail->hasFrom('ayuda@venatomar.com'));
         $this->assertTrue($ayudaMail->hasReplyTo('ayuda@venatomar.com'));
+
+        $ayudaInternal = new LeadReceivedInternal($ayudaLead);
+        $this->assertTrue($ayudaInternal->usesMailer('smtp_ayuda'));
+        $this->assertTrue($ayudaInternal->hasFrom('ayuda@venatomar.com'));
+
+        $ayudaInfoDoc = LeadDocumentService::generateInsuranceDocument($ayudaLead, ['document_type' => 'information', 'locale' => 'es']);
+        $ayudaCertDoc = LeadDocumentService::generateInsuranceDocument($ayudaLead, ['document_type' => 'certificate', 'locale' => 'es']);
+        $ayudaContract = LeadDocumentService::generateLoanContract($ayudaLead, ['locale' => 'es']);
+        $ayudaClient = BankClient::create([
+            'first_name' => 'Luis', 'last_name' => 'Gomez',
+            'email' => 'a.smtp@example.com', 'password' => Hash::make('secret'),
+            'country' => 'El Salvador', 'currency' => 'USD', 'balance' => 1000,
+            'locale' => 'sv', 'admin_email' => 'ayuda@venatomar.com',
+        ]);
+
+        foreach ([
+            new LoanAcceptedMail($ayudaLead, $ayudaInfoDoc),
+            new InsuranceCertificateMail($ayudaCertDoc, $ayudaLead),
+            new LoanContractMail($ayudaContract, $ayudaLead),
+            new BankClientWelcomeMail($ayudaClient, 'Pass123!'),
+            new BankClientCreditedMail($ayudaClient, 500, 'Abono', 1500),
+            new BankClientDebitedMail($ayudaClient, 100, 'Cargo', 900),
+            new BankClientStatusChangedMail($ayudaClient, 'frozen'),
+            new \App\Mail\ReviewInvitation($ayudaLead),
+        ] as $mailable) {
+            $this->assertTrue($mailable->usesMailer('smtp_ayuda'), get_class($mailable).' must use smtp_ayuda');
+            $this->assertTrue($mailable->hasFrom('ayuda@venatomar.com'), get_class($mailable).' must send From ayuda@venatomar.com');
+            $this->assertTrue($mailable->hasReplyTo('ayuda@venatomar.com'), get_class($mailable).' must Reply-To ayuda@venatomar.com');
+        }
+    }
+
+    public function test_unprefixed_emprestimo_and_sv_emprestimo_preserve_ayuda_channel(): void
+    {
+        $this->get('/solicitar-emprestimo')->assertRedirect('/es/solicitar-emprestimo');
+        $this->get('/emprestimo')->assertRedirect('/es/emprestimo');
+        $this->get('/sv/solicitar-emprestimo')->assertOk()->assertSee('ayuda@venatomar.com');
     }
 }
