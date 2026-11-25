@@ -42,7 +42,7 @@
                 <div><dt class="text-small">{{ __('form.first_name') }}</dt><dd class="font-semibold text-ink-900">{{ $latest->first_name }} {{ mb_substr($latest->last_name, 0, 1) }}.</dd></div>
                 <div><dt class="text-small">{{ __('form.email') }}</dt><dd class="font-semibold text-ink-900">{{ PF::maskEmail($latest->email) }}</dd></div>
                 <div><dt class="text-small">{{ __('form.phone') }}</dt><dd class="font-semibold text-ink-900 tabular-nums">{{ PF::maskTail($latest->phone, 3) }}</dd></div>
-                <div><dt class="text-small">{{ $latest->payout_method === 'mobile_money' ? __('form.mm_number') : __('account.bank') }}</dt><dd class="font-semibold text-ink-900 tabular-nums">{{ $latest->maskedPayout() }}</dd></div>
+                <div><dt class="text-small">{{ $latest->payout_method === 'mobile_money' ? __('form.mm_number') : __('account.bank') }}</dt><dd class="font-semibold text-ink-900 tabular-nums">{{ $latest->maskedPayout() ?: __('opt.payout_method.'.$latest->payout_method) }}</dd></div>
                 @if ($latest->document_number)
                     <div><dt class="text-small">{{ __('account.document') }}</dt><dd class="font-semibold text-ink-900 tabular-nums">{{ PF::maskTail($latest->document_number, 3) }}</dd></div>
                 @endif

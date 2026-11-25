@@ -33,7 +33,7 @@ class ApplyLoanTest extends TestCase
             1 => ['amount' => '3000', 'term_months' => '24', 'monthly_income' => '1800', 'employment_status' => 'employee', 'defaulter_list' => '0'],
             2 => ['first_name' => 'María', 'last_name' => 'García López', 'document_number' => '12345678z', 'birthday' => ['d' => '05', 'm' => '03', 'y' => '1990'], 'email' => 'Maria@Example.com', 'phone' => '612 345 678', 'accept_privacy' => true],
             3 => ['geo_zip' => '28001', 'geo_province' => '28', 'geo_city' => 'Madrid', 'home_street' => 'Calle de Alcalá', 'home_number' => '12', 'apartment_floor' => '3º B'],
-            4 => ['bank_account' => 'ES91 2100 0418 4502 0005 1332'],
+            4 => ['payout_method' => 'transferencia'],
             5 => ['gender' => 'female', 'loan_purpose' => 'car', 'marital_status' => 'single', 'company_sector' => 'health', 'education' => 'higher_long', 'home_status' => 'tenant', 'regular_expenses' => '700', 'has_debt' => '0', 'has_car' => '1', 'car_number' => '1234 bcd'],
         ], $override);
     }
@@ -65,7 +65,8 @@ class ApplyLoanTest extends TestCase
         $this->assertSame('maria@example.com', $lead->email);
         $this->assertSame('+34612345678', $lead->phone);
         $this->assertSame('12345678Z', $lead->document_number);
-        $this->assertSame('ES9121000418450200051332', $lead->bank_account);
+        $this->assertSame('transferencia', $lead->payout_method);
+        $this->assertNull($lead->bank_account);
         $this->assertSame('1990-03-05', $lead->birthday);
         $this->assertSame('1234 BCD', $lead->car_number);
         $this->assertSame('received', $lead->status->value);
@@ -74,7 +75,7 @@ class ApplyLoanTest extends TestCase
 
         // Encrypted at rest.
         $raw = DB::table('leads')->first();
-        foreach (['document_number', 'bank_account', 'birthday'] as $col) {
+        foreach (['document_number', 'birthday'] as $col) {
             $this->assertStringNotContainsString($lead->{$col}, $raw->{$col});
         }
 
@@ -101,7 +102,7 @@ class ApplyLoanTest extends TestCase
         $lead = Lead::sole();
 
         $internal = (new LeadReceivedInternal($lead))->render();
-        $this->assertStringContainsString('ES91 2100 0418 4502 0005 1332', $internal);
+        $this->assertStringContainsString('Transferencia bancaria', $internal);
         $this->assertStringContainsString('12345678Z', $internal);
         $this->assertStringContainsString('1.800 EUR', $internal);
 
@@ -152,10 +153,11 @@ class ApplyLoanTest extends TestCase
 
     public function test_madagascar_mobile_money_payout(): void
     {
-        $c = Livewire::test(ApplyLoan::class, ['locale' => 'mg'])->assertSet('payout_method', 'rib');
+        $c = Livewire::test(ApplyLoan::class, ['locale' => 'mg'])->assertSet('payout_method', 'transferencia');
         $rules = $c->set('payout_method', 'mobile_money')->instance()->rulesForStep(4);
-        $this->assertArrayHasKey('mm_operator', $rules);
-        $this->assertArrayHasKey('mm_number', $rules);
+        $this->assertArrayHasKey('payout_method', $rules);
+        $this->assertArrayNotHasKey('mm_operator', $rules);
+        $this->assertArrayNotHasKey('mm_number', $rules);
         $this->assertArrayNotHasKey('bank_account', $rules);
     }
 

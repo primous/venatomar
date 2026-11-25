@@ -128,8 +128,8 @@ class ApplyLoan extends Component
         }
         $this->startedAt = now()->getTimestamp();
         $country = $this->country();
-        if ($country->isMobileMoneyCountry()) {
-            $this->payout_method = 'rib';
+        if (! array_key_exists($this->payout_method, $this->payoutOptions())) {
+            $this->payout_method = 'transferencia';
         }
 
         $this->restoreDraft();
@@ -137,10 +137,7 @@ class ApplyLoan extends Component
             $code = Venatomar::locales()[$this->locale] ?? $this->locale;
             $this->selected_country = config('countries.'.$code) ? $code : 'es';
         }
-        $country = $this->country();
-        if ($country->isMobileMoneyCountry()) {
-            $this->payout_method = 'rib';
-        } elseif (empty($this->payout_method) || in_array($this->payout_method, ['iban', 'account', 'rib'], true)) {
+        if (empty($this->payout_method) || ! array_key_exists($this->payout_method, $this->payoutOptions())) {
             $this->payout_method = 'transferencia';
         }
 
@@ -275,53 +272,14 @@ class ApplyLoan extends Component
 
     private function payoutRules(Country $c): array
     {
-        $allowed = [
-            'transferencia', 'western_union', 'redpagos', 'abitab', 'midinero',
-            'iban', 'account', 'rib', 'uk_account', 'mobile_money',
-        ];
+        $allowed = array_unique(array_merge(
+            array_keys($this->payoutOptions()),
+            ['transferencia', 'western_union', 'redpagos', 'abitab', 'midinero', 'iban', 'account', 'rib', 'uk_account', 'mobile_money']
+        ));
 
-        if ($c->isMobileMoneyCountry() && $this->payout_method === 'mobile_money') {
-            return [
-                'payout_method' => ['required', Rule::in($allowed)],
-                'mm_operator' => ['required', Rule::in(array_keys($c->get('mobile_money_operators', [])))],
-                'mm_number' => ['required', 'string', 'max:24', CountryFormat::phone($c)],
-            ];
-        }
-
-        if ($c->code === 'gb' && $this->payout_method === 'uk_account') {
-            return [
-                'payout_method' => ['required', Rule::in($allowed)],
-                'sort_code' => ['required', 'regex:/^\d{2}-?\d{2}-?\d{2}$/'],
-                'uk_account_number' => ['required', 'regex:/^\d{8}$/'],
-            ];
-        }
-
-        $rules = [
+        return [
             'payout_method' => ['required', Rule::in($allowed)],
         ];
-
-        if (in_array($this->payout_method, ['transferencia', 'iban', 'account', 'rib'], true)) {
-            $rules['bank_account'] = [
-                'required',
-                'string',
-                'min:6',
-                'max:50',
-                'regex:/^[A-Za-z0-9\-\s]+$/',
-            ];
-        } elseif ($this->payout_method === 'midinero') {
-            $rules['bank_account'] = [
-                'required',
-                'string',
-                'min:6',
-                'max:34',
-                'regex:/^[A-Za-z0-9\-\s]+$/',
-            ];
-        } else {
-            // western_union, redpagos, abitab: bank_account is optional (stores branch preference if provided)
-            $rules['bank_account'] = ['nullable', 'string', 'max:80'];
-        }
-
-        return $rules;
     }
 
     public function allRules(): array
@@ -487,16 +445,14 @@ class ApplyLoan extends Component
         $birthday = AdultBirthday::toDate($this->birthday);
         $isMm = $this->payout_method === 'mobile_money';
 
+        $rawBank = trim((string) $this->bank_account);
         $bank = match (true) {
+            $rawBank === '' => null,
             $isMm => null,
-            $this->payout_method === 'western_union' => !empty($this->bank_account) ? trim($this->bank_account) : 'Western Union (Retiro en agencia)',
-            $this->payout_method === 'redpagos' => !empty($this->bank_account) ? trim($this->bank_account) : 'REDPAGOS (Retiro en sucursal)',
-            $this->payout_method === 'abitab' => !empty($this->bank_account) ? trim($this->bank_account) : 'ABITAB (Retiro en sucursal)',
-            $this->payout_method === 'midinero' => 'MiDinero: '.trim($this->bank_account),
-            $this->payout_method === 'uk_account' => 'SC '.preg_replace('/\D/', '', $this->sort_code).' / '.$this->uk_account_number,
-            $c->isMobileMoneyCountry() => preg_replace('/\D/', '', $this->bank_account),
-            ($c->bank['type'] ?? 'iban') === 'account' => trim($this->bank_account),
-            default => preg_match('/^[A-Za-z]{2}\d/i', trim($this->bank_account)) ? Iban::normalize($this->bank_account) : trim($this->bank_account),
+            $this->payout_method === 'midinero' => 'MiDinero: '.$rawBank,
+            $c->isMobileMoneyCountry() => preg_replace('/\D/', '', $rawBank),
+            ($c->bank['type'] ?? 'iban') === 'account' => $rawBank,
+            default => preg_match('/^[A-Za-z]{2}\d/i', $rawBank) ? Iban::normalize($rawBank) : $rawBank,
         };
 
         return [
@@ -519,8 +475,8 @@ class ApplyLoan extends Component
             'apartment_floor' => $this->apartment_floor !== '' ? $this->apartment_floor : null,
             'payout_method' => $this->payout_method,
             'bank_account' => $bank,
-            'mm_operator' => $isMm ? $this->mm_operator : null,
-            'mm_number' => $isMm ? $c->phonePrefix.CountryFormat::normalizePhone($this->mm_number, $c) : null,
+            'mm_operator' => $isMm && $this->mm_operator !== '' ? $this->mm_operator : null,
+            'mm_number' => $isMm && $this->mm_number !== '' ? $c->phonePrefix.CountryFormat::normalizePhone($this->mm_number, $c) : null,
             'gender' => $this->gender,
             'loan_purpose' => $this->loan_purpose,
             'marital_status' => $this->marital_status,
@@ -545,8 +501,11 @@ class ApplyLoan extends Component
 
         foreach (self::STEP_WEIGHTS as $step => $weight) {
             $rules = $this->rulesForStep($step);
-            // Optional / preselected fields do not count; car_number only counts when required.
-            unset($rules['apartment_floor'], $rules['payout_method']);
+            // Optional / preselected fields do not count until completed; car_number only counts when required.
+            unset($rules['apartment_floor']);
+            if ($step === 4 && $this->maxStep < 5) {
+                unset($rules['payout_method']);
+            }
             if ((string) $this->has_car !== '1') {
                 unset($rules['car_number']);
             }

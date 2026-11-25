@@ -117,82 +117,11 @@
                     @endforeach
                 @endif
 
-                {{-- STEP 4 · Cuenta bancaria / Método de recepción de fondos --}}
+                {{-- STEP 4 · Método de recepción de fondos (únicamente selección) --}}
                 @if ($step === 4)
                     <p class="text-ink-500">{{ __('form.payout_method_intro') }}</p>
 
                     <x-field.radio-cards name="payout_method" :label="__('form.payout_method_question')" :options="$this->payoutOptions()" />
-
-                    @if ($payout_method === 'mobile_money')
-                        <div class="mt-4 space-y-4">
-                            <x-field.select name="mm_operator" :label="__('form.mm_operator')" :options="$country->get('mobile_money_operators')" />
-                            <x-field.input name="mm_number" type="tel" inputmode="tel" :label="__('form.mm_number')" :prefix="$country->phonePrefix" :placeholder="$country->get('phone_example')" />
-                        </div>
-                    @elseif ($payout_method === 'western_union')
-                        <div class="mt-4 space-y-4">
-                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-sm text-ink-800">
-                                <div class="flex items-center gap-2 font-bold text-amber-900 mb-1">
-                                    <x-icon name="check-circle" class="size-5 text-amber-600 shrink-0" />
-                                    <span>Western Union — Retiro en efectivo</span>
-                                </div>
-                                <p class="text-xs text-ink-600 leading-relaxed">
-                                    {{ __('form.western_union_notice') }}
-                                </p>
-                            </div>
-                            <x-field.input name="bank_account" :label="__('form.agency_city_optional')" placeholder="Ej: Sucursal Centro / Tu ciudad" />
-                        </div>
-                    @elseif ($payout_method === 'redpagos')
-                        <div class="mt-4 space-y-4">
-                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-sm text-ink-800">
-                                <div class="flex items-center gap-2 font-bold text-emerald-900 mb-1">
-                                    <x-icon name="check-circle" class="size-5 text-emerald-600 shrink-0" />
-                                    <span>REDPAGOS — Cobro en efectivo</span>
-                                </div>
-                                <p class="text-xs text-ink-600 leading-relaxed">
-                                    {{ __('form.redpagos_notice') }}
-                                </p>
-                            </div>
-                            <x-field.input name="bank_account" :label="__('form.redpagos_optional')" placeholder="Ej: Retiro en sucursal o N° de cuenta / tarjeta" />
-                        </div>
-                    @elseif ($payout_method === 'abitab')
-                        <div class="mt-4 space-y-4">
-                            <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-sm text-ink-800">
-                                <div class="flex items-center gap-2 font-bold text-blue-900 mb-1">
-                                    <x-icon name="check-circle" class="size-5 text-blue-600 shrink-0" />
-                                    <span>ABITAB — Cobro en agencia</span>
-                                </div>
-                                <p class="text-xs text-ink-600 leading-relaxed">
-                                    {{ __('form.abitab_notice') }}
-                                </p>
-                            </div>
-                            <x-field.input name="bank_account" :label="__('form.abitab_optional')" placeholder="Ej: Sucursal Abitab Centro o cualquier local" />
-                        </div>
-                    @elseif ($payout_method === 'midinero')
-                        <div class="mt-4 space-y-4">
-                            <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 text-sm text-ink-800">
-                                <div class="flex items-center gap-2 font-bold text-indigo-900 mb-1">
-                                    <x-icon name="check-circle" class="size-5 text-indigo-600 shrink-0" />
-                                    <span>MIDINERO — Abono a tarjeta / cuenta</span>
-                                </div>
-                                <p class="text-xs text-ink-600 leading-relaxed">
-                                    {{ __('form.midinero_notice') }}
-                                </p>
-                            </div>
-                            <x-field.input name="bank_account" :label="__('form.midinero_number')" :help="__('form.midinero_number_help')" placeholder="Ej: 16 dígitos de tu tarjeta MiDinero" maxlength="34" />
-                        </div>
-                    @elseif ($country->code === 'gb' && $payout_method === 'uk_account')
-                        <div class="grid gap-6 sm:grid-cols-2 mt-4">
-                            <x-field.input name="sort_code" inputmode="numeric" :label="__('form.sort_code')" placeholder="12-34-56" maxlength="8" />
-                            <x-field.input name="uk_account_number" inputmode="numeric" :label="__('form.uk_account_number')" maxlength="8" />
-                        </div>
-                    @else
-                        {{-- Transferencia bancaria (por defecto) --}}
-                        <div class="mt-4 space-y-4">
-                            <x-field.input name="bank_account" :label="__('form.account_or_iban')" :help="__('form.account_or_iban_help')"
-                                placeholder="Introduce tu número de cuenta bancaria o IBAN"
-                                spellcheck="false" maxlength="42" />
-                        </div>
-                    @endif
 
                     <p class="text-small flex items-start gap-2 mt-4"><x-icon name="lock" class="size-4 shrink-0 text-brand-600" /> {{ __('form.bank_secure') }}</p>
                 @endif

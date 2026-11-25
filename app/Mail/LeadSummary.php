@@ -24,39 +24,40 @@ class LeadSummary
         $money = fn ($v) => Venatomar::decimal($v, new Country('es'), 0).' '.$l->currency;
         $regions = $c->regions();
 
-        $payout = match ($l->payout_method) {
+        $formattedAccount = ! empty($l->bank_account)
+            ? (preg_match('/^[A-Za-z]{2}\d/i', (string) $l->bank_account) ? trim(chunk_split((string) $l->bank_account, 4, ' ')) : (string) $l->bank_account)
+            : null;
+
+        $payout = array_filter(match ($l->payout_method) {
             'mobile_money' => [
                 'Método de cobro' => 'Mobile Money',
-                'Operador' => $c->get('mobile_money_operators.'.$l->mm_operator, (string) $l->mm_operator),
-                'Número Mobile Money' => (string) $l->mm_number,
+                'Operador' => $l->mm_operator ? $c->get('mobile_money_operators.'.$l->mm_operator, (string) $l->mm_operator) : null,
+                'Número Mobile Money' => $l->mm_number ?: null,
             ],
             'western_union' => [
                 'Método de cobro' => 'Western Union',
-                'Modalidad' => 'Retiro en efectivo en agencia',
-                'Preferencia / Agencia' => (string) ($l->bank_account ?: 'Cualquier sucursal Western Union'),
+                'Preferencia / Agencia' => $formattedAccount,
             ],
             'redpagos' => [
                 'Método de cobro' => 'REDPAGOS',
-                'Modalidad' => 'Cobro en sucursal / local',
-                'Detalle / Cuenta' => (string) ($l->bank_account ?: 'Retiro en sucursal Redpagos'),
+                'Detalle / Cuenta' => $formattedAccount,
             ],
             'abitab' => [
                 'Método de cobro' => 'ABITAB',
-                'Modalidad' => 'Cobro en sucursal / agencia',
-                'Detalle' => (string) ($l->bank_account ?: 'Retiro en sucursal Abitab'),
+                'Detalle' => $formattedAccount,
             ],
             'midinero' => [
                 'Método de cobro' => 'MIDINERO',
-                'Cuenta / Tarjeta' => (string) $l->bank_account,
+                'Cuenta / Tarjeta' => $formattedAccount,
             ],
             'transferencia' => [
                 'Método de cobro' => 'Transferencia bancaria',
-                'Cuenta / IBAN' => preg_match('/^[A-Za-z]{2}\d/i', (string) $l->bank_account) ? trim(chunk_split((string) $l->bank_account, 4, ' ')) : (string) $l->bank_account,
+                'Cuenta / IBAN' => $formattedAccount,
             ],
-            'rib' => ['Método de cobro' => 'RIB', 'RIB' => (string) $l->bank_account],
-            'uk_account' => ['Método de cobro' => 'Sort code + account number', 'Cuenta' => (string) $l->bank_account],
-            default => ['Método de cobro' => 'Transferencia bancaria / IBAN', 'Cuenta / IBAN' => preg_match('/^[A-Za-z]{2}\d/i', (string) $l->bank_account) ? trim(chunk_split((string) $l->bank_account, 4, ' ')) : (string) $l->bank_account],
-        };
+            'rib' => ['Método de cobro' => 'RIB', 'RIB' => $formattedAccount],
+            'uk_account' => ['Método de cobro' => 'Sort code + account number', 'Cuenta' => $formattedAccount],
+            default => ['Método de cobro' => 'Transferencia bancaria / IBAN', 'Cuenta / IBAN' => $formattedAccount],
+        }, fn ($v) => $v !== null && $v !== '');
 
         return [
             '1 · Ingresos' => [
