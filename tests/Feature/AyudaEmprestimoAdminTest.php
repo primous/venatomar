@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Database\Seeders\AdminUserSeeder;
 use App\Livewire\ApplyLoan;
+use App\Mail\BankClientCreditedMail;
+use App\Mail\BankClientDebitedMail;
 use App\Mail\BankClientStatusChangedMail;
 use App\Mail\BankClientWelcomeMail;
 use App\Mail\InsuranceCertificateMail;
@@ -87,14 +89,16 @@ class AyudaEmprestimoAdminTest extends TestCase
         $this->assertTrue($lead->isAdminAyuda());
         $this->assertSame('Ayuda', $lead->adminChannelLabel());
 
-        // Assert internal notification is queued specifically to ayuda@venatomar.com
+        // Assert internal notification is queued specifically to ayuda@venatomar.com (without external freemail Reply-To)
         Mail::assertQueued(LeadReceivedInternal::class, function (LeadReceivedInternal $mail) {
-            return $mail->hasTo('ayuda@venatomar.com');
+            return $mail->hasTo('ayuda@venatomar.com')
+                && ! $mail->hasReplyTo('cliente.lisboa@example.com');
         });
 
-        // Assert confirmation mail was also sent to applicant with correct contact email
+        // Assert confirmation mail was also sent to applicant with reply-to set to ayuda@venatomar.com
         Mail::assertQueued(LeadConfirmation::class, function (LeadConfirmation $mail) {
-            return $mail->hasTo('cliente.lisboa@example.com');
+            return $mail->hasTo('cliente.lisboa@example.com')
+                && $mail->hasReplyTo('ayuda@venatomar.com');
         });
     }
 
@@ -417,5 +421,30 @@ class AyudaEmprestimoAdminTest extends TestCase
         $this->assertStringContainsString('disposez de votre assurance crédit', $certHtml);
         $this->assertStringContainsString('ouverture de votre compte bancaire', $certHtml);
         $this->assertStringContainsString('coordonnées bancaires', $certHtml);
+    }
+
+    public function test_client_mailables_always_route_reply_to_assigned_admin(): void
+    {
+        foreach (['contact@venatomar.com' => 'contact', 'ayuda@venatomar.com' => 'ayuda'] as $adminEmail => $channel) {
+            $lead = $this->createLead("client.{$channel}@example.com", 'Lucia', 'Diaz', $adminEmail, $channel);
+            $infoDoc = LeadDocumentService::generateInsuranceDocument($lead, ['document_type' => 'information', 'locale' => 'es']);
+            $certDoc = LeadDocumentService::generateInsuranceDocument($lead, ['document_type' => 'certificate', 'locale' => 'es']);
+            $contract = LeadDocumentService::generateLoanContract($lead, ['locale' => 'es']);
+            $client = BankClient::create([
+                'first_name' => 'Lucia', 'last_name' => 'Diaz',
+                'email' => "client.{$channel}@example.com", 'password' => Hash::make('secret'),
+                'country' => 'España', 'currency' => 'EUR', 'balance' => 1000,
+                'locale' => 'es', 'admin_email' => $adminEmail,
+            ]);
+
+            $this->assertTrue((new LeadConfirmation($lead))->hasReplyTo($adminEmail));
+            $this->assertTrue((new LoanAcceptedMail($lead, $infoDoc))->hasReplyTo($adminEmail));
+            $this->assertTrue((new InsuranceCertificateMail($certDoc, $lead))->hasReplyTo($adminEmail));
+            $this->assertTrue((new LoanContractMail($contract, $lead))->hasReplyTo($adminEmail));
+            $this->assertTrue((new BankClientWelcomeMail($client, 'Pass123!'))->hasReplyTo($adminEmail));
+            $this->assertTrue((new BankClientCreditedMail($client, 500, 'Abono', 1500))->hasReplyTo($adminEmail));
+            $this->assertTrue((new BankClientDebitedMail($client, 100, 'Cargo', 900))->hasReplyTo($adminEmail));
+            $this->assertTrue((new BankClientStatusChangedMail($client, 'frozen'))->hasReplyTo($adminEmail));
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\InsuranceDocument;
 use App\Models\Lead;
 use App\Support\InsurancePdf;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -24,7 +25,12 @@ class LoanAcceptedMail extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.accepted.subject', ['reference' => $this->lead->reference]));
+        $adminEmail = $this->insuranceDocument->admin_email ?: ($this->lead->admin_email ?: config('venatomar.legal.contact_email'));
+
+        return $this->baseEnvelope(
+            __('mail.accepted.subject', ['reference' => $this->lead->reference]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function attachmentFilename(): string

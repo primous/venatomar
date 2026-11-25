@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Lead;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -19,7 +20,12 @@ class LeadConfirmation extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.confirmation.subject', ['reference' => $this->lead->reference]));
+        $adminEmail = $this->lead->admin_email ?: config('venatomar.legal.contact_email');
+
+        return $this->baseEnvelope(
+            __('mail.confirmation.subject', ['reference' => $this->lead->reference]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function content(): Content

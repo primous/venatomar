@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Lead;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -16,7 +17,12 @@ class ReviewInvitation extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.review.subject', ['brand' => config('venatomar.brand')]));
+        $adminEmail = $this->lead->admin_email ?: config('venatomar.legal.contact_email');
+
+        return $this->baseEnvelope(
+            __('mail.review.subject', ['brand' => config('venatomar.brand')]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function content(): Content

@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\BankClient;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -32,10 +33,15 @@ class BankClientCreditedMail extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.portal.credited_subject', [
-            'account' => $this->client->account_number,
-            'amount' => $this->client->formatMoney($this->amount),
-        ]));
+        $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
+
+        return $this->baseEnvelope(
+            __('mail.portal.credited_subject', [
+                'account' => $this->client->account_number,
+                'amount' => $this->client->formatMoney($this->amount),
+            ]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function content(): Content

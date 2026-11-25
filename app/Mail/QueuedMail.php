@@ -25,11 +25,18 @@ abstract class QueuedMail extends Mailable implements ShouldQueue
     /** @var array<int,int> seconds */
     public array $backoff = [60, 300, 900];
 
-    protected function baseEnvelope(string $subject, ?Address $replyTo = null): Envelope
+    protected function baseEnvelope(string $subject, Address|string|null $replyTo = null): Envelope
     {
+        $replyToArray = [];
+        if ($replyTo instanceof Address) {
+            $replyToArray = [$replyTo];
+        } elseif (is_string($replyTo) && !empty($replyTo)) {
+            $replyToArray = [new Address($replyTo, config('mail.from.name'))];
+        }
+
         return new Envelope(
             from: new Address(config('mail.from.address'), config('mail.from.name')),
-            replyTo: $replyTo ? [$replyTo] : [],
+            replyTo: $replyToArray,
             subject: $subject,
         );
     }

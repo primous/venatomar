@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Applicant;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -15,7 +16,12 @@ class MagicLoginLink extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.magic.subject', ['brand' => config('venatomar.brand')]));
+        $adminEmail = $this->applicant->leads()->latest()->value('admin_email') ?: config('venatomar.legal.contact_email');
+
+        return $this->baseEnvelope(
+            __('mail.magic.subject', ['brand' => config('venatomar.brand')]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function content(): Content

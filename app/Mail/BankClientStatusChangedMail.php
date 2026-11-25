@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\BankClient;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -33,9 +34,14 @@ class BankClientStatusChangedMail extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.portal.status_subject', [
-            'account' => $this->client->account_number,
-        ]));
+        $adminEmail = $this->client->admin_email ?: config('venatomar.legal.contact_email');
+
+        return $this->baseEnvelope(
+            __('mail.portal.status_subject', [
+                'account' => $this->client->account_number,
+            ]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function content(): Content

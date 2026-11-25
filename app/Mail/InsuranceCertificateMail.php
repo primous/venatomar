@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\InsuranceDocument;
 use App\Models\Lead;
 use App\Support\InsurancePdf;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -23,7 +24,12 @@ class InsuranceCertificateMail extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.insurance_cert.subject', ['reference' => $this->insuranceDocument->reference]));
+        $adminEmail = $this->insuranceDocument->admin_email ?: ($this->lead?->admin_email ?: config('venatomar.legal.contact_email'));
+
+        return $this->baseEnvelope(
+            __('mail.insurance_cert.subject', ['reference' => $this->insuranceDocument->reference]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function attachmentFilename(): string

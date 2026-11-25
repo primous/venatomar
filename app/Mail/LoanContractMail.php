@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Lead;
 use App\Models\LoanContract;
 use App\Support\LoanContractPdf;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -23,7 +24,12 @@ class LoanContractMail extends QueuedMail
 
     public function envelope(): Envelope
     {
-        return $this->baseEnvelope(__('mail.contract.subject', ['reference' => $this->contract->reference]));
+        $adminEmail = $this->contract->admin_email ?: ($this->lead?->admin_email ?: config('venatomar.legal.contact_email'));
+
+        return $this->baseEnvelope(
+            __('mail.contract.subject', ['reference' => $this->contract->reference]),
+            $adminEmail ? new Address($adminEmail, config('mail.from.name')) : null
+        );
     }
 
     public function attachmentFilename(): string
