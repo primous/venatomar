@@ -1,6 +1,10 @@
+{!! __('mail.insurance_cert.headline') !!}
+
 {!! __('mail.insurance_cert.greeting', ['name' => $name]) !!}
 
 {!! __('mail.insurance_cert.intro') !!}
+
+{!! __('mail.insurance_cert.next_account_notice') !!}
 
 - {!! __('mail.confirmation.reference') !!} : {!! $reference !!}
 - {!! __('mail.confirmation.amount') !!} : {!! $amount !!}
@@ -14,6 +18,8 @@
 {!! __('mail.insurance_cert.notice') !!}
 
 {!! __('mail.insurance_cert.action_required') !!}
+
+{!! __('mail.insurance_cert.cta') !!}: {!! $accountUrl !!}
 
 {!! __('mail.insurance_cert.questions') !!}
 

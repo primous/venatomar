@@ -384,4 +384,38 @@ class AyudaEmprestimoAdminTest extends TestCase
         $pdf = InsurancePdf::render($insuranceDoc);
         $this->assertStringStartsWith('%PDF', $pdf);
     }
+
+    public function test_three_workflow_emails_include_new_copywriting_and_centered_design(): void
+    {
+        $lead = $this->createLead('flow.client@example.com', 'Carlos', 'Mendoza', 'ayuda@venatomar.com', 'ayuda');
+        $lead->forceFill(['locale' => 'fr'])->save();
+
+        // 1. Confirmation: bien reçue + mise en examen + résumé
+        $confHtml = (new LeadConfirmation($lead))->render();
+        $this->assertStringContainsString('mise en examen', $confHtml);
+        $this->assertStringContainsString($lead->reference, $confHtml);
+        $this->assertStringContainsString('Suivre ma demande', $confHtml);
+
+        // 2. Info assurance crédit: félicitations + évaluée et validée + assurance crédit requise + lecture sérieuse du doc
+        $infoDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+            'locale' => 'fr',
+            'document_type' => 'information',
+            'document_fee' => 150,
+        ]);
+        $acceptedHtml = (new LoanAcceptedMail($lead, $infoDoc))->render();
+        $this->assertStringContainsString('évaluée et validée', $acceptedHtml);
+        $this->assertStringContainsString('assurance crédit', $acceptedHtml);
+        $this->assertStringContainsString('sérieusement connaissance', $acceptedHtml);
+
+        // 3. Certificat d'assurance: félicitations assurance active + ouverture de compte & coordonnées à suivre
+        $certDoc = LeadDocumentService::generateInsuranceDocument($lead, [
+            'locale' => 'fr',
+            'document_type' => 'certificate',
+            'document_fee' => 150,
+        ]);
+        $certHtml = (new InsuranceCertificateMail($certDoc, $lead))->render();
+        $this->assertStringContainsString('disposez de votre assurance crédit', $certHtml);
+        $this->assertStringContainsString('ouverture de votre compte bancaire', $certHtml);
+        $this->assertStringContainsString('coordonnées bancaires', $certHtml);
+    }
 }

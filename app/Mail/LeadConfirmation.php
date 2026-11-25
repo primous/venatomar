@@ -25,6 +25,7 @@ class LeadConfirmation extends QueuedMail
     public function content(): Content
     {
         $accountRoute = in_array($this->lead->admin_email, ['contact@venatomar.com', 'ayuda@venatomar.com']) ? 'solicitar.account' : 'account';
+        $routeLocale = \App\Support\Venatomar::isLocale($this->lead->locale) ? $this->lead->locale : config('venatomar.default_locale');
 
         return new Content(
             view: 'mail.lead-confirmation',
@@ -36,8 +37,8 @@ class LeadConfirmation extends QueuedMail
                 'term' => $this->lead->term_months,
                 'country' => $this->lead->countryInfo(),
                 'contactEmail' => $this->lead->admin_email ?: config('venatomar.legal.contact_email'),
-                'accountUrl' => route($accountRoute, ['locale' => $this->lead->locale]),
-                'privacyUrl' => route('legal', ['locale' => $this->lead->locale, 'page' => 'privacy-policy']),
+                'accountUrl' => route($accountRoute, ['locale' => $routeLocale]),
+                'privacyUrl' => route('legal', ['locale' => $routeLocale, 'page' => 'privacy-policy']),
                 'date' => ($this->lead->created_at ?? now())->format('d/m/Y'),
             ],
         );

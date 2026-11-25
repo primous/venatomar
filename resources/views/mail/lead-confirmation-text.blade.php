@@ -13,6 +13,8 @@
 1. {!! __('mail.confirmation.next1') !!}
 2. {!! __('mail.confirmation.next2') !!}
 
+{!! __('mail.confirmation.cta') !!}: {!! $accountUrl !!}
+
 {!! __('mail.confirmation.questions', ['email' => $contactEmail]) !!}
 
 {!! __('mail.confirmation.closing') !!}

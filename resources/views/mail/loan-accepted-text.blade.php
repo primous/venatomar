@@ -1,7 +1,13 @@
 @php use App\Support\Venatomar as PF; @endphp
+{!! __('mail.accepted.headline') !!}
+
 {!! __('mail.accepted.greeting', ['name' => $firstName]) !!}
 
 {!! __('mail.accepted.intro') !!}
+
+{!! __('mail.accepted.insurance_requirement') !!}
+
+{!! __('mail.accepted.document_notice') !!}
 
 - {!! __('mail.confirmation.reference') !!} : {!! $reference !!}
 - {!! __('mail.confirmation.amount') !!} : {!! PF::money($amount, $country) !!}
@@ -11,9 +17,9 @@
 @endif
 - {!! __('mail.accepted.attached_document') !!} : {!! $attachmentName ?? (($docReference ?: $reference).'.pdf') !!}
 
-{!! __('mail.accepted.document_notice') !!}
-
 {!! __('mail.accepted.action_required') !!}
+
+{!! __('mail.accepted.cta') !!}: {!! $accountUrl !!}
 
 {!! __('mail.accepted.questions') !!}
 
