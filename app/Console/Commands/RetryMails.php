@@ -16,14 +16,13 @@ class RetryMails extends Command
                             {--all : Also include leads older than 7 days that were never sent}
                             {--dry-run : Only list the leads}';
 
-    protected $description = 'Re-queue failed Venatomar lead e-mails (internal + confirmation)';
+    protected $description = 'Re-queue failed Venatomar lead confirmation e-mails';
 
     public function handle(): int
     {
         $leads = Lead::query()
             ->where(function ($q) {
                 $q->whereNotNull('mail_failed_at')
-                    ->orWhere(fn ($q) => $q->whereNull('internal_mail_sent_at')->where('created_at', '<', now()->subMinutes(30)))
                     ->orWhere(fn ($q) => $q->whereNull('confirmation_mail_sent_at')->where('created_at', '<', now()->subMinutes(30)));
             })
             ->when(! $this->option('all'), fn ($q) => $q->where('created_at', '>=', now()->subDays(7)))

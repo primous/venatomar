@@ -89,11 +89,8 @@ class AyudaEmprestimoAdminTest extends TestCase
         $this->assertTrue($lead->isAdminAyuda());
         $this->assertSame('Ayuda', $lead->adminChannelLabel());
 
-        // Assert internal notification is queued specifically to ayuda@venatomar.com (without external freemail Reply-To)
-        Mail::assertQueued(LeadReceivedInternal::class, function (LeadReceivedInternal $mail) {
-            return $mail->hasTo('ayuda@venatomar.com')
-                && ! $mail->hasReplyTo('cliente.lisboa@example.com');
-        });
+        // Internal webmail notification is disabled for all admins; confirmation mail still routes to ayuda@
+        Mail::assertNotQueued(LeadReceivedInternal::class);
 
         // Assert confirmation mail was also sent to applicant with reply-to set to ayuda@venatomar.com
         Mail::assertQueued(LeadConfirmation::class, function (LeadConfirmation $mail) {
@@ -315,7 +312,7 @@ class AyudaEmprestimoAdminTest extends TestCase
         $this->assertSame('sv', $lead->country);
         $this->assertSame('ayuda@venatomar.com', $lead->admin_email);
 
-        Mail::assertQueued(LeadReceivedInternal::class, fn (LeadReceivedInternal $mail) => $mail->hasTo('ayuda@venatomar.com'));
+        Mail::assertNotQueued(LeadReceivedInternal::class);
         Mail::assertQueued(LeadConfirmation::class, function (LeadConfirmation $mail) {
             $html = $mail->render();
 

@@ -86,10 +86,8 @@ class DuplicateSpanishAdminTest extends TestCase
         $this->assertSame('contact@venatomar.com', $lead->admin_email);
         $this->assertSame('contact', $lead->channel);
 
-        // Assert internal notification is queued specifically to contact@venatomar.com
-        Mail::assertQueued(LeadReceivedInternal::class, function (LeadReceivedInternal $mail) {
-            return $mail->hasTo('contact@venatomar.com');
-        });
+        // Internal webmail notification is disabled for all admins; confirmation mail still routes to contact@
+        Mail::assertNotQueued(LeadReceivedInternal::class);
 
         // Assert confirmation mail was also sent to applicant with mi-cuenta link
         Mail::assertQueued(LeadConfirmation::class, function (LeadConfirmation $mail) {

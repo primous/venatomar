@@ -302,7 +302,7 @@ class LeadResource extends Resource
             ->requiresConfirmation()
             ->modalDescription(A::t('lead.retry_desc'))
             ->visible(fn (Lead $record) => $record->mail_failed_at !== null
-                || $record->internal_mail_sent_at === null || $record->confirmation_mail_sent_at === null)
+                || $record->confirmation_mail_sent_at === null)
             ->action(function (Lead $record) {
                 $record->forceFill(['mail_failed_at' => null])->saveQuietly();
                 SubmitLead::queueMails($record);

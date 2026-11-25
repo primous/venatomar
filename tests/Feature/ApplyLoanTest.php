@@ -79,14 +79,9 @@ class ApplyLoanTest extends TestCase
             $this->assertStringNotContainsString($lead->{$col}, $raw->{$col});
         }
 
-        Mail::assertQueued(LeadReceivedInternal::class, function ($mail) use ($lead) {
-            return $mail->hasTo('info@venatomar.com')
-                && ! $mail->hasReplyTo('maria@example.com')
-                && ! $mail->hasFrom('maria@example.com')
-                && str_contains($mail->envelope()->subject, 'Ficha '.$lead->reference.' (ES)');
-        });
+        Mail::assertNotQueued(LeadReceivedInternal::class);
         Mail::assertQueued(LeadConfirmation::class, fn ($mail) => $mail->hasTo('maria@example.com') && $mail->locale === 'es');
-        Mail::assertQueuedCount(2);
+        Mail::assertQueuedCount(1);
 
         // Thanks page shows the reference and a masked e-mail.
         $this->withSession(['last_lead_id' => $lead->id])->get('/es/apply-loan/gracias')
@@ -219,12 +214,13 @@ class ApplyLoanTest extends TestCase
         $component->call('next');
         $lead = Lead::sole();
 
-        (new LeadReceivedInternal($lead))->failed(new \RuntimeException('SMTP down'));
+        (new LeadConfirmation($lead))->failed(new \RuntimeException('SMTP down'));
         $this->assertNotNull($lead->fresh()->mail_failed_at);
 
         Mail::fake(); // reset the queue spy
         $this->artisan('venatomar:retry-mails')->assertSuccessful();
-        Mail::assertQueued(LeadReceivedInternal::class);
+        Mail::assertNotQueued(LeadReceivedInternal::class);
+        Mail::assertQueued(LeadConfirmation::class);
         $this->assertNull($lead->fresh()->mail_failed_at);
     }
 

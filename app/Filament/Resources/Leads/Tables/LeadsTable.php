@@ -48,9 +48,9 @@ class LeadsTable
                     ->formatStateUsing(fn (LeadStatus $state) => LeadResource::statusLabel($state))
                     ->color(fn (LeadStatus $state) => LeadResource::statusColor($state)),
                 IconColumn::make('mail_failed_at')->label(A::t('lead.mail'))
-                    ->state(fn (Lead $record) => $record->mail_failed_at === null && $record->internal_mail_sent_at !== null)
+                    ->state(fn (Lead $record) => $record->mail_failed_at === null && $record->confirmation_mail_sent_at !== null)
                     ->boolean()
-                    ->tooltip(fn (Lead $record) => A::t($record->mail_failed_at ? 'lead.mail_failed' : ($record->internal_mail_sent_at ? 'lead.mail_sent' : 'lead.mail_queued'))),
+                    ->tooltip(fn (Lead $record) => A::t($record->mail_failed_at ? 'lead.mail_failed' : ($record->confirmation_mail_sent_at ? 'lead.mail_sent' : 'lead.mail_queued'))),
             ])
             ->filters([
                 SelectFilter::make('status')->label(A::t('lead.status'))->options(LeadResource::statusOptions())->multiple(),

@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Enums\LeadStatus;
 use App\Mail\LeadConfirmation;
-use App\Mail\LeadReceivedInternal;
 use App\Models\Applicant;
 use App\Models\Lead;
 use App\Support\AdminMailer;
@@ -49,25 +48,10 @@ class SubmitLead
         return $lead->refresh();
     }
 
-    /** Queue the missing e-mails of a lead. Safe to call again (retry command). */
+    /** Queue the missing confirmation e-mail of a lead. Safe to call again (retry command). */
     public static function queueMails(Lead $lead): void
     {
         try {
-            $internalRecipient = $lead->admin_email ?: config('venatomar.lead_recipient');
-            if ($lead->internal_mail_sent_at === null) {
-                AdminMailer::to($internalRecipient, $internalRecipient)->queue(new LeadReceivedInternal($lead));
-
-                try {
-                    app(\App\Services\WebPushService::class)->sendToAdmin(
-                        $internalRecipient,
-                        'Nueva solicitud de préstamo recibida',
-                        "Solicitud de {$lead->amount_requested}€ de {$lead->full_name} ({$lead->city}).",
-                        ['url' => '/admin/leads']
-                    );
-                } catch (\Throwable $e) {
-                    Log::warning('[WebPush] Error triggering admin push for lead: ' . $e->getMessage());
-                }
-            }
             if ($lead->confirmation_mail_sent_at === null) {
                 AdminMailer::to($lead->email, $lead->admin_email)->locale($lead->locale)->queue(new LeadConfirmation($lead));
 
