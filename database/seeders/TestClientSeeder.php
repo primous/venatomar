@@ -14,18 +14,30 @@ use App\Services\LeadDocumentService;
 use App\Support\BankDirectory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class TestClientSeeder extends Seeder
 {
     public function run(): void
     {
+        // Comptes de test : jamais en production.
+        if (app()->isProduction()) {
+            $this->command?->error('TestClientSeeder refusé en production.');
+
+            return;
+        }
+
+        // Aucun mot de passe en clair dans le dépôt : TEST_CLIENT_PASSWORD (.env) ou valeur aléatoire.
+        $password = (string) (env('TEST_CLIENT_PASSWORD') ?: Str::password(12));
+        $this->command?->warn('Clients de test / mot de passe : '.$password);
+
         // 1. Client for contact@venatomar.com (Channel /es/mi-cuenta)
         $this->seedClient(
             email: 'yenickoprimous@gmail.com',
             firstName: 'Yenicko',
             lastName: 'Primous',
             adminEmail: 'contact@venatomar.com',
-            password: '12345678',
+            password: $password,
             amount: 15000.00,
             city: 'Barcelona',
             phone: '+34612345678',
@@ -37,7 +49,7 @@ class TestClientSeeder extends Seeder
             firstName: 'Chemins',
             lastName: 'Lumière',
             adminEmail: 'info@venatomar.com',
-            password: '12345678',
+            password: $password,
             amount: 15000.00,
             city: 'Madrid',
             phone: '+34698765432',

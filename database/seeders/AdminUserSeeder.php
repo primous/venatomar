@@ -16,7 +16,8 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         $email = (string) env('ADMIN_EMAIL', 'info@venatomar.com');
-        $password = (string) env('ADMIN_PASSWORD', '514G01brPWplxnW340P8');
+        // Jamais de mot de passe par défaut dans le code : il serait public sur GitHub.
+        $password = (string) env('ADMIN_PASSWORD', '');
         $contactEmail = (string) env('ADMIN_CONTACT_EMAIL', 'contact@venatomar.com');
         $contactPassword = (string) env('ADMIN_CONTACT_PASSWORD', $password);
         $ayudaEmail = (string) env('ADMIN_AYUDA_EMAIL', 'ayuda@venatomar.com');
